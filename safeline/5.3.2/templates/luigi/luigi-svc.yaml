@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: "{{ template "safeline.luigi" . }}"
+  labels:
+{{ include "safeline.labels" . | indent 4 }}
+spec:
+{{- if or (eq .Values.luigi.service.type "NodePort") (eq .Values.luigi.service.type "LoadBalancer") }}
+  type: NodePort
+{{- end }}
+  ports:
+    - name: luigi
+      protocol: TCP
+      port: {{ template "safeline.luigi.port" . }}
+  selector:
+{{ include "safeline.matchLabels" . | indent 4 }}
+    component: luigi

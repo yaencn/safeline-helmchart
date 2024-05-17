@@ -1,0 +1,225 @@
+apiVersion: v1
+entries:
+  safeline:
+  - apiVersion: v1
+    appVersion: 5.6.0
+    created: "2024-05-17T11:46:01.456083+08:00"
+    description: A free WAF that is simple enough, easy to use, and strong enough.
+      Based on the industry's leading semantic engine detection technology, it acts
+      as a reverse proxy access to protect your website from hackers.
+    digest: 1a074959dfadf727340ddde885f092b4e620d89300f8bea302a8f2c9d69b347f
+    home: https://waf-ce.chaitin.cn/
+    icon: https://waf-ce.chaitin.cn/images/403.svg
+    keywords:
+    - waf
+    - chaitin
+    - safeline
+    maintainers:
+    - email: houtianhong@scmttec.com
+      name: Houtianhong
+    name: safeline
+    sources:
+    - https://github.com/chaitin/safeline
+    - https://github.com/jangrui/safeline-helm
+    - https://gitlab.healthych.com/charts/safeline-waf-chart
+    - https://g-otkk6267-helm.pkg.coding.net/Charts/safeline
+    urls:
+    - assets/safeline/safeline-5.6.0.tgz
+    version: 5.6.0
+  - apiVersion: v1
+    appVersion: 5.5.2
+    created: "2024-05-17T11:46:01.455231+08:00"
+    description: A free WAF that is simple enough, easy to use, and strong enough.
+      Based on the industry's leading semantic engine detection technology, it acts
+      as a reverse proxy access to protect your website from hackers.
+    digest: 4fd8a7dac1231cbc8dde5c179585b714cbe41e8fb3e2715484885dfffe2469b0
+    home: https://waf-ce.chaitin.cn/
+    icon: https://waf-ce.chaitin.cn/images/403.svg
+    keywords:
+    - waf
+    - chaitin
+    - safeline
+    maintainers:
+    - email: houtianhong@scmttec.com
+      name: Houtianhong
+    name: safeline
+    sources:
+    - https://github.com/chaitin/safeline
+    - https://github.com/jangrui/safeline-helm
+    - https://gitlab.healthych.com/charts/safeline-waf-chart
+    - https://g-otkk6267-helm.pkg.coding.net/Charts/safeline
+    urls:
+    - assets/safeline/safeline-5.5.2.tgz
+    version: 5.5.2
+  - apiVersion: v1
+    appVersion: 5.5.1
+    created: "2024-05-17T11:46:01.454207+08:00"
+    description: A free WAF that is simple enough, easy to use, and strong enough.
+      Based on the industry's leading semantic engine detection technology, it acts
+      as a reverse proxy access to protect your website from hackers.
+    digest: 4b3fe6d5d7160324c326bf9f04aad149f752b164211a54934f0681aa6b082bf5
+    home: https://waf-ce.chaitin.cn/
+    icon: https://waf-ce.chaitin.cn/images/403.svg
+    keywords:
+    - waf
+    - chaitin
+    - safeline
+    maintainers:
+    - email: houtianhong@scmttec.com
+      name: Houtianhong
+    name: safeline
+    sources:
+    - https://github.com/chaitin/safeline
+    - https://github.com/jangrui/safeline-helm
+    - https://gitlab.healthych.com/charts/safeline-waf-chart
+    - https://g-otkk6267-helm.pkg.coding.net/Charts/safeline
+    urls:
+    - assets/safeline/safeline-5.5.1.tgz
+    version: 5.5.1
+  - apiVersion: v1
+    appVersion: 5.5.0
+    created: "2024-05-17T11:46:01.453116+08:00"
+    description: A free WAF that is simple enough, easy to use, and strong enough.
+      Based on the industry's leading semantic engine detection technology, it acts
+      as a reverse proxy access to protect your website from hackers.
+    digest: b503a88f23061572f63bc2b7f471e58d4cd90fd99d1ee7952ec62ab1692f9253
+    home: https://waf-ce.chaitin.cn/
+    icon: https://waf-ce.chaitin.cn/images/403.svg
+    keywords:
+    - waf
+    - chaitin
+    - safeline
+    maintainers:
+    - email: houtianhong@scmttec.com
+      name: Houtianhong
+    name: safeline
+    sources:
+    - https://github.com/chaitin/safeline
+    - https://github.com/jangrui/safeline-helm
+    - https://gitlab.healthych.com/charts/safeline-waf-chart
+    - https://g-otkk6267-helm.pkg.coding.net/Charts/safeline
+    urls:
+    - assets/safeline/safeline-5.5.0.tgz
+    version: 5.5.0
+  - apiVersion: v1
+    appVersion: 5.4.0
+    created: "2024-05-17T11:46:01.451078+08:00"
+    description: A free WAF that is simple enough, easy to use, and strong enough.
+      Based on the industry's leading semantic engine detection technology, it acts
+      as a reverse proxy access to protect your website from hackers.
+    digest: 39b91d05f88bee88a28a3102d3bcf231c91ee5b830f8ba5f68036f3d3a8691e8
+    home: https://waf-ce.chaitin.cn/
+    icon: https://waf-ce.chaitin.cn/images/403.svg
+    keywords:
+    - waf
+    - chaitin
+    - safeline
+    maintainers:
+    - email: houtianhong@scmttec.com
+      name: Houtianhong
+    name: safeline
+    sources:
+    - https://github.com/chaitin/safeline
+    - https://github.com/jangrui/safeline-helm
+    - https://gitlab.healthych.com/charts/safeline-waf-chart
+    - https://g-otkk6267-helm.pkg.coding.net/Charts/safeline
+    urls:
+    - assets/safeline/safeline-5.4.0.tgz
+    version: 5.4.0
+  - apiVersion: v1
+    appVersion: 5.3.2
+    created: "2024-05-17T11:46:01.449976+08:00"
+    description: A free WAF that is simple enough, easy to use, and strong enough.
+      Based on the industry's leading semantic engine detection technology, it acts
+      as a reverse proxy access to protect your website from hackers.
+    digest: 64ca22e6f51b8b1d15589267bf2f17daefbdc0e2a19383df6ae65efd9f045a6f
+    home: https://waf-ce.chaitin.cn/
+    icon: https://waf-ce.chaitin.cn/images/403.svg
+    keywords:
+    - waf
+    - chaitin
+    - safeline
+    maintainers:
+    - email: houtianhong@scmttec.com
+      name: Houtianhong
+    name: safeline
+    sources:
+    - https://github.com/chaitin/safeline
+    - https://github.com/jangrui/safeline-helm
+    - https://gitlab.healthych.com/charts/safeline-waf-chart
+    - https://g-otkk6267-helm.pkg.coding.net/Charts/safeline
+    urls:
+    - assets/safeline/safeline-5.3.2.tgz
+    version: 5.3.2
+  - apiVersion: v1
+    appVersion: 5.3.1
+    created: "2024-05-17T11:46:01.448865+08:00"
+    description: A free WAF that is simple enough, easy to use, and strong enough.
+      Based on the industry's leading semantic engine detection technology, it acts
+      as a reverse proxy access to protect your website from hackers.
+    digest: f35898650cc65b5e6cd3ac45e3baf471f516c1ad485fe3c539ca61e7ac77d52b
+    home: https://waf-ce.chaitin.cn/
+    icon: https://waf-ce.chaitin.cn/images/403.svg
+    keywords:
+    - waf
+    - chaitin
+    - safeline
+    maintainers:
+    - email: houtianhong@scmttec.com
+      name: Houtianhong
+    name: safeline
+    sources:
+    - https://github.com/chaitin/safeline
+    - https://github.com/jangrui/safeline-helm
+    - https://gitlab.healthych.com/charts/safeline-waf-chart
+    - https://g-otkk6267-helm.pkg.coding.net/Charts/safeline
+    urls:
+    - assets/safeline/safeline-5.3.1.tgz
+    version: 5.3.1
+  - apiVersion: v1
+    appVersion: 5.2.0
+    created: "2024-05-17T11:46:01.447736+08:00"
+    description: A free WAF that is simple enough, easy to use, and strong enough.
+      Based on the industry's leading semantic engine detection technology, it acts
+      as a reverse proxy access to protect your website from hackers.
+    digest: b3e4edacfdf205b07a2a505f05647e0a23407ce32667e76a5450bd10eb3ffd0b
+    home: https://waf-ce.chaitin.cn/
+    icon: https://waf-ce.chaitin.cn/images/403.svg
+    keywords:
+    - waf
+    - chaitin
+    - safeline
+    maintainers:
+    - email: houtianhong@scmttec.com
+      name: Houtianhong
+    name: safeline
+    sources:
+    - https://github.com/chaitin/safeline
+    - https://github.com/jangrui/safeline-helm
+    urls:
+    - assets/safeline/safeline-5.2.0.tgz
+    version: 5.2.0
+  - apiVersion: v1
+    appVersion: 5.1.0
+    created: "2024-05-17T11:46:01.446578+08:00"
+    description: A free WAF that is simple enough, easy to use, and strong enough.
+      Based on the industry's leading semantic engine detection technology, it acts
+      as a reverse proxy access to protect your website from hackers.
+    digest: aa569c2a34a5e2d9f6c722c807faf1863753fadecf9bb3a80d83a242a71182e7
+    home: https://waf-ce.chaitin.cn/
+    icon: https://waf-ce.chaitin.cn/images/403.svg
+    keywords:
+    - waf
+    - chaitin
+    - safeline
+    maintainers:
+    - email: houtianhong@scmttec.com
+      name: Houtianhong
+    name: safeline
+    sources:
+    - https://github.com/chaitin/safeline
+    - https://github.com/jangrui/safeline-helm
+    urls:
+    - assets/safeline/safeline-5.1.0.tgz
+    version: 5.1.0
+generated: "2024-05-17T11:46:01.445178+08:00"

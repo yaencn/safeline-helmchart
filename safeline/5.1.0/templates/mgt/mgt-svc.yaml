@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: "{{ template "safeline.mgt" . }}"
+  labels:
+{{ include "safeline.labels" . | indent 4 }}
+spec:
+{{- if or (eq .Values.mgt.service.type "NodePort") (eq .Values.mgt.service.type "LoadBalancer") }}
+  type: NodePort
+{{- end }}
+  ports:
+    - name: web
+      port: {{ template "safeline.mgt.web.port" . }}
+{{- if or (eq .Values.mgt.service.type "NodePort") (eq .Values.mgt.service.type "LoadBalancer") }}
+      nodePort: {{ .Values.mgt.service.web.nodePort }}
+{{- end }}
+    - name: api
+      protocol: TCP
+      port: {{ template "safeline.mgt.api.port" .}}
+    - name: tcd
+      protocol: TCP
+      port: {{ template "safeline.mgt.tcd.port" .}}
+  selector:
+{{ include "safeline.matchLabels" . | indent 4 }}
+    component: mgt

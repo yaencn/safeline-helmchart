@@ -1,0 +1,30 @@
+{{- $mgt := .Values.persistence.persistentVolumeClaim.mgt -}}
+{{- if and .Values.persistence.enabled (not $mgt.existingClaim) }}
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ template "safeline.mgt" . }}
+  annotations:
+  {{- range $key, $value := $mgt.annotations }}
+    {{ $key }}: {{ $value | quote }}
+  {{- end }}
+  {{- if eq .Values.persistence.resourcePolicy "keep" }}
+    helm.sh/resource-policy: keep
+  {{- end }}
+  labels:
+{{ include "safeline.labels" . | indent 4 }}
+    component: mgt
+spec:
+  accessModes: 
+    - {{ $mgt.accessMode }}
+  resources:
+    requests:
+      storage: {{ $mgt.size }}
+  {{- if $mgt.storageClass }}
+    {{- if eq "-" $mgt.storageClass }}
+  storageClassName: ""
+    {{- else }}
+  storageClassName: {{ $mgt.storageClass }}
+    {{- end }}
+  {{- end }}
+{{- end }}

@@ -1,0 +1,30 @@
+{{- $luigi := .Values.persistence.persistentVolumeClaim.luigi -}}
+{{- if and .Values.persistence.enabled (not $luigi.existingClaim) }}
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ template "safeline.luigi" . }}
+  annotations:
+  {{- range $key, $value := $luigi.annotations }}
+    {{ $key }}: {{ $value | quote }}
+  {{- end }}
+  {{- if eq .Values.persistence.resourcePolicy "keep" }}
+    helm.sh/resource-policy: keep
+  {{- end }}
+  labels:
+{{ include "safeline.labels" . | indent 4 }}
+    component: luigi
+spec:
+  accessModes: 
+    - {{ $luigi.accessMode }}
+  resources:
+    requests:
+      storage: {{ $luigi.size }}
+  {{- if $luigi.storageClass }}
+    {{- if eq "-" $luigi.storageClass }}
+  storageClassName: ""
+    {{- else }}
+  storageClassName: {{ $luigi.storageClass }}
+    {{- end }}
+  {{- end }}
+{{- end }}
