@@ -43,7 +43,7 @@ spec:
           - sh
           - -c
           - |-
-            rm -rf /app/run/lost+found
+            rm -rf /app/run/lost+found && while true; do sleep 3 && nc -zvw1 safeline-mgt 1443 && exit 0 || sleep 3; done; exit 1
         volumeMounts:
           - mountPath: /app/run
             name: bridge

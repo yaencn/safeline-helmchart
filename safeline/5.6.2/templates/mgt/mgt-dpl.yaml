@@ -43,7 +43,7 @@ spec:
           - sh
           - -c
           - |-
-            rm -rf /app/data/lost+found
+            rm -rf /app/data/lost+found && while true; do sleep 3 && nc -zvw1 safeline-pg 5432 && nc -zvw1 safeline-fvm 80 && exit 0 || sleep 3; done; exit 1
         volumeMounts:
           - mountPath: /app/data
             name: mgt
