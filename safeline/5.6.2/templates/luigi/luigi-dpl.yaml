@@ -65,6 +65,14 @@ spec:
             readOnly: true
           - name: luigi
             mountPath: /app/data
+        readinessProbe:
+          tcpSocket:
+            port: {{ template "safeline.luigi.port" . }}
+          initialDelaySeconds: 5
+          timeoutSeconds: 2
+          successThreshold: 1
+          failureThreshold: 3
+          periodSeconds: 10
 {{- if .Values.luigi.resources }}
         resources:
 {{ toYaml .Values.luigi.resources | indent 10 }}

@@ -88,6 +88,14 @@ spec:
             subPath: nginx
           - mountPath: /usr/local/nginx/cache
             name: cache
+        readinessProbe:
+          tcpSocket:
+            port: {{ template "safeline.tengine.health.port" . }}
+          initialDelaySeconds: 5
+          timeoutSeconds: 2
+          successThreshold: 1
+          failureThreshold: 3
+          periodSeconds: 10
 {{- if .Values.tengine.resources }}
         resources:
 {{ toYaml .Values.tengine.resources | indent 10 }}

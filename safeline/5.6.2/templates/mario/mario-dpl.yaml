@@ -94,6 +94,14 @@ spec:
           - name: localtime
             mountPath: /etc/localtime
             readOnly: true
+        readinessProbe:
+          tcpSocket:
+            port: {{ template "safeline.mario.port" . }}
+          initialDelaySeconds: 5
+          timeoutSeconds: 2
+          successThreshold: 1
+          failureThreshold: 3
+          periodSeconds: 10
 {{- if .Values.mario.resources }}
         resources:
 {{ toYaml .Values.mario.resources | indent 10 }}

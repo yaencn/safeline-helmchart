@@ -72,6 +72,14 @@ spec:
           - name: localtime
             mountPath: /etc/localtime
             readOnly: true
+        readinessProbe:
+          tcpSocket:
+            port: {{ template "safeline.detector.sns.port" . }}
+          initialDelaySeconds: 5
+          timeoutSeconds: 2
+          successThreshold: 1
+          failureThreshold: 3
+          periodSeconds: 10
 {{- if .Values.detector.resources }}
         resources:
 {{ toYaml .Values.detector.resources | indent 10 }}

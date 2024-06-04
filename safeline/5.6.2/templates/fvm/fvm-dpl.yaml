@@ -48,6 +48,14 @@ spec:
           - name: localtime
             mountPath: /etc/localtime
             readOnly: true
+        readinessProbe:
+          tcpSocket:
+            port: {{ template "safeline.fvm.web.port" . }}
+          initialDelaySeconds: 5
+          timeoutSeconds: 2
+          successThreshold: 1
+          failureThreshold: 3
+          periodSeconds: 10
 {{- if .Values.fvm.resources }}
         resources:
 {{ toYaml .Values.fvm.resources | indent 10 }}
