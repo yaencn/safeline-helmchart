@@ -1,0 +1,81 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "safeline.chaos" . }}
+  labels:
+{{ include "safeline.labels" . | indent 4 }}
+    component: chaos
+spec:
+  replicas: {{ .Values.chaos.replicas }}
+  revisionHistoryLimit: {{ .Values.chaos.revisionHistoryLimit }}
+  strategy:
+{{- if .Values.strategy }}
+{{ toYaml .Values.strategy | indent 4 }}
+{{- end }}
+  selector:
+    matchLabels:
+{{ include "safeline.matchLabels" . | indent 6 }}
+      component: chaos
+  template:
+    metadata:
+      labels:
+{{ include "safeline.matchLabels" . | indent 8 }}
+        component: chaos
+      annotations:
+{{- if .Values.chaos.podAnnotations }}
+{{ toYaml .Values.chaos.podAnnotations | indent 8 }}
+{{- end }}
+    spec:
+{{- if .Values.chaos.serviceAccountName }}
+      serviceAccountName: {{ .Values.chaos.serviceAccountName }}
+{{- end -}}
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      automountServiceAccountToken: {{ .Values.chaos.automountServiceAccountToken | default false }}
+      terminationGracePeriodSeconds: 120
+      containers:
+      - name: chaos
+        image: {{ default .Values.global.image.registry .Values.chaos.image.registry }}/{{ .Values.chaos.image.repository }}:{{ default .Chart.AppVersion .Values.chaos.image.tag }}
+        imagePullPolicy: {{ .Values.imagePullPolicy }}
+        ports:
+          - name: tcp
+            containerPort: {{ template "safeline.chaos.tcp.port" . }}
+          - name: http
+            containerPort: {{ template "safeline.chaos.http.port" . }}
+        volumeMounts:
+          - name: localtime
+            mountPath: /etc/localtime
+            readOnly: true
+        readinessProbe:
+          tcpSocket:
+            port: {{ template "safeline.chaos.tcp.port" . }}
+          initialDelaySeconds: 5
+          timeoutSeconds: 2
+          successThreshold: 1
+          failureThreshold: 3
+          periodSeconds: 10
+{{- if .Values.chaos.resources }}
+        resources:
+{{ toYaml .Values.chaos.resources | indent 10 }}
+{{- end }}
+      volumes:
+        - name: localtime
+          hostPath:
+            path: /etc/localtime
+    {{- with .Values.chaos.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.chaos.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.chaos.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- if .Values.chaos.priorityClassName }}
+      priorityClassName: {{ .Values.chaos.priorityClassName }}
+    {{- end }}

@@ -1,6 +1,6 @@
 ----helm package ------
 
-helm package ./safeline/6.0.0/ -d ./assets/safeline
+helm package ./safeline/6.0.1/ -d ./assets/safeline
 
 helm repo index --merge ./index.yaml --url assets assets/
 
@@ -9,7 +9,7 @@ rm -f ./index.yaml
 mv ./assets/index.yaml ./index.yaml
 
 cd ./assets/safeline/
-helm coding-push safeline-6.0.0.tgz safeline
+helm coding-push safeline-6.0.1.tgz safeline
 
 ------HelmChart Install-----------
 - HelmChart Web URL:
