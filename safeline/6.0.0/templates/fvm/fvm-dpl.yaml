@@ -1,0 +1,82 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "safeline.fvm" . }}
+  labels:
+{{ include "safeline.labels" . | indent 4 }}
+    component: fvm
+spec:
+  replicas: {{ .Values.fvm.replicas }}
+  revisionHistoryLimit: {{ .Values.fvm.revisionHistoryLimit }}
+  strategy:
+{{- if .Values.strategy }}
+{{ toYaml .Values.strategy | indent 4 }}
+{{- end }}
+  selector:
+    matchLabels:
+{{ include "safeline.matchLabels" . | indent 6 }}
+      component: fvm
+  template:
+    metadata:
+      labels:
+{{ include "safeline.matchLabels" . | indent 8 }}
+        component: fvm
+      annotations:
+{{- if .Values.fvm.podAnnotations }}
+{{ toYaml .Values.fvm.podAnnotations | indent 8 }}
+{{- end }}
+    spec:
+{{- if .Values.fvm.serviceAccountName }}
+      serviceAccountName: {{ .Values.fvm.serviceAccountName }}
+{{- end -}}
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      automountServiceAccountToken: {{ .Values.fvm.automountServiceAccountToken | default false }}
+      terminationGracePeriodSeconds: 120
+      containers:
+      - name: fvm
+        image: {{ default .Values.global.image.registry .Values.fvm.image.registry }}/{{ .Values.fvm.image.repository }}:{{ default .Chart.AppVersion .Values.fvm.image.tag }}
+        imagePullPolicy: {{ .Values.imagePullPolicy }}
+        ports:
+          - name: api
+            containerPort: {{ template "safeline.fvm.api.port" . }}
+          - name: web
+            containerPort: {{ template "safeline.fvm.web.port" . }}
+        volumeMounts:
+          - name: localtime
+            mountPath: /etc/localtime
+            readOnly: true
+        readinessProbe:
+          tcpSocket:
+            port: {{ template "safeline.fvm.web.port" . }}
+          initialDelaySeconds: 5
+          timeoutSeconds: 2
+          successThreshold: 1
+          failureThreshold: 3
+          periodSeconds: 10
+{{- if .Values.fvm.resources }}
+        resources:
+{{ toYaml .Values.fvm.resources | indent 10 }}
+{{- end }}
+      volumes:
+        - name: localtime
+          hostPath:
+            path: /etc/localtime
+
+    {{- with .Values.fvm.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.fvm.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.fvm.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- if .Values.fvm.priorityClassName }}
+      priorityClassName: {{ .Values.fvm.priorityClassName }}
+    {{- end }}

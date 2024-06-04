@@ -1,0 +1,107 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "safeline.luigi" . }}
+  labels:
+{{ include "safeline.labels" . | indent 4 }}
+    component: luigi
+spec:
+  replicas: {{ .Values.luigi.replicas }}
+  revisionHistoryLimit: {{ .Values.luigi.revisionHistoryLimit }}
+  strategy:
+{{- if .Values.strategy }}
+{{ toYaml .Values.strategy | indent 4 }}
+{{- end }}
+  selector:
+    matchLabels:
+{{ include "safeline.matchLabels" . | indent 6 }}
+      component: luigi
+  template:
+    metadata:
+      labels:
+{{ include "safeline.matchLabels" . | indent 8 }}
+        component: luigi
+      annotations:
+{{- if .Values.luigi.podAnnotations }}
+{{ toYaml .Values.luigi.podAnnotations | indent 8 }}
+{{- end }}
+    spec:
+{{- if .Values.luigi.serviceAccountName }}
+      serviceAccountName: {{ .Values.luigi.serviceAccountName }}
+{{- end -}}
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      automountServiceAccountToken: {{ .Values.luigi.automountServiceAccountToken | default false }}
+      terminationGracePeriodSeconds: 120
+      initContainers:
+      - name: init-probe
+        image: {{ default .Values.global.image.registry .Values.luigi.image.registry }}/{{ .Values.luigi.image.repository }}:{{ default .Chart.AppVersion .Values.luigi.image.tag }}
+        imagePullPolicy: {{ .Values.imagePullPolicy }}
+        command:
+          - sh
+          - -c
+          - |-
+            while true; do sleep 3 && nc -zvw1 safeline-detector 8001 && nc -zvw1 safeline-mgt 1443 && exit 0 || sleep 3; done; exit 1
+      containers:
+      - name: luigi
+        image: {{ default .Values.global.image.registry .Values.luigi.image.registry }}/{{ .Values.luigi.image.repository }}:{{ default .Chart.AppVersion .Values.luigi.image.tag }}
+        imagePullPolicy: {{ .Values.imagePullPolicy }}
+        # command:
+        # - sh
+        # - -c
+        # - |
+        #   tail -f /dev/null
+        ports:
+          - name: luigi
+            containerPort: {{ template "safeline.luigi.port" . }}
+        env:
+          - name: MGT_IP
+            value: {{ template "safeline.mgt" . }}
+        volumeMounts:
+          - name: localtime
+            mountPath: /etc/localtime
+            readOnly: true
+          - name: luigi
+            mountPath: /app/data
+        readinessProbe:
+          tcpSocket:
+            port: {{ template "safeline.luigi.port" . }}
+          initialDelaySeconds: 5
+          timeoutSeconds: 2
+          successThreshold: 1
+          failureThreshold: 3
+          periodSeconds: 10
+{{- if .Values.luigi.resources }}
+        resources:
+{{ toYaml .Values.luigi.resources | indent 10 }}
+{{- end }}
+      volumes:
+        - name: localtime
+          hostPath:
+            path: /etc/localtime
+        {{- if .Values.persistence.enabled }}
+        - name: luigi
+          persistentVolumeClaim:
+            claimName: {{ .Values.persistence.persistentVolumeClaim.luigi.existingClaim | default (include "safeline.luigi" .) }}
+        {{- else -}}
+        - name: luigi
+          emptyDir: {}
+        {{- end -}}
+
+    {{- with .Values.luigi.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.luigi.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.luigi.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- if .Values.luigi.priorityClassName }}
+      priorityClassName: {{ .Values.luigi.priorityClassName }}
+    {{- end }}
