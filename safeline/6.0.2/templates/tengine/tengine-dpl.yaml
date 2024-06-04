@@ -1,0 +1,145 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "safeline.tengine" . }}
+  labels:
+{{ include "safeline.labels" . | indent 4 }}
+    component: tengine
+spec:
+  replicas: {{ .Values.tengine.replicas }}
+  revisionHistoryLimit: {{ .Values.tengine.revisionHistoryLimit }}
+  strategy:
+{{- if .Values.strategy }}
+{{ toYaml .Values.strategy | indent 4 }}
+{{- end }}
+  selector:
+    matchLabels:
+{{ include "safeline.matchLabels" . | indent 6 }}
+      component: tengine
+  template:
+    metadata:
+      labels:
+{{ include "safeline.matchLabels" . | indent 8 }}
+        component: tengine
+      annotations:
+{{- if .Values.tengine.podAnnotations }}
+{{ toYaml .Values.tengine.podAnnotations | indent 8 }}
+{{- end }}
+    spec:
+{{- if .Values.tengine.serviceAccountName }}
+      serviceAccountName: {{ .Values.tengine.serviceAccountName }}
+{{- end -}}
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      automountServiceAccountToken: {{ .Values.tengine.automountServiceAccountToken | default false }}
+      terminationGracePeriodSeconds: 120
+      initContainers:
+      - name: delete-lost-found-dir
+        image: {{ default .Values.global.image.registry .Values.tengine.image.registry }}/{{ .Values.tengine.image.repository }}:{{ default .Chart.AppVersion .Values.tengine.image.tag }}
+        imagePullPolicy: {{ .Values.imagePullPolicy }}
+        command:
+          - sh
+          - -c
+          - |-
+            rm -rf /etc/nginx/lost+found
+            rm -rf /resources/mgt/lost+found
+            rm -rf /resources/detector/lost+found
+            rm -rf /var/log/lost+found
+            rm -rf /usr/local/nginx/cache/lost+found
+            mkdir -p /var/log/nginx/nginx
+        volumeMounts:
+          - mountPath: /etc/nginx
+            name: nginx
+          - mountPath: /resources/detector
+            name: detector
+          - mountPath: /var/log
+            name: logs
+            subPath: nginx
+          - mountPath: /usr/local/nginx/cache
+            name: cache
+      containers:
+      - name: tengine
+        image: {{ default .Values.global.image.registry .Values.tengine.image.registry }}/{{ .Values.tengine.image.repository }}:{{ default .Chart.AppVersion .Values.tengine.image.tag }}
+        imagePullPolicy: {{ .Values.imagePullPolicy }}
+        ports:
+          - name: health
+            containerPort: {{ template "safeline.tengine.health.port" . }}
+          - name: http
+            containerPort: {{ template "safeline.tengine.http.port" . }}
+        env:
+          - name: TCD_MGT_API
+            value: {{ template "safeline.mgt.api" . }}
+          - name: TCD_SNSERVER
+            value: {{ template "safeline.detector.tcd" . }}
+          - name: SNSERVER_ADDR
+            value: {{ template "safeline.detector.tcd" . }}
+        volumeMounts:
+          - name: localtime
+            mountPath: /etc/localtime
+            readOnly: true
+          - mountPath: /etc/nginx
+            name: nginx
+          - mountPath: /resources/detector
+            name: detector
+          - mountPath: /var/log
+            name: logs
+            subPath: nginx
+          - mountPath: /usr/local/nginx/cache
+            name: cache
+        readinessProbe:
+          tcpSocket:
+            port: {{ template "safeline.tengine.health.port" . }}
+          initialDelaySeconds: 5
+          timeoutSeconds: 2
+          successThreshold: 1
+          failureThreshold: 3
+          periodSeconds: 10
+{{- if .Values.tengine.resources }}
+        resources:
+{{ toYaml .Values.tengine.resources | indent 10 }}
+{{- end }}
+      volumes:
+        - name: localtime
+          hostPath:
+            path: /etc/localtime
+        {{- if .Values.persistence.enabled }}
+        - name: nginx
+          persistentVolumeClaim:
+            claimName: {{ .Values.persistence.persistentVolumeClaim.nginx.existingClaim | default (include "safeline.nginx" .) }}
+        - name: detector
+          persistentVolumeClaim:
+            claimName: {{ .Values.persistence.persistentVolumeClaim.detector.existingClaim | default (include "safeline.detector" .) }}
+        - name: logs
+          persistentVolumeClaim:
+            claimName: {{ .Values.persistence.persistentVolumeClaim.logs.existingClaim | default (include "safeline.logs" .) }}
+        - name: cache
+          persistentVolumeClaim:
+            claimName: {{ .Values.persistence.persistentVolumeClaim.tengine.existingClaim | default (include "safeline.tengine" .) }}
+        {{- else -}}
+        - name: nginx
+          emptyDir: {}
+        - name: detector
+          emptyDir: {}
+        - name: logs
+          emptyDir: {}
+        - name: cache
+          emptyDir: {}
+        {{- end -}}
+
+    {{- with .Values.tengine.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.tengine.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.tengine.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- if .Values.tengine.priorityClassName }}
+      priorityClassName: {{ .Values.tengine.priorityClassName }}
+    {{- end }}

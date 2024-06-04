@@ -2,8 +2,33 @@ apiVersion: v1
 entries:
   safeline:
   - apiVersion: v1
+    appVersion: 6.0.2
+    created: "2024-06-04T22:59:00.907821+08:00"
+    description: A free WAF that is simple enough, easy to use, and strong enough.
+      Based on the industry's leading semantic engine detection technology, it acts
+      as a reverse proxy access to protect your website from hackers.
+    digest: 1060964aa0a691a2e569bbdab1e9baa123d61c422f4aa98aff7c2982e807f0fd
+    home: https://waf-ce.chaitin.cn/
+    icon: https://waf-ce.chaitin.cn/images/403.svg
+    keywords:
+    - waf
+    - chaitin
+    - safeline
+    maintainers:
+    - email: houtianhong@scmttec.com
+      name: Houtianhong
+    name: safeline
+    sources:
+    - https://github.com/chaitin/safeline
+    - https://github.com/jangrui/safeline-helm
+    - https://g-otkk6267.coding.net/public/Charts/safeline-waf-helmchart/git
+    - https://g-otkk6267-helm.pkg.coding.net/Charts/safeline
+    urls:
+    - assets/safeline/safeline-6.0.2.tgz
+    version: 6.0.2
+  - apiVersion: v1
     appVersion: 6.0.1
-    created: "2024-06-04T22:50:33.714568+08:00"
+    created: "2024-06-04T22:59:00.907034+08:00"
     description: A free WAF that is simple enough, easy to use, and strong enough.
       Based on the industry's leading semantic engine detection technology, it acts
       as a reverse proxy access to protect your website from hackers.
@@ -28,7 +53,7 @@ entries:
     version: 6.0.1
   - apiVersion: v1
     appVersion: 6.0.0
-    created: "2024-06-04T22:50:33.713776+08:00"
+    created: "2024-06-04T22:59:00.906065+08:00"
     description: A free WAF that is simple enough, easy to use, and strong enough.
       Based on the industry's leading semantic engine detection technology, it acts
       as a reverse proxy access to protect your website from hackers.
@@ -53,7 +78,7 @@ entries:
     version: 6.0.0
   - apiVersion: v1
     appVersion: 5.6.2
-    created: "2024-06-04T22:50:33.712851+08:00"
+    created: "2024-06-04T22:59:00.904812+08:00"
     description: A free WAF that is simple enough, easy to use, and strong enough.
       Based on the industry's leading semantic engine detection technology, it acts
       as a reverse proxy access to protect your website from hackers.
@@ -78,7 +103,7 @@ entries:
     version: 5.6.2
   - apiVersion: v1
     appVersion: 5.6.1
-    created: "2024-06-04T22:50:33.711605+08:00"
+    created: "2024-06-04T22:59:00.903968+08:00"
     description: A free WAF that is simple enough, easy to use, and strong enough.
       Based on the industry's leading semantic engine detection technology, it acts
       as a reverse proxy access to protect your website from hackers.
@@ -103,7 +128,7 @@ entries:
     version: 5.6.1
   - apiVersion: v1
     appVersion: 5.6.0
-    created: "2024-06-04T22:50:33.710849+08:00"
+    created: "2024-06-04T22:59:00.903226+08:00"
     description: A free WAF that is simple enough, easy to use, and strong enough.
       Based on the industry's leading semantic engine detection technology, it acts
       as a reverse proxy access to protect your website from hackers.
@@ -128,7 +153,7 @@ entries:
     version: 5.6.0
   - apiVersion: v1
     appVersion: 5.5.2
-    created: "2024-06-04T22:50:33.710102+08:00"
+    created: "2024-06-04T22:59:00.902465+08:00"
     description: A free WAF that is simple enough, easy to use, and strong enough.
       Based on the industry's leading semantic engine detection technology, it acts
       as a reverse proxy access to protect your website from hackers.
@@ -153,7 +178,7 @@ entries:
     version: 5.5.2
   - apiVersion: v1
     appVersion: 5.5.1
-    created: "2024-06-04T22:50:33.709344+08:00"
+    created: "2024-06-04T22:59:00.90169+08:00"
     description: A free WAF that is simple enough, easy to use, and strong enough.
       Based on the industry's leading semantic engine detection technology, it acts
       as a reverse proxy access to protect your website from hackers.
@@ -178,7 +203,7 @@ entries:
     version: 5.5.1
   - apiVersion: v1
     appVersion: 5.5.0
-    created: "2024-06-04T22:50:33.708543+08:00"
+    created: "2024-06-04T22:59:00.900865+08:00"
     description: A free WAF that is simple enough, easy to use, and strong enough.
       Based on the industry's leading semantic engine detection technology, it acts
       as a reverse proxy access to protect your website from hackers.
@@ -203,7 +228,7 @@ entries:
     version: 5.5.0
   - apiVersion: v1
     appVersion: 5.4.0
-    created: "2024-06-04T22:50:33.70769+08:00"
+    created: "2024-06-04T22:59:00.89989+08:00"
     description: A free WAF that is simple enough, easy to use, and strong enough.
       Based on the industry's leading semantic engine detection technology, it acts
       as a reverse proxy access to protect your website from hackers.
@@ -228,7 +253,7 @@ entries:
     version: 5.4.0
   - apiVersion: v1
     appVersion: 5.3.2
-    created: "2024-06-04T22:50:33.704753+08:00"
+    created: "2024-06-04T22:59:00.898447+08:00"
     description: A free WAF that is simple enough, easy to use, and strong enough.
       Based on the industry's leading semantic engine detection technology, it acts
       as a reverse proxy access to protect your website from hackers.
@@ -253,7 +278,7 @@ entries:
     version: 5.3.2
   - apiVersion: v1
     appVersion: 5.3.1
-    created: "2024-06-04T22:50:33.70392+08:00"
+    created: "2024-06-04T22:59:00.897551+08:00"
     description: A free WAF that is simple enough, easy to use, and strong enough.
       Based on the industry's leading semantic engine detection technology, it acts
       as a reverse proxy access to protect your website from hackers.
@@ -278,7 +303,7 @@ entries:
     version: 5.3.1
   - apiVersion: v1
     appVersion: 5.2.0
-    created: "2024-06-04T22:50:33.70307+08:00"
+    created: "2024-06-04T22:59:00.896688+08:00"
     description: A free WAF that is simple enough, easy to use, and strong enough.
       Based on the industry's leading semantic engine detection technology, it acts
       as a reverse proxy access to protect your website from hackers.
@@ -301,7 +326,7 @@ entries:
     version: 5.2.0
   - apiVersion: v1
     appVersion: 5.1.0
-    created: "2024-06-04T22:50:33.70206+08:00"
+    created: "2024-06-04T22:59:00.895705+08:00"
     description: A free WAF that is simple enough, easy to use, and strong enough.
       Based on the industry's leading semantic engine detection technology, it acts
       as a reverse proxy access to protect your website from hackers.
@@ -322,4 +347,4 @@ entries:
     urls:
     - assets/safeline/safeline-5.1.0.tgz
     version: 5.1.0
-generated: "2024-06-04T22:50:33.700692+08:00"
+generated: "2024-06-04T22:59:00.894279+08:00"
