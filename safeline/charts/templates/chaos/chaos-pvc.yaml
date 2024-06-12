@@ -1,0 +1,30 @@
+{{- $chaos := .Values.persistence.persistentVolumeClaim.chaos -}}
+{{- if and .Values.persistence.enabled (not $chaos.existingClaim) }}
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ template "safeline.chaos" . }}
+  annotations:
+  {{- range $key, $value := $chaos.annotations }}
+    {{ $key }}: {{ $value | quote }}
+  {{- end }}
+  {{- if eq .Values.persistence.resourcePolicy "keep" }}
+    helm.sh/resource-policy: keep
+  {{- end }}
+  labels:
+{{ include "safeline.labels" . | indent 4 }}
+    component: chaos
+spec:
+  accessModes: 
+    - {{ $chaos.accessMode }}
+  resources:
+    requests:
+      storage: {{ $chaos.size }}
+  {{- if $chaos.storageClass }}
+    {{- if eq "-" $chaos.storageClass }}
+  storageClassName: ""
+    {{- else }}
+  storageClassName: {{ $chaos.storageClass }}
+    {{- end }}
+  {{- end }}
+{{- end }}

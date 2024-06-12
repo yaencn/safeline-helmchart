@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: "{{ template "safeline.chaos" . }}"
+  labels:
+{{ include "safeline.labels" . | indent 4 }}
+spec:
+  ports:
+    - name: chaos
+      protocol: TCP
+      port: {{ template "safeline.chaos.port" . }}
+  selector:
+{{ include "safeline.matchLabels" . | indent 4 }}
+    component: chaos
