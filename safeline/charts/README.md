@@ -4,6 +4,12 @@
 
 - Kubernetes cluster storage support RWX.
 
+## Installation Remind
+These services must run on the same workload node in the k8s cluster:
+safeline-chaos, safeline-detector, safeline-tengine
+It is recommended to use the nodeSelector setting.
+
+
 ## Installation
 
 - HelmChart GitRepo URL:
