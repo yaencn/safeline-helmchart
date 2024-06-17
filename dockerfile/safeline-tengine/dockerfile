@@ -1,0 +1,2 @@
+FROM swr.cn-east-3.myhuaweicloud.com/chaitin-safeline/safeline-tengine:6.0.3
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
