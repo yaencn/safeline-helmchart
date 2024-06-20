@@ -6,9 +6,12 @@ metadata:
 {{ include "safeline.labels" . | indent 4 }}
 spec:
   ports:
-    - name: chaos
+    - name: http
       protocol: TCP
       port: {{ template "safeline.chaos.port" . }}
+    - name: stpp
+      protocol: TCP
+      port: {{ template "safeline.stpp.port" . }}
   selector:
 {{ include "safeline.matchLabels" . | indent 4 }}
     component: chaos

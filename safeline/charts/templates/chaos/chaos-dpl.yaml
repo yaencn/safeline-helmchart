@@ -40,22 +40,22 @@ spec:
         image: {{ default .Values.global.image.registry .Values.chaos.image.registry }}/{{ .Values.chaos.image.repository }}:{{ default .Chart.AppVersion .Values.chaos.image.tag }}
         imagePullPolicy: {{ .Values.imagePullPolicy }}
         ports:
-          - name: chaos
-            containerPort: {{ template "safeline.chaos.port" . }}
+          - name: stpp
+            containerPort: {{ template "safeline.stpp.port" . }}
           - name: http
             containerPort: {{ template "safeline.http.port" . }}
         volumeMounts:
           - name: localtime
             mountPath: /etc/localtime
             readOnly: true
+          - mountPath: /app/chaos
+            name: chaos
           - name: chaos-conf
             mountPath: /app/chaos/chaos.toml
             subPath: chaos.toml
-          - mountPath: /app/chaos
-            name: chaos
         readinessProbe:
           tcpSocket:
-            port: {{ template "safeline.http.port" . }}
+            port: {{ template "safeline.stpp.port" . }}
           initialDelaySeconds: 5
           timeoutSeconds: 2
           successThreshold: 1

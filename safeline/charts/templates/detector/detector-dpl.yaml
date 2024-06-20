@@ -45,7 +45,7 @@ spec:
           - |-
             rm -rf /resources/detector/lost+found
             rm -rf /log/lost+found
-            echo -e  "bind_addr: 0.0.0.0\nlisten_port: 8000" > /resources/detector/detector.yml
+            echo "bind_addr: 0.0.0.0\nlisten_port: 8000" > /resources/detector/detector.yml
         volumeMounts:
           - mountPath: /resources/detector
             name: detector

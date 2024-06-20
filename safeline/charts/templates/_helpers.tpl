@@ -229,10 +229,10 @@ http://{{ template "safeline.mario" . }}:{{ template "safeline.mario.port" . }}
   {{- printf "%s-chaos" (include "safeline.fullname" .) -}}
 {{- end -}}
 
-{{- define "safeline.chaos.port" -}}
+{{- define "safeline.http.port" -}}
     {{- printf "9000" -}}
 {{- end -}}
 
-{{- define "safeline.http.port" -}}
+{{- define "safeline.stpp.port" -}}
     {{- printf "23333" -}}
 {{- end -}}

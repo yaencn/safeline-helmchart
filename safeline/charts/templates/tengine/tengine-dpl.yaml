@@ -50,7 +50,7 @@ spec:
             rm -rf /var/log/lost+found
             rm -rf /usr/local/nginx/cache/lost+found
             rm -rf /resources/chaos/lost+found
-            if [[ $(grep "safeline_unix.conf" /etc/nginx/nginx.conf) ]];then sed -i "s/safeline_unix.conf/safeline_sdk.conf/g" /etc/nginx/nginx.conf;else exit 0;fi
+            sed '-i' "s/safeline_unix.conf/safeline_sdk.conf/g" /etc/nginx/nginx.conf
         volumeMounts:
           - mountPath: /etc/nginx
             name: nginx
