@@ -8,7 +8,7 @@ data:
   safeline_sdk.conf: |
     upstream detector_server {
         keepalive   256;
-        server      safeline-tengine:8000;
+        server      safeline-detector:8000;
     }
 
     upstream chaos_server {
