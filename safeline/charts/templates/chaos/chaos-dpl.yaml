@@ -42,15 +42,20 @@ spec:
         ports:
           - name: chaos
             containerPort: {{ template "safeline.chaos.port" . }}
+          - name: http
+            containerPort: {{ template "safeline.http.port" . }}
         volumeMounts:
           - name: localtime
             mountPath: /etc/localtime
             readOnly: true
+          - name: chaos-conf
+            mountPath: /app/chaos/chaos.toml
+            subPath: chaos.toml
           - mountPath: /app/chaos
             name: chaos
         readinessProbe:
           tcpSocket:
-            port: {{ template "safeline.chaos.port" . }}
+            port: {{ template "safeline.http.port" . }}
           initialDelaySeconds: 5
           timeoutSeconds: 2
           successThreshold: 1
@@ -61,6 +66,9 @@ spec:
 {{ toYaml .Values.chaos.resources | indent 10 }}
 {{- end }}
       volumes:
+        - name: chaos-conf
+          configMap:
+            name: {{ template "safeline.chaos" . }}
         - name: localtime
           hostPath:
             path: /etc/localtime

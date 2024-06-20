@@ -37,7 +37,8 @@ spec:
       terminationGracePeriodSeconds: 120
       initContainers:
       - name: delete-lost-found-dir
-        image: {{ default .Values.global.image.registry .Values.tengine.image.registry }}/{{ .Values.tengine.image.repository }}:{{ default .Chart.AppVersion .Values.tengine.image.tag }}
+        image: busybox
+        #image: {{ default .Values.global.image.registry .Values.tengine.image.registry }}/{{ .Values.tengine.image.repository }}:{{ default .Chart.AppVersion .Values.tengine.image.tag }}
         imagePullPolicy: {{ .Values.imagePullPolicy }}
         command:
           - sh
@@ -49,7 +50,7 @@ spec:
             rm -rf /var/log/lost+found
             rm -rf /usr/local/nginx/cache/lost+found
             rm -rf /resources/chaos/lost+found
-            mkdir -p /var/log/nginx/nginx
+            if [[ $(grep "safeline_unix.conf" /etc/nginx/nginx.conf) ]];then sed -i "s/safeline_unix.conf/safeline_sdk.conf/g" /etc/nginx/nginx.conf;else exit 0;fi
         volumeMounts:
           - mountPath: /etc/nginx
             name: nginx
@@ -91,6 +92,9 @@ spec:
             name: cache
           - mountPath: /resources/chaos
             name: chaos
+          - name: safeline-sdk
+            mountPath: /etc/nginx/safeline_sdk.conf
+            subPath: safeline_sdk.conf
         readinessProbe:
           tcpSocket:
             port: {{ template "safeline.tengine.health.port" . }}
@@ -123,6 +127,9 @@ spec:
         - name: chaos
           persistentVolumeClaim:
             claimName: {{ .Values.persistence.persistentVolumeClaim.chaos.existingClaim | default (include "safeline.chaos" .) }}
+        - name: safeline-sdk
+          configMap:
+            name: {{ template "safeline.tengine" . }}
         {{- else -}}
         - name: nginx
           emptyDir: {}

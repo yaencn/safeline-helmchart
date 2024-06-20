@@ -1,0 +1,29 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: {{ template "safeline.chaos" . }}
+  labels:
+{{ include "safeline.labels" . | indent 4 }}
+data:
+  chaos.toml: |
+    [log]
+    level = "INFO"
+
+    [log.writer]
+    kind = "console"
+    stdout = false
+
+    [core]
+    worker = 10
+    max_cache_size = 3000
+    item_count = 10
+    item_ttl = 60
+
+    [http]
+    listen = "0.0.0.0:9000"
+    process_timeout = 300
+
+    [stpp]
+    listen = "0.0.0.0:23333"
+    #listen = "unix:///app/chaos/stpp.sock"
+    max_package_limit = 10485760 # 10MB

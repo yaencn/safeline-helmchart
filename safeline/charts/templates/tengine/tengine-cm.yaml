@@ -1,0 +1,58 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name:  {{ template "safeline.tengine" . }}
+  labels:
+{{ include "safeline.labels" . | indent 4 }}
+data:
+  safeline_sdk.conf: |
+    upstream detector_server {
+        keepalive   256;
+        server      safeline-tengine:8000;
+    }
+
+    upstream chaos_server {
+        keepalive   256;
+        server      safeline-chaos:23333;
+    }
+
+    t1k_intercept @safeline; # enable request detection
+    t1k_body_size 1m;        # max forward size of request body
+
+    tx_intercept @safelinex; # enable response detection
+    tx_body_size 1m;         # max forward size of response body
+
+    tx_chaos_intercept @safeline_chaos; # enable response chaos
+    tx_chaos_body_size 10m;             # max forward size of response body for chaos
+
+    include tx_ignore_types;
+
+    t1k_ulog 10000;
+    t1k_stat 10000;          # enable nginx stat info
+
+    t1k_extra_header on;
+    t1k_extra_body on;
+
+    foreach_server {
+        location @safeline {
+            internal;
+            t1k_pass detector_server;
+            t1k_connect_timeout 1s;
+            t1k_read_timeout 1s;
+            t1k_send_timeout 1s;
+        }
+        location @safelinex {
+            internal;
+            tx_pass detector_server;
+            tx_connect_timeout 1s;
+            tx_read_timeout 1s;
+            tx_send_timeout 1s;
+        }
+        location @safeline_chaos {
+            internal;
+            tx_chaos_pass chaos_server;
+            tx_chaos_read_timeout 3s;
+            tx_chaos_send_timeout 3s;
+            tx_chaos_connect_timeout 3s;
+        }
+    }

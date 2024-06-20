@@ -232,3 +232,7 @@ http://{{ template "safeline.mario" . }}:{{ template "safeline.mario.port" . }}
 {{- define "safeline.chaos.port" -}}
     {{- printf "9000" -}}
 {{- end -}}
+
+{{- define "safeline.http.port" -}}
+    {{- printf "23333" -}}
+{{- end -}}
