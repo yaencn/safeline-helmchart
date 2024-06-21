@@ -50,7 +50,7 @@ spec:
             readOnly: true
           - mountPath: /app/chaos
             name: chaos
-          {{- if .Values.global.ExposeServicesAsPorts.enabled }}
+          {{- if .Values.global.exposeServicesAsPorts.enabled }}
           - name: chaos-conf
             mountPath: /app/chaos/chaos.toml
             subPath: chaos.toml
@@ -68,7 +68,7 @@ spec:
 {{ toYaml .Values.chaos.resources | indent 10 }}
 {{- end }}
       volumes:
-        {{- if .Values.global.ExposeServicesAsPorts.enabled }}
+        {{- if .Values.global.exposeServicesAsPorts.enabled }}
         - name: chaos-conf
           configMap:
             name: {{ template "safeline.chaos" . }}

@@ -10,7 +10,7 @@ global:
     tag: ""
   # 全局开启已端口模式暴露服务，牵扯修改服务暴露模式服务为：detector与chaos，打开此选项将增加多个configmap加载以及修改配置文件，会修改nginx.conf文件。
   # 建议此向保持开启状态
-  ExposeServicesAsPorts:
+  exposeServicesAsPorts:
     enabled: true
 
 strategy:

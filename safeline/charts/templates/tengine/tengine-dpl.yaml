@@ -35,7 +35,7 @@ spec:
       {{- end }}
       automountServiceAccountToken: {{ .Values.tengine.automountServiceAccountToken | default false }}
       terminationGracePeriodSeconds: 120
-      {{- if .Values.global.ExposeServicesAsPorts.enabled }}
+      {{- if .Values.global.exposeServicesAsPorts.enabled }}
       initContainers:
       - name: replace-file-contents
         #image: busybox
@@ -88,7 +88,7 @@ spec:
             name: cache
           - mountPath: /resources/chaos
             name: chaos
-          {{- if .Values.global.ExposeServicesAsPorts.enabled }}
+          {{- if .Values.global.exposeServicesAsPorts.enabled }}
           - name: safeline-k8s
             mountPath: /etc/nginx/safeline_k8s.conf
             subPath: safeline_k8s.conf
@@ -125,7 +125,7 @@ spec:
         - name: chaos
           persistentVolumeClaim:
             claimName: {{ .Values.persistence.persistentVolumeClaim.chaos.existingClaim | default (include "safeline.chaos" .) }}
-        {{- if .Values.global.ExposeServicesAsPorts.enabled }}
+        {{- if .Values.global.exposeServicesAsPorts.enabled }}
         - name: safeline-k8s
           configMap:
             name: {{ template "safeline.tengine" . }}

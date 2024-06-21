@@ -5,9 +5,16 @@
 - Kubernetes cluster storage support RWX.
 
 ## Installation Remind
+
+6.1.2 after：
+
 These services must run on the same workload node in the k8s cluster:
 safeline-chaos, safeline-detector, safeline-tengine
 It is recommended to use the nodeSelector setting.
+
+6.1.2 before:
+
+default Expose Services As Ports mode.
 
 
 ## Installation

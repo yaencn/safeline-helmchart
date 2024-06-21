@@ -1,4 +1,4 @@
-{{- if .Values.global.ExposeServicesAsPorts.enabled }}
+{{- if .Values.global.exposeServicesAsPorts.enabled }}
 kind: ConfigMap
 apiVersion: v1
 metadata:
