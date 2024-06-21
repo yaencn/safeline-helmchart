@@ -26,9 +26,9 @@ data:
 
     [stpp]
     max_package_limit = 10485760 # 10MB
+    process_timeout = 300
     #以下为将服务已端口形式暴露
     listen = "0.0.0.0:23333"
-    process_timeout = 300
     #以下为将服务已服务文件形式暴露
     #listen = "unix:///app/chaos/stpp.sock"
 {{- end }}
