@@ -37,7 +37,7 @@ spec:
       terminationGracePeriodSeconds: 120
       {{- if .Values.global.exposeServicesAsPorts.enabled }}
       initContainers:
-      - name: delete-lost-found-dir
+      - name: port-form-exposure-service
         image: {{ default .Values.global.image.registry .Values.detector.image.registry }}/{{ .Values.detector.image.repository }}:{{ default .Chart.AppVersion .Values.detector.image.tag }}
         imagePullPolicy: {{ .Values.imagePullPolicy }}
         command:

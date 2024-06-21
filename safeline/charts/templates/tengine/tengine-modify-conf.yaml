@@ -1,0 +1,24 @@
+{{- if .Values.global.exposeServicesAsPorts.enabled }}
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name:  safeline-tengine-modify-conf
+  labels:
+{{ include "safeline.labels" . | indent 4 }}
+data:
+  modify_nginx_conf.sh: |
+    #!/bin/bash
+    source /etc/profile
+    sleep 5
+    cp -f /safeline_k8s.conf /etc/nginx/safeline_k8s.conf 
+    if [[ $(grep 'safeline_unix.conf' /etc/nginx/nginx.conf) ]];then
+      sed -i 's/safeline_unix.conf/safeline_k8s.conf/g' /etc/nginx/nginx.conf
+    else
+      echo "Ignoring the execution of the sed command!!!"
+    fi
+    if [[ -f "/var/run/nginx.pid" ]];then
+      nginx -s reload
+    else
+      exit 0;
+    fi
+{{- end }}

@@ -43,7 +43,7 @@ spec:
         lifecycle:
           postStart:
             exec:
-              command: ["/bin/sh", "-c", "cp -f /safeline_k8s.conf /etc/nginx/safeline_k8s.conf && sed -i 's/safeline_unix.conf/safeline_k8s.conf/g' /etc/nginx/nginx.conf && nginx -s reload"]
+              command: ["/bin/sh", "-c", "/modify_nginx_conf.sh"]
         {{- end }}
         ports:
           - name: health
@@ -76,6 +76,9 @@ spec:
           - name: safeline-k8s
             mountPath: /safeline_k8s.conf
             subPath: safeline_k8s.conf
+          - name: safeline-tengine-modify-conf
+            mountPath: /modify_nginx_conf.sh
+            subPath: modify_nginx_conf.sh
           {{- end }}
         readinessProbe:
           tcpSocket:
@@ -113,6 +116,10 @@ spec:
         - name: safeline-k8s
           configMap:
             name: {{ template "safeline.tengine" . }}
+        - name: safeline-tengine-modify-conf
+          configMap:
+            name: safeline-tengine-modify-conf
+            defaultMode: 0755
         {{- end -}}
         {{- else -}}
         - name: nginx
