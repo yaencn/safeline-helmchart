@@ -67,6 +67,9 @@ spec:
           - name: localtime
             mountPath: /etc/localtime
             readOnly: true
+          - name: nginx-log
+            mountPath: /app/log
+            subPath: nginx
         livenessProbe:
           httpGet:
             scheme: HTTPS
@@ -99,6 +102,9 @@ spec:
         - name: mgt
           persistentVolumeClaim:
             claimName: {{ .Values.persistence.persistentVolumeClaim.mgt.existingClaim | default (include "safeline.mgt" .) }}
+        - name: nginx-log
+          persistentVolumeClaim:
+            claimName: {{ .Values.persistence.persistentVolumeClaim.logs.existingClaim | default (include "safeline.logs" .) }}
         {{- else -}}
         - name: mgt
           emptyDir: {}
