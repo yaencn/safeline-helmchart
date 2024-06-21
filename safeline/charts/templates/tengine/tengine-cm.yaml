@@ -1,3 +1,4 @@
+{{- if .Values.global.ExposeServicesAsPorts.enabled }}
 kind: ConfigMap
 apiVersion: v1
 metadata:
@@ -5,7 +6,7 @@ metadata:
   labels:
 {{ include "safeline.labels" . | indent 4 }}
 data:
-  safeline_sdk.conf: |
+  safeline_k8s.conf: |
     upstream detector_server {
         keepalive   256;
         server      safeline-detector:8000;
@@ -56,3 +57,4 @@ data:
             tx_chaos_connect_timeout 3s;
         }
     }
+{{- end }}

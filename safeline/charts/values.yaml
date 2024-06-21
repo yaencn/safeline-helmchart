@@ -8,6 +8,10 @@ global:
   image:
     registry: swr.cn-east-3.myhuaweicloud.com/chaitin-safeline
     tag: ""
+  # 全局开启已端口模式暴露服务，牵扯修改服务暴露模式服务为：detector与chaos，打开此选项将增加多个configmap加载以及修改配置文件，会修改nginx.conf文件。
+  # 建议此向保持开启状态
+  ExposeServicesAsPorts:
+    enabled: true
 
 strategy:
   type: RollingUpdate
@@ -195,7 +199,7 @@ fvm:
 
 detector:
   image:
-    registry: 'swr.cn-east-3.myhuaweicloud.com/chaitin-safeline'
+    registry: ''
     repository: safeline-detector
     tag: ""
   resources:
@@ -245,7 +249,7 @@ mario:
 
 tengine:
   image:
-    registry: 'swr.cn-east-3.myhuaweicloud.com/chaitin-safeline'
+    registry: ''
     repository: safeline-tengine
     tag: ""
   resources:

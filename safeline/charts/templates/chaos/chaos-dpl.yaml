@@ -50,9 +50,11 @@ spec:
             readOnly: true
           - mountPath: /app/chaos
             name: chaos
+          {{- if .Values.global.ExposeServicesAsPorts.enabled }}
           - name: chaos-conf
             mountPath: /app/chaos/chaos.toml
             subPath: chaos.toml
+          {{- end }}
         readinessProbe:
           tcpSocket:
             port: {{ template "safeline.stpp.port" . }}
@@ -66,9 +68,11 @@ spec:
 {{ toYaml .Values.chaos.resources | indent 10 }}
 {{- end }}
       volumes:
+        {{- if .Values.global.ExposeServicesAsPorts.enabled }}
         - name: chaos-conf
           configMap:
             name: {{ template "safeline.chaos" . }}
+        {{- end }}
         - name: localtime
           hostPath:
             path: /etc/localtime

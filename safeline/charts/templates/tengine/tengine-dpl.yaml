@@ -35,22 +35,17 @@ spec:
       {{- end }}
       automountServiceAccountToken: {{ .Values.tengine.automountServiceAccountToken | default false }}
       terminationGracePeriodSeconds: 120
+      {{- if .Values.global.ExposeServicesAsPorts.enabled }}
       initContainers:
-      - name: delete-lost-found-dir
-        image: busybox
-        #image: {{ default .Values.global.image.registry .Values.tengine.image.registry }}/{{ .Values.tengine.image.repository }}:{{ default .Chart.AppVersion .Values.tengine.image.tag }}
+      - name: replace-file-contents
+        #image: busybox
+        image: {{ default .Values.global.image.registry .Values.tengine.image.registry }}/{{ .Values.tengine.image.repository }}:{{ default .Chart.AppVersion .Values.tengine.image.tag }}
         imagePullPolicy: {{ .Values.imagePullPolicy }}
         command:
           - sh
           - -c
           - |-
-            rm -rf /etc/nginx/lost+found
-            rm -rf /resources/mgt/lost+found
-            rm -rf /resources/detector/lost+found
-            rm -rf /var/log/lost+found
-            rm -rf /usr/local/nginx/cache/lost+found
-            rm -rf /resources/chaos/lost+found
-            sed '-i' "s/safeline_unix.conf/safeline_sdk.conf/g" /etc/nginx/nginx.conf
+            sed '-i' "s/safeline_unix.conf/safeline_k8s.conf/g" /etc/nginx/nginx.conf
         volumeMounts:
           - mountPath: /etc/nginx
             name: nginx
@@ -61,6 +56,7 @@ spec:
             subPath: nginx
           - mountPath: /usr/local/nginx/cache
             name: cache
+      {{- end -}}
       containers:
       - name: tengine
         image: {{ default .Values.global.image.registry .Values.tengine.image.registry }}/{{ .Values.tengine.image.repository }}:{{ default .Chart.AppVersion .Values.tengine.image.tag }}
@@ -92,9 +88,11 @@ spec:
             name: cache
           - mountPath: /resources/chaos
             name: chaos
-          - name: safeline-sdk
-            mountPath: /etc/nginx/safeline_sdk.conf
-            subPath: safeline_sdk.conf
+          {{- if .Values.global.ExposeServicesAsPorts.enabled }}
+          - name: safeline-k8s
+            mountPath: /etc/nginx/safeline_k8s.conf
+            subPath: safeline_k8s.conf
+          {{- end -}}
         readinessProbe:
           tcpSocket:
             port: {{ template "safeline.tengine.health.port" . }}
@@ -127,9 +125,11 @@ spec:
         - name: chaos
           persistentVolumeClaim:
             claimName: {{ .Values.persistence.persistentVolumeClaim.chaos.existingClaim | default (include "safeline.chaos" .) }}
-        - name: safeline-sdk
+        {{- if .Values.global.ExposeServicesAsPorts.enabled }}
+        - name: safeline-k8s
           configMap:
             name: {{ template "safeline.tengine" . }}
+        {{- end -}}
         {{- else -}}
         - name: nginx
           emptyDir: {}
