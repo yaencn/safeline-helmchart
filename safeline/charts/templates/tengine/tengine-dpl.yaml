@@ -35,32 +35,16 @@ spec:
       {{- end }}
       automountServiceAccountToken: {{ .Values.tengine.automountServiceAccountToken | default false }}
       terminationGracePeriodSeconds: 120
-      {{- if .Values.global.exposeServicesAsPorts.enabled }}
-      initContainers:
-      - name: replace-file-contents
-        #image: busybox
-        image: {{ default .Values.global.image.registry .Values.tengine.image.registry }}/{{ .Values.tengine.image.repository }}:{{ default .Chart.AppVersion .Values.tengine.image.tag }}
-        imagePullPolicy: {{ .Values.imagePullPolicy }}
-        command:
-          - sh
-          - -c
-          - |-
-            sed '-i' "s/safeline_unix.conf/safeline_k8s.conf/g" /etc/nginx/nginx.conf
-        volumeMounts:
-          - mountPath: /etc/nginx
-            name: nginx
-          - mountPath: /resources/detector
-            name: detector
-          - mountPath: /var/log
-            name: logs
-            subPath: nginx
-          - mountPath: /usr/local/nginx/cache
-            name: cache
-      {{- end }}
       containers:
       - name: tengine
         image: {{ default .Values.global.image.registry .Values.tengine.image.registry }}/{{ .Values.tengine.image.repository }}:{{ default .Chart.AppVersion .Values.tengine.image.tag }}
         imagePullPolicy: {{ .Values.imagePullPolicy }}
+        {{- if .Values.global.exposeServicesAsPorts.enabled }}
+        lifecycle:
+          postStart:
+            exec:
+              command: ["/bin/sh", "-c", "cp -f /safeline_k8s.conf /etc/nginx/safeline_k8s.conf && sed -i 's/safeline_unix.conf/safeline_k8s.conf/g' /etc/nginx/nginx.conf && nginx -s reload"]
+        {{- end }}
         ports:
           - name: health
             containerPort: {{ template "safeline.tengine.health.port" . }}
@@ -90,7 +74,7 @@ spec:
             name: chaos
           {{- if .Values.global.exposeServicesAsPorts.enabled }}
           - name: safeline-k8s
-            mountPath: /etc/nginx/safeline_k8s.conf
+            mountPath: /safeline_k8s.conf
             subPath: safeline_k8s.conf
           {{- end }}
         readinessProbe:
