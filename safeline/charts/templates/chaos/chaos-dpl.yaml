@@ -57,7 +57,7 @@ spec:
           {{- end }}
         readinessProbe:
           tcpSocket:
-            port: {{ template "safeline.stpp.port" . }}
+            port: {{ template "safeline.http.port" . }}
           initialDelaySeconds: 5
           timeoutSeconds: 2
           successThreshold: 1

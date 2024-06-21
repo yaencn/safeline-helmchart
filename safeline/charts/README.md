@@ -6,15 +6,20 @@
 
 ## Installation Remind
 
-6.1.2 after：
+Before version 6.1.2:
 
 These services must run on the same workload node in the k8s cluster:
+
 safeline-chaos, safeline-detector, safeline-tengine
+
 It is recommended to use the nodeSelector setting.
 
-6.1.2 before:
+After version 6.1.2:
 
 default Expose Services As Ports mode.
+
+Can be controlled by the value of the `global.exposeServicesAsPorts.enabled` field in the values file.
+
 
 
 ## Installation

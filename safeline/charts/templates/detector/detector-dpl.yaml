@@ -35,7 +35,7 @@ spec:
       {{- end }}
       automountServiceAccountToken: {{ .Values.detector.automountServiceAccountToken | default false }}
       terminationGracePeriodSeconds: 120
-      {{- if .Values.global.ExposeServicesAsPorts.enabled }}
+      {{- if .Values.global.exposeServicesAsPorts.enabled }}
       initContainers:
       - name: delete-lost-found-dir
         image: {{ default .Values.global.image.registry .Values.detector.image.registry }}/{{ .Values.detector.image.repository }}:{{ default .Chart.AppVersion .Values.detector.image.tag }}
@@ -51,7 +51,7 @@ spec:
           - mountPath: /logs
             name: logs
             subPath: detector
-      {{- end -}}
+      {{- end }}
       containers:
       - name: detector
         image: {{ default .Values.global.image.registry .Values.detector.image.registry }}/{{ .Values.detector.image.repository }}:{{ default .Chart.AppVersion .Values.detector.image.tag }}
