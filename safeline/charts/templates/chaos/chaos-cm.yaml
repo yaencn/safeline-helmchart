@@ -18,7 +18,7 @@ data:
     worker = 10
     max_cache_size = 3000
     item_count = 10
-    item_ttl = 60
+    item_ttl = 3600
 
     [http]
     listen = "0.0.0.0:9000"
