@@ -35,6 +35,26 @@ spec:
       {{- end }}
       automountServiceAccountToken: {{ .Values.chaos.automountServiceAccountToken | default false }}
       terminationGracePeriodSeconds: 120
+      {{- if .Values.global.exposeServicesAsPorts.enabled }}
+      initContainers:
+      - name: cp-chaos-toml-file
+        image: busybox
+        imagePullPolicy: {{ .Values.imagePullPolicy }}
+        command:
+          - sh
+          - -c
+          - |-
+            sleep 3 && /bin/sh /cp_chaos_toml.sh
+        volumeMounts:
+          - mountPath: /app/chaos
+            name: chaos
+          - name: chaos-conf
+            mountPath: /chaos.toml
+            subPath: chaos.toml
+          - name: safeline-chaos-cp-toml
+            mountPath: /cp_chaos_toml.sh
+            subPath: cp_chaos_toml.sh
+      {{- end }}
       containers:
       - name: chaos
         image: {{ default .Values.global.image.registry .Values.chaos.image.registry }}/{{ .Values.chaos.image.repository }}:{{ default .Chart.AppVersion .Values.chaos.image.tag }}
@@ -50,11 +70,6 @@ spec:
             readOnly: true
           - mountPath: /app/chaos
             name: chaos
-          {{- if .Values.global.exposeServicesAsPorts.enabled }}
-          - name: chaos-conf
-            mountPath: /app/chaos/chaos.toml
-            subPath: chaos.toml
-          {{- end }}
         readinessProbe:
           tcpSocket:
             port: {{ template "safeline.http.port" . }}
@@ -72,6 +87,10 @@ spec:
         - name: chaos-conf
           configMap:
             name: {{ template "safeline.chaos" . }}
+        - name: safeline-chaos-cp-toml
+          configMap:
+            name: safeline-chaos-cp-toml
+            defaultMode: 0755
         {{- end }}
         - name: localtime
           hostPath:

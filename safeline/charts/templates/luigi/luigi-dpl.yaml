@@ -37,7 +37,8 @@ spec:
       terminationGracePeriodSeconds: 120
       initContainers:
       - name: init-probe
-        image: {{ default .Values.global.image.registry .Values.luigi.image.registry }}/{{ .Values.luigi.image.repository }}:{{ default .Chart.AppVersion .Values.luigi.image.tag }}
+        #image: {{ default .Values.global.image.registry .Values.luigi.image.registry }}/{{ .Values.luigi.image.repository }}:{{ default .Chart.AppVersion .Values.luigi.image.tag }}
+        image: busybox
         imagePullPolicy: {{ .Values.imagePullPolicy }}
         command:
           - sh
