@@ -25,7 +25,7 @@ Can be controlled by the value of the `global.exposeServicesAsPorts.enabled` fie
 ## Installation
 
 - HelmChart GitRepo URL:
-https://g-otkk6267.coding.net/public/Charts/safeline-waf-helmchart/git
+https://gitee.com/andyhau/safeline-helmchart.git
 
 - HelmChart Web URL:
 https://g-otkk6267.coding.net/public-artifacts/Charts/safeline/packages
