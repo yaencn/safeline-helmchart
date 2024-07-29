@@ -13,7 +13,6 @@ maintainers:
 name: safeline
 sources:
 - https://github.com/chaitin/safeline
-- https://github.com/jangrui/safeline-helm
 - https://github.com/yaencn/safeline-helmchart.git
 - https://gitee.com/andyhau/safeline-helmchart.git
 - https://g-otkk6267-helm.pkg.coding.net/Charts/safeline
