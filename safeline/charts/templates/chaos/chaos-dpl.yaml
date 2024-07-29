@@ -44,16 +44,16 @@ spec:
           - sh
           - -c
           - |-
-            sleep 3 && /bin/sh /cp_chaos_toml.sh
+            sleep 3 && /bin/sh /cp_config_toml.sh
         volumeMounts:
           - mountPath: /app/chaos
             name: chaos
           - name: chaos-conf
-            mountPath: /chaos.toml
-            subPath: chaos.toml
+            mountPath: /config.toml
+            subPath: config.toml
           - name: safeline-chaos-cp-toml
-            mountPath: /cp_chaos_toml.sh
-            subPath: cp_chaos_toml.sh
+            mountPath: /cp_config_toml.sh
+            subPath: cp_config_toml.sh
       {{- end }}
       containers:
       - name: chaos

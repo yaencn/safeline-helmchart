@@ -6,15 +6,16 @@ metadata:
   labels:
 {{ include "safeline.labels" . | indent 4 }}
 data:
-  cp_chaos_toml.sh: |
+  cp_config_toml.sh: |
     #!/bin/bash
 
-    CONFIG_FILE=/app/chaos/chaos.toml
-    if [ ! -s "$CONFIG_FILE" ];then
-      rm -f "$CONFIG_FILE"
+    OLD_CONFIG_FILE=/app/chaos/chaos.toml
+    CONFIG_FILE=/app/chaos/config.toml
+    if [ ! -s "$OLD_CONFIG_FILE" ];then
+      rm -f "$OLD_CONFIG_FILE"
     fi
     if [ ! -f "$CONFIG_FILE" ];then
-      cp -f /chaos.toml $CONFIG_FILE
+      cp -f /config.toml $CONFIG_FILE
     else
       echo "Ignoring the execution of the cp command!!!"
       exit 0;
