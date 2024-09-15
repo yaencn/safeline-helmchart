@@ -58,6 +58,31 @@ Can be controlled by the value of the `global.exposeServicesAsPorts.enabled` fie
 
 可以通过values文件中的`global.exposeServicesAsPorts.enabled`字段的值进行控制。
 
+**After version 6.9.1:**
+
+**在6.9.1以及之后的版本中：**
+
+Add WAF console web interface to bind domain names through nginx-ingress.
+
+Specifically participate in the values.yaml file.
+
+增加WAF控制台web界面可通过nginx-ingress绑定域名,具体参加values.yaml文件。
+
+```yaml
+  # 设置雷池WAF控制台通过域名访问，如：demo.waf-ce.chaitin.cn
+  ingress:
+    # 是否开启雷池WAF控制通过域名访问，默认未开启
+    enabled: true
+    hostname: waf.local
+    ingressClassName: nginx
+    pathType: ImplementationSpecific
+    path: /
+    tls:
+      # 是否加载HelmChart外部的HTTPS域名证书Secret,如果有请填写Secret名称，默认不填写及域名仅开启http访问.
+      # 如填写如下项，请在运行该HelmChart前创建好对应的Secret。
+      secretName: "waf-xxx-com-tls"
+```
+
 
 ## Installation
 

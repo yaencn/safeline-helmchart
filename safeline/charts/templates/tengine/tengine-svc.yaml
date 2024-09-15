@@ -12,6 +12,9 @@ spec:
     - name: http
       protocol: TCP
       port: {{ template "safeline.tengine.http.port" . }}
+    - name: tasktcd
+      protocol: TCP
+      port: {{ template "safeline.tengine.tasktcd.port" . }}
   selector:
 {{ include "safeline.matchLabels" . | indent 4 }}
     component: tengine

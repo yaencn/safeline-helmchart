@@ -12,6 +12,20 @@ global:
   # 建议此向保持开启状态
   exposeServicesAsPorts:
     enabled: true
+  # 设置雷池WAF控制台通过域名访问，如：demo.waf-ce.chaitin.cn
+  ingress:
+    # 是否开启雷池WAF控制通过域名访问，默认未开启
+    enabled: false
+    hostname: waf.local
+    ingressClassName: nginx
+    pathType: ImplementationSpecific
+    path: /
+    tls:
+      # 是否加载HelmChart外部的HTTPS域名证书Secret,如果有请填写Secret名称，默认不填写及域名仅开启http访问.
+      # 如填写如下项，请在运行该HelmChart前创建好对应的Secret。
+      secretName: ""
+
+
 
 strategy:
   type: RollingUpdate

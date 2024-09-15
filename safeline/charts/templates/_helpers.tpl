@@ -193,6 +193,10 @@ http://{{ template "safeline.mario" . }}:{{ template "safeline.mario.port" . }}
     {{- printf "80" -}}
 {{- end -}}
 
+{{- define "safeline.tengine.tasktcd.port" -}}
+    {{- printf "9999" -}}
+{{- end -}}
+
 
 {{/* fvm */}}
 {{- define "safeline.fvm" -}}
