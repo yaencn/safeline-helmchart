@@ -76,6 +76,8 @@ spec:
             name: cache
           - mountPath: /resources/chaos
             name: chaos
+          - mountPath: /app/sock
+            name: tengine-sock-dir
           {{- if .Values.global.exposeServicesAsPorts.enabled }}
           - name: safeline-k8s
             mountPath: /safeline_k8s.conf
@@ -116,6 +118,8 @@ spec:
         - name: chaos
           persistentVolumeClaim:
             claimName: {{ .Values.persistence.persistentVolumeClaim.chaos.existingClaim | default (include "safeline.chaos" .) }}
+        - name: tengine-sock-dir
+          emptyDir: {}
         {{- if .Values.global.exposeServicesAsPorts.enabled }}
         - name: safeline-k8s
           configMap:
