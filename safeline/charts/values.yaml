@@ -72,13 +72,6 @@ persistence:
       size: 1Gi
       annotations: {}
 
-    mario:
-      existingClaim: ""
-      storageClass: ""
-      accessMode: ReadWriteMany
-      size: 1Gi
-      annotations: {}
-
     tengine:
       existingClaim: ""
       storageClass: ""
@@ -215,31 +208,6 @@ detector:
   image:
     registry: ''
     repository: safeline-detector
-    tag: ""
-  resources:
-  #   limits:
-  #     cpu: 1000m
-  #     memory: 1000Mi
-  #   requests:
-  #     cpu: 100m
-  #     memory: 100Mi
-  podAnnotations: {}
-  serviceAccountName: ""
-  automountServiceAccountToken: false
-  replicas: 1
-  revisionHistoryLimit: 10
-  startupProbe:
-    enabled: false
-    initialDelaySeconds: 10
-  nodeSelector: {}
-  affinity: {}
-  tolerations: []
-  priorityClassName: 
-
-mario:
-  image:
-    registry: ''
-    repository: safeline-mario
     tag: ""
   resources:
   #   limits:

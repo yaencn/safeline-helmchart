@@ -3,11 +3,11 @@ entries:
   safeline:
   - apiVersion: v1
     appVersion: 6.10.5
-    created: "2024-10-08T14:25:05.762602+08:00"
+    created: "2024-10-08T15:56:51.278627+08:00"
     description: A free WAF that is simple enough, easy to use, and strong enough.
       Based on the industry's leading semantic engine detection technology, it acts
       as a reverse proxy access to protect your website from hackers.
-    digest: e2f33ce26ad524bd312091e522c52cfd44ab9f057d301ba922906525f6b0c944
+    digest: 18c00426e1e494218bd05ab16ef511bd28832cba963668d410a3d35a12b783d0
     home: https://waf-ce.chaitin.cn/
     icon: https://waf-ce.chaitin.cn/images/403.svg
     keywords:
