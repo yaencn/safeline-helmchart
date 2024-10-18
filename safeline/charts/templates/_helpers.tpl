@@ -208,12 +208,6 @@ https://{{ template "safeline.mgt" . }}:{{ template "safeline.mgt.web.port" . }}
 {{- end -}}
 
 
-{{/* bridge */}}
-{{- define "safeline.bridge" -}}
-  {{- printf "%s-bridge" (include "safeline.fullname" .) -}}
-{{- end -}}
-
-
 {{/* chaos */}}
 {{- define "safeline.chaos" -}}
   {{- printf "%s-chaos" (include "safeline.fullname" .) -}}

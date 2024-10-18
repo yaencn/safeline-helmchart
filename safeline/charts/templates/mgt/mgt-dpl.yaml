@@ -72,6 +72,8 @@ spec:
           - name: nginx-log
             mountPath: /app/log
             subPath: nginx
+          - name: safeline-sock-dir
+            mountPath: /app/run
         livenessProbe:
           httpGet:
             scheme: HTTPS
@@ -107,6 +109,8 @@ spec:
         - name: nginx-log
           persistentVolumeClaim:
             claimName: {{ .Values.persistence.persistentVolumeClaim.logs.existingClaim | default (include "safeline.logs" .) }}
+        - name: safeline-sock-dir
+          emptyDir: {}
         {{- else -}}
         - name: mgt
           emptyDir: {}

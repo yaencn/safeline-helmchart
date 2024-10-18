@@ -85,13 +85,6 @@ persistence:
       accessMode: ReadWriteMany
       size: 1Gi
       annotations: {}
-
-    bridge:
-      existingClaim: ""
-      storageClass: ""
-      accessMode: ReadWriteMany
-      size: 1Gi
-      annotations: {}
     
     chaos:
       existingClaim: ""
@@ -258,33 +251,6 @@ luigi:
   image:
     registry: ''
     repository: safeline-luigi
-    tag: ""
-  service:
-    type: ClusterIP
-  resources:
-  #   limits:
-  #     cpu: 1000m
-  #     memory: 1000Mi
-  #   requests:
-  #     cpu: 100m
-  #     memory: 100Mi
-  podAnnotations: {}
-  serviceAccountName: ""
-  automountServiceAccountToken: false
-  replicas: 1
-  revisionHistoryLimit: 10
-  startupProbe:
-    enabled: false
-    initialDelaySeconds: 10
-  nodeSelector: {}
-  affinity: {}
-  tolerations: []
-  priorityClassName: 
-
-bridge:
-  image:
-    registry: ''
-    repository: safeline-bridge
     tag: ""
   service:
     type: ClusterIP
