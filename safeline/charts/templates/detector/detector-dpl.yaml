@@ -38,7 +38,7 @@ spec:
       {{- if .Values.global.exposeServicesAsPorts.enabled }}
       initContainers:
       - name: port-form-exposure-service
-        image: {{ default .Values.global.image.registry .Values.detector.image.registry }}/{{ .Values.detector.image.repository }}:{{ default .Chart.AppVersion .Values.detector.image.tag }}
+        image: {{ default .Values.global.image.registry .Values.detector.image.registry }}/{{ .Values.detector.image.repository }}{{- if .Values.global.ltsVersion.enabled }}-lts{{- end }}:{{ default .Chart.AppVersion .Values.detector.image.tag }}{{- if .Values.global.ltsVersion.enabled }}-lts{{- end }}
         imagePullPolicy: {{ .Values.imagePullPolicy }}
         command:
           - sh
@@ -54,7 +54,7 @@ spec:
       {{- end }}
       containers:
       - name: detector
-        image: {{ default .Values.global.image.registry .Values.detector.image.registry }}/{{ .Values.detector.image.repository }}:{{ default .Chart.AppVersion .Values.detector.image.tag }}
+        image: {{ default .Values.global.image.registry .Values.detector.image.registry }}/{{ .Values.detector.image.repository }}{{- if .Values.global.ltsVersion.enabled }}-lts{{- end }}:{{ default .Chart.AppVersion .Values.detector.image.tag }}{{- if .Values.global.ltsVersion.enabled }}-lts{{- end }}
         imagePullPolicy: {{ .Values.imagePullPolicy }}
         ports:
           - name: tcd

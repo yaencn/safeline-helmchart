@@ -95,6 +95,22 @@ Specifically participate in the values.yaml file.
       secretName: "waf-xxx-com-tls"
 ```
 
+**After version 7.1.1:**
+
+**7.1.1及以后的版本**
+
+Added LTS long-term stable version and rolling update version switch. 
+The LTS version is enabled by default. 
+If you need to switch to the rolling update version, please set enabled to false.
+
+新增LTS长期稳定版本与滚动更新版本开关，默认开启LTS版本，如需切换至滚动更新版本，请将enabled设置为false.
+
+```yaml
+  # 部署滚动更新版本与lts长期稳定版本的切换。如果需要切换至滚动更新版本，需将此项设置为false，该选项默认开启。
+  ltsVersion:
+    enabled: true
+```
+
 
 
 ------HelmChart Install-----------
