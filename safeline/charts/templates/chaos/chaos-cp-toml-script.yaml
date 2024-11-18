@@ -11,6 +11,8 @@ data:
 
     OLD_CONFIG_FILE=/app/chaos/chaos.toml
     CONFIG_FILE=/app/chaos/config.toml
+    OLD_WAITING_FILE=/app/chaos/waiting.yaml
+    WAITING_FILE=/waiting.yaml
     if [ ! -s "$OLD_CONFIG_FILE" ];then
       rm -f "$OLD_CONFIG_FILE"
     fi
@@ -18,6 +20,12 @@ data:
       cp -f /config.toml $CONFIG_FILE
     else
       echo "Ignoring the execution of the cp command!!!"
-      exit 0;
     fi
+    if [ -f "$OLD_WAITING_FILE" ];then
+      rm -f "$OLD_WAITING_FILE"
+      cp -f $WAITING_FILE $OLD_WAITING_FILE
+    else
+      cp -f $WAITING_FILE $OLD_WAITING_FILE
+    fi
+    exit 0
 {{- end }}

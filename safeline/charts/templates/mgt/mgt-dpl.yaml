@@ -63,6 +63,10 @@ spec:
             value: {{ template "safeline.database.url" . }}
           - name: TCD_TASK_ADDRESS
             value: {{ template "safeline.tengine" . }}:{{ template "safeline.tengine.tasktcd.port" . }}
+          {{- if .Values.global.exposeServicesAsPorts.enabled }}
+          - name: WAITING_ROOM_API
+            value: {{ template "safeline.chaos" . }}:{{ template "safeline.wrapi.port" . }}
+          {{- end }}
         volumeMounts:
           - mountPath: /app/data
             name: mgt

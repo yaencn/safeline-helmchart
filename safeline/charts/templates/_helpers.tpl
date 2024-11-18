@@ -220,3 +220,11 @@ https://{{ template "safeline.mgt" . }}:{{ template "safeline.mgt.web.port" . }}
 {{- define "safeline.stpp.port" -}}
     {{- printf "23333" -}}
 {{- end -}}
+
+{{- define "safeline.wrapi.port" -}}
+    {{- printf "9001" -}}
+{{- end -}}
+
+{{- define "safeline.wrtcp.port" -}}
+    {{- printf "9002" -}}
+{{- end -}}

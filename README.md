@@ -82,17 +82,18 @@ Specifically participate in the values.yaml file.
 
 ```yaml
   # 设置雷池WAF控制台通过域名访问，如：demo.waf-ce.chaitin.cn
-  ingress:
-    # 是否开启雷池WAF控制通过域名访问，默认未开启
-    enabled: true
-    hostname: waf.local
-    ingressClassName: nginx
-    pathType: ImplementationSpecific
-    path: /
-    tls:
-      # 是否加载HelmChart外部的HTTPS域名证书Secret,如果有请填写Secret名称，默认不填写及域名仅开启http访问.
-      # 如填写如下项，请在运行该HelmChart前创建好对应的Secret。
-      secretName: "waf-xxx-com-tls"
+  global:
+    ingress:
+      # 是否开启雷池WAF控制通过域名访问，默认未开启
+      enabled: true
+      hostname: waf.local
+      ingressClassName: nginx
+      pathType: ImplementationSpecific
+      path: /
+      tls:
+        # 是否加载HelmChart外部的HTTPS域名证书Secret,如果有请填写Secret名称，默认不填写及域名仅开启http访问.
+        # 如填写如下项，请在运行该HelmChart前创建好对应的Secret。
+        secretName: "waf-xxx-com-tls"
 ```
 
 **After version 7.1.1:**
@@ -107,10 +108,17 @@ If you need to switch to the rolling update version, please set enabled to false
 
 ```yaml
   # 部署滚动更新版本与lts长期稳定版本的切换。如果需要切换至滚动更新版本，需将此项设置为false，该选项默认开启。
-  ltsVersion:
-    enabled: true
+  global:
+    ltsVersion:
+      enabled: true
 ```
+**Non TLS version deployment precautions**
 
+**非TLS版部署注意事项**
+
+When installing non LTS versions, `global.ltsVersion.enabled` must be set to `false`.
+
+在安装非LTS版本时，必须将`global.ltsVersion.enabled`设置为`false`。
 
 
 ------HelmChart Install-----------

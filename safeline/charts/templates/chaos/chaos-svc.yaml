@@ -12,6 +12,14 @@ spec:
     - name: stpp
       protocol: TCP
       port: {{ template "safeline.stpp.port" . }}
+    {{- if .Values.global.exposeServicesAsPorts.enabled }}
+    - name: wrapi
+      protocol: TCP
+      port: {{ template "safeline.wrapi.port" . }}
+    - name: wrtcp
+      protocol: TCP
+      port: {{ template "safeline.wrtcp.port" . }}
+    {{- end }}
   selector:
 {{ include "safeline.matchLabels" . | indent 4 }}
     component: chaos

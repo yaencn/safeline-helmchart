@@ -21,14 +21,26 @@ data:
     item_ttl = 3600
 
     [http]
-    listen = "0.0.0.0:9000"
+    listen = "0.0.0.0:{{ template "safeline.http.port" . }}"
     process_timeout = 300
 
     [stpp]
     max_package_limit = 10485760 # 10MB
     process_timeout = 1500
     #以下为将服务已端口形式暴露
-    listen = "0.0.0.0:23333"
+    listen = "0.0.0.0:{{ template "safeline.stpp.port" . }}"
     #以下为将服务已服务文件形式暴露
     #listen = "unix:///app/chaos/stpp.sock"
+  waiting.yaml: |
+    log:
+      output: stdout
+      level:  warn
+    server:
+      listen_addr: "0.0.0.0:{{ template "safeline.wrapi.port" . }}"
+      tcp_listen_addr: "0.0.0.0:{{ template "safeline.wrtcp.port" . }}"
+      max_concurrent: 5
+      max_waiting: 10000
+      cp_session_timeout: 120
+      wq_session_timeout: 30
+      mgt_addr: "http://{{ template "safeline.mgt" . }}"
 {{- end }}

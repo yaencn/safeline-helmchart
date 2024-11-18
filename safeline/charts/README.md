@@ -60,28 +60,51 @@ Can be controlled by the value of the `global.exposeServicesAsPorts.enabled` fie
 
 **After version 6.9.1:**
 
-**在6.9.1以及之后的版本中：**
-
 Add WAF console web interface to bind domain names through nginx-ingress.
-
 Specifically participate in the values.yaml file.
 
 增加WAF控制台web界面可通过nginx-ingress绑定域名,具体参加values.yaml文件。
 
 ```yaml
   # 设置雷池WAF控制台通过域名访问，如：demo.waf-ce.chaitin.cn
-  ingress:
-    # 是否开启雷池WAF控制通过域名访问，默认未开启
-    enabled: true
-    hostname: waf.local
-    ingressClassName: nginx
-    pathType: ImplementationSpecific
-    path: /
-    tls:
-      # 是否加载HelmChart外部的HTTPS域名证书Secret,如果有请填写Secret名称，默认不填写及域名仅开启http访问.
-      # 如填写如下项，请在运行该HelmChart前创建好对应的Secret。
-      secretName: "waf-xxx-com-tls"
+  global:
+    ingress:
+      # 是否开启雷池WAF控制通过域名访问，默认未开启
+      enabled: true
+      hostname: waf.local
+      ingressClassName: nginx
+      pathType: ImplementationSpecific
+      path: /
+      tls:
+        # 是否加载HelmChart外部的HTTPS域名证书Secret,如果有请填写Secret名称，默认不填写及域名仅开启http访问.
+        # 如填写如下项，请在运行该HelmChart前创建好对应的Secret。
+        secretName: "waf-xxx-com-tls"
 ```
+
+**After version 7.1.1:**
+
+**7.1.1及以后的版本**
+
+Added LTS long-term stable version and rolling update version switch. 
+The LTS version is enabled by default. 
+If you need to switch to the rolling update version, please set enabled to false.
+
+新增LTS长期稳定版本与滚动更新版本开关，默认开启LTS版本，如需切换至滚动更新版本，请将enabled设置为false.
+
+```yaml
+  # 部署滚动更新版本与lts长期稳定版本的切换。如果需要切换至滚动更新版本，需将此项设置为false，该选项默认开启。
+  global:
+    ltsVersion:
+      enabled: true
+```
+**Non TLS version deployment precautions**
+
+**非TLS版部署注意事项**
+
+When installing non LTS versions, `global.ltsVersion.enabled` must be set to `false`.
+
+在安装非LTS版本时，必须将`global.ltsVersion.enabled`设置为`false`。
+
 
 
 ## Installation

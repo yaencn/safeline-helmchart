@@ -9,12 +9,17 @@ data:
   safeline_k8s.conf: |
     upstream detector_server {
         keepalive   256;
-        server      safeline-detector:8000;
+        server      {{ template "safeline.detector" . }}:{{ template "safeline.detector.tcd.port" . }};
     }
 
     upstream chaos_server {
         keepalive   256;
-        server      safeline-chaos:23333;
+        server     {{ template "safeline.chaos" . }}:{{ template "safeline.stpp.port" . }};
+    }
+
+    upstream wr_server {
+        keepalive   256;
+        server    {{ template "safeline.chaos" . }}:{{ template "safeline.wrtcp.port" . }};
     }
 
     t1k_intercept @safeline; # enable request detection
@@ -25,6 +30,8 @@ data:
 
     tx_chaos_intercept @safeline_chaos; # enable response chaos
     tx_chaos_body_size 10m;             # max forward size of response body for chaos
+
+    t1k_wr_intercept @safeline_wr;
 
     include tx_ignore_types;
 
@@ -55,6 +62,13 @@ data:
             tx_chaos_read_timeout 3s;
             tx_chaos_send_timeout 3s;
             tx_chaos_connect_timeout 3s;
+        }
+        location @safeline_wr {
+            internal;
+            t1k_wr_pass wr_server;
+            t1k_wr_read_timeout 3s;
+            t1k_wr_send_timeout 3s;
+            t1k_wr_connect_timeout 3s;
         }
     }
 {{- end }}
