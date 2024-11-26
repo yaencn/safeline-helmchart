@@ -24,11 +24,6 @@ global:
       # 是否加载HelmChart外部的HTTPS域名证书Secret,如果有请填写Secret名称，默认不填写及域名仅开启http访问.
       # 如填写如下项，请在运行该HelmChart前创建好对应的Secret。
       secretName: ""
-  # 部署滚动更新版本与lts长期稳定版本的切换。如果需要切换至滚动更新版本，需将此项设置为false，该选项默认开启。
-  ltsVersion:
-    enabled: true
-
-
 
 strategy:
   type: RollingUpdate
