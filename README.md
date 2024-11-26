@@ -6,7 +6,7 @@
   <a target="_blank" href="https://waf-ce.chaitin.cn/">SafeLine Website</a> &nbsp; | &nbsp;
   <a target="_blank" href="https://github.com/yaencn/safeline-lts-helmchart">TLS Repository</a> &nbsp; | &nbsp;
   <a target="_blank" href="https://github.com/yaencn/safeline-helmchart">Preview Repository</a> &nbsp; | &nbsp;
-  <a target="_blank" href="https://github.com/yaencn/safeline-helmchart/blob/main/README_CN.md">中文文档</a>
+  <a target="_blank" href="https://github.com/yaencn/safeline-helmchart/blob/master/README_CN.md">中文文档</a>
 </p>
 
 ## ----- Readme -----
