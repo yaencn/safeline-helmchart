@@ -15,6 +15,8 @@ https://github.com/yaencn/safeline-lts-helmchart
 - Preview Repository for github
 https://github.com/yaencn/safeline-helmchart
 
+Acceleration address of GIT warehouse in Chinese Mainland:
+
 - Preview Repository
 https://gitee.com/andyhau/safeline-helmchart.git
 
