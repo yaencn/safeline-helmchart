@@ -10,6 +10,9 @@ Reminder:
 
 This branch is a preview version branch, which only contains preview versions.
 To use LTS version, please visit the following GIT repository:
+https://github.com/yaencn/safeline-lts-helmchart
+
+- Preview Repository for github
 https://github.com/yaencn/safeline-helmchart
 
 - Preview Repository

@@ -60,6 +60,8 @@ spec:
         env:
           - name: MGT_IP
             value: {{ template "safeline.mgt" . }}
+          - name: LUIGI_PG
+            value: {{ template "safeline.database.url" . }}
         volumeMounts:
           - name: localtime
             mountPath: /etc/localtime

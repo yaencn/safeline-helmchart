@@ -77,7 +77,7 @@ spec:
             name: detector
           - mountPath: /var/log
             name: logs
-            subPath: nginx
+            #subPath: nginx
           - mountPath: /usr/local/nginx/cache
             name: cache
           - mountPath: /resources/chaos

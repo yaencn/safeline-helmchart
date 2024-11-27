@@ -17,6 +17,9 @@
 如需使用LTS版本，请访问如下GIT仓库：
 https://github.com/yaencn/safeline-helmchart
 
+- Github的长期支持LTS版本仓库：
+https://github.com/yaencn/safeline-lts-helmchart
+
 GIT仓库在中国大陆的加速地址：
 - 预览版仓库
 https://gitee.com/andyhau/safeline-helmchart.git
