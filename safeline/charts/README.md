@@ -4,6 +4,41 @@
 
 - Kubernetes cluster storage support RWX.
 
+## Installation
+
+- HelmChart GitRepo URL:
+https://github.com/yaencn/safeline-helmchart.git
+
+https://gitee.com/andyhau/safeline-helmchart.git
+
+- HelmChart Web URL:
+https://g-otkk6267.coding.net/public-artifacts/Charts/safeline/packages
+
+- HelmChart Repo URL:
+
+https://g-otkk6267-helm.pkg.coding.net/Charts/safeline
+
+- Install the SafeLine helm chart with a release name `safeline`:
+```bash
+# add repo
+helm repo add safeline https://g-otkk6267-helm.pkg.coding.net/Charts/safeline
+# install sample
+helm install safeline --namespace safeline --set global.ingress.enabled=true --set global.ingress.hostname="waf.local"  safeline-lts/safeline-lts
+# upgrade
+helm -n safeline upgrade safeline safeline/safeline
+# fetch chart
+helm fetch --version 7.2.3 safeline/safeline
+# uninstall
+helm -n safeline uninstall safeline
+```
+
+## Uninstallation
+
+To uninstall/delete the `safeline` deployment:
+```bash
+helm -n safeline uninstall safeline
+```
+
 ## Installation Remind
 
 Reminder:
@@ -61,43 +96,16 @@ Specifically participate in the values.yaml file.
 
 ```yaml
   # 设置雷池WAF控制台通过域名访问，如：demo.waf-ce.chaitin.cn
-  ingress:
-    # 是否开启雷池WAF控制通过域名访问，默认未开启
-    enabled: true
-    hostname: waf.local
-    ingressClassName: nginx
-    pathType: ImplementationSpecific
-    path: /
-    tls:
-      # 是否加载HelmChart外部的HTTPS域名证书Secret,如果有请填写Secret名称，默认不填写及域名仅开启http访问.
-      # 如填写如下项，请在运行该HelmChart前创建好对应的Secret。
-      secretName: "waf-xxx-com-tls"
-```
-
-
-## Installation
-
-- HelmChart GitRepo URL:
-https://github.com/yaencn/safeline-helmchart.git
-
-https://gitee.com/andyhau/safeline-helmchart.git
-
-- HelmChart Web URL:
-https://g-otkk6267.coding.net/public-artifacts/Charts/safeline/packages
-
-- HelmChart Repo URL:
-
-https://g-otkk6267-helm.pkg.coding.net/Charts/safeline
-
-- Install the SafeLine helm chart with a release name `safeline`:
-```bash
-helm repo add safeline https://g-otkk6267-helm.pkg.coding.net/Charts/safeline
-helm -n safeline upgrade safeline safeline/safeline
-```
-
-## Uninstallation
-
-To uninstall/delete the `safeline` deployment:
-```bash
-helm -n safeline uninstall safeline
+  global:
+    ingress:
+      # 是否开启雷池WAF控制通过域名访问，默认未开启
+      enabled: true
+      hostname: waf.local
+      ingressClassName: nginx
+      pathType: ImplementationSpecific
+      path: /
+      tls:
+        # 是否加载HelmChart外部的HTTPS域名证书Secret,如果有请填写Secret名称，默认不填写及域名仅开启http访问.
+        # 如填写如下项，请在运行该HelmChart前创建好对应的Secret。
+        secretName: "waf-xxx-com-tls"
 ```

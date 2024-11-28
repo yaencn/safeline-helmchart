@@ -27,7 +27,27 @@ https://gitee.com/andyhau/safeline-helmchart.git
 - LTS版仓库
 https://gitee.com/andyhau/safeline-lts-helmchart.git
 
+## ----- HelmChart Install -----
 
+- HelmChart网页地址:
+https://g-otkk6267.coding.net/public-artifacts/Charts/safeline/packages
+
+- HelmChart仓库地址:
+https://g-otkk6267-helm.pkg.coding.net/Charts/safeline
+
+- 举例：
+```shell
+# add repo
+helm repo add safeline https://g-otkk6267-helm.pkg.coding.net/Charts/safeline
+# install sample
+helm install safeline --namespace safeline --set global.ingress.enabled=true --set global.ingress.hostname="waf.local"  safeline-lts/safeline-lts
+# upgrade
+helm -n safeline upgrade safeline safeline/safeline
+# fetch chart
+helm fetch --version 7.2.3 safeline/safeline
+# uninstall
+helm -n safeline uninstall safeline
+```
 
 ## ----- Helm Build -----
 
@@ -72,32 +92,20 @@ helm coding-push safeline-${app-version}.tgz safeline
 
 ```yaml
   # 设置雷池WAF控制台通过域名访问，如：demo.waf-ce.chaitin.cn
-  ingress:
-    # 是否开启雷池WAF控制通过域名访问，默认未开启
-    enabled: true
-    hostname: waf.local
-    ingressClassName: nginx
-    pathType: ImplementationSpecific
-    path: /
-    tls:
-      # 是否加载HelmChart外部的HTTPS域名证书的Secret.
-      # 如果有则请填写Secret名称，默认不填写及域名仅开启http访问.
-      # 如填写如下项，请在运行该HelmChart前创建好对应的Secret。
-      secretName: "waf-xxx-com-tls"
+  global:
+    ingress:
+      # 是否开启雷池WAF控制通过域名访问，默认未开启
+      enabled: true
+      hostname: waf.local
+      ingressClassName: nginx
+      pathType: ImplementationSpecific
+      path: /
+      tls:
+        # 是否加载HelmChart外部的HTTPS域名证书的Secret.
+        # 如果有则请填写Secret名称，默认不填写及域名仅开启http访问.
+        # 如填写如下项，请在运行该HelmChart前创建好对应的Secret。
+        secretName: "waf-xxx-com-tls"
 ```
 
 
 ## ----- Configuration Description -----
-
-
-
-## ----- HelmChart Install -----
-
-- HelmChart网页地址:
-https://g-otkk6267.coding.net/public-artifacts/Charts/safeline/packages
-
-- HelmChart仓库地址:
-https://g-otkk6267-helm.pkg.coding.net/Charts/safeline
-
-- 举例：
-helm repo add safeline https://g-otkk6267-helm.pkg.coding.net/Charts/safeline

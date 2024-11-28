@@ -28,7 +28,27 @@ https://gitee.com/andyhau/safeline-helmchart.git
 - LTS Repository
 https://gitee.com/andyhau/safeline-lts-helmchart.git
 
+## ----- HelmChart Install -----
 
+- HelmChart Web URL:
+https://g-otkk6267.coding.net/public-artifacts/Charts/safeline/packages
+
+- HelmChart Repo URL:
+https://g-otkk6267-helm.pkg.coding.net/Charts/safeline
+
+- Sample：
+```shell
+# add repo
+helm repo add safeline https://g-otkk6267-helm.pkg.coding.net/Charts/safeline
+# install sample
+helm install safeline --namespace safeline --set global.ingress.enabled=true --set global.ingress.hostname="waf.local"  safeline-lts/safeline-lts
+# upgrade
+helm -n safeline upgrade safeline safeline/safeline
+# fetch chart
+helm fetch --version 7.2.3 safeline/safeline
+# uninstall
+helm -n safeline uninstall safeline
+```
 
 
 ## ----- Helm Build -----
@@ -76,34 +96,21 @@ Specifically participate in the values.yaml file.
 ```yaml
   # Set up the SafeLine WAF console to be accessed through a domain name.
   # For example: demowaf-ce.chaitin.cn
-  ingress:
-    # Whether to enable SafeLine WAF control for domain access.
-    # It is not enabled by default
-    enabled: true
-    hostname: waf.local
-    ingressClassName: nginx
-    pathType: ImplementationSpecific
-    path: /
-    tls:
-      # Whether to load the Secret of the HTTPS domain name certificate outside HelmChart. 
-      #If yes, please fill in the Secret name. By default, it is not filled in and the domain name only enables http access.
-      # If you fill in the following items, please create the corresponding Secret before running the HelmChart.
-      secretName: "waf-xxx-com-tls"
+  global:
+    ingress:
+      # Whether to enable SafeLine WAF control for domain access.
+      # It is not enabled by default
+      enabled: true
+      hostname: waf.local
+      ingressClassName: nginx
+      pathType: ImplementationSpecific
+      path: /
+      tls:
+        # Whether to load the Secret of the HTTPS domain name certificate outside HelmChart. 
+        #If yes, please fill in the Secret name. By default, it is not filled in and the domain name only enables http access.
+        # If you fill in the following items, please create the corresponding Secret before running the HelmChart.
+        secretName: "waf-xxx-com-tls"
 ```
 
 
 ## ----- Configuration Description -----
-
-
-
-## ----- HelmChart Install -----
-
-- HelmChart Web URL:
-https://g-otkk6267.coding.net/public-artifacts/Charts/safeline/packages
-
-- HelmChart Repo URL:
-https://g-otkk6267-helm.pkg.coding.net/Charts/safeline
-
-- Sample：
-
-helm repo add safeline https://g-otkk6267-helm.pkg.coding.net/Charts/safeline
