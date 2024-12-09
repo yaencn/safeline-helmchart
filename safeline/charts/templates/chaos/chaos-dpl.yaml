@@ -54,6 +54,9 @@ spec:
           - name: chaos-wr-conf
             mountPath: /waiting.yaml
             subPath: waiting.yaml
+          - name: chaos-challenge-conf
+            mountPath: /challenge.yaml
+            subPath: challenge.yaml
           - name: safeline-chaos-cp-toml
             mountPath: /cp_config_toml.sh
             subPath: cp_config_toml.sh
@@ -91,6 +94,9 @@ spec:
           configMap:
             name: {{ template "safeline.chaos" . }}
         - name: chaos-wr-conf
+          configMap:
+            name: {{ template "safeline.chaos" . }}
+        - name: chaos-challenge-conf
           configMap:
             name: {{ template "safeline.chaos" . }}
         - name: safeline-chaos-cp-toml

@@ -43,4 +43,34 @@ data:
       cp_session_timeout: 120
       wq_session_timeout: 30
       mgt_addr: "http://{{ template "safeline.mgt" . }}"
+  challenge.yaml: |
+    debug: false
+
+    server:
+      host: "0.0.0.0"
+      port: {{ template "safeline.challenge.port" . }}
+
+    robot:
+      threshold: 1
+      calculators:
+        range: 1
+        sampling: 1
+        smoothness: 1
+        acceleration: 1
+        dpi: 1
+
+    jwt:
+      secret_key: |-
+        -----BEGIN EC PRIVATE KEY-----
+        MHcCAQEEICsSJ9af6dm1r0L3eRrAfFLVFOAMGhI6dFhC5Xvm8GceoAoGCCqGSM49
+        AwEHoUQDQgAEvsA4X/sU+mqkDAIpELeuBZyCfIOabn8MTtDYZUSDkNGMGWaonHVE
+        ZQqg1zZRcsK9NHJnTlyJ3JE1LLE9AUB2SA==
+        -----END EC PRIVATE KEY-----
+      public_key: |-
+        -----BEGIN PUBLIC KEY-----
+        MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEvsA4X/sU+mqkDAIpELeuBZyCfIOa
+        bn8MTtDYZUSDkNGMGWaonHVEZQqg1zZRcsK9NHJnTlyJ3JE1LLE9AUB2SA==
+        -----END PUBLIC KEY-----
+      algorithm: "ES256"
+      expire_seconds: 30
 {{- end }}

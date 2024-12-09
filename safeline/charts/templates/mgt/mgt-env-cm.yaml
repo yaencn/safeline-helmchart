@@ -1,0 +1,17 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: {{ template "safeline.mgt.env" . }}
+data:
+  MGT_PG: {{ template "safeline.database.url" . }}
+  LUIGI_HOST: {{ template "safeline.luigi" . }}
+  CHAOS_SERVE_ADDR: {{ template "safeline.chaos" . }}:{{ template "safeline.http.port" . }}
+  CHAOS_CHALLENGE_ADDR: {{ template "safeline.chaos" . }}:{{ template "safeline.challenge.port" . }}
+  FVM_HOST: {{ template "safeline.fvm" . }}
+  DETECTOR_HOST: {{ template "safeline.detector" . }}
+  {{- if .Values.global.exposeServicesAsPorts.enabled }}
+  WAITING_ROOM_API: {{ template "safeline.chaos" . }}:{{ template "safeline.wrapi.port" . }}
+  {{- else }}
+  WAITING_ROOM_API: "/app/sock/waiting.sock"
+  {{- end }}
+  TCD_TASK_ADDRESS: {{ template "safeline.tengine" . }}:{{ template "safeline.tengine.tasktcd.port" . }}

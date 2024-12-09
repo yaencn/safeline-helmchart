@@ -123,6 +123,10 @@ postgres://{{ template "safeline.database.username" . }}:{{ template "safeline.d
   {{- printf "%s-mgt" (include "safeline.fullname" .) -}}
 {{- end -}}
 
+{{- define "safeline.mgt.env" -}}
+  {{- printf "%s-mgt-env" (include "safeline.fullname" .) -}}
+{{- end -}}
+
 {{- define "safeline.mgt.api.port" -}}
     {{- printf "80" -}}
 {{- end -}}
@@ -149,6 +153,10 @@ https://{{ template "safeline.mgt" . }}:{{ template "safeline.mgt.web.port" . }}
   {{- printf "%s-detector" (include "safeline.fullname" .) -}}
 {{- end -}}
 
+{{- define "safeline.detector.env" -}}
+  {{- printf "%s-detector-env" (include "safeline.fullname" .) -}}
+{{- end -}}
+
 {{- define "safeline.detector.tcd.port" -}}
     {{- printf "8000" -}}
 {{- end -}}
@@ -171,6 +179,10 @@ https://{{ template "safeline.mgt" . }}:{{ template "safeline.mgt.web.port" . }}
   {{- printf "%s-tengine" (include "safeline.fullname" .) -}}
 {{- end -}}
 
+{{- define "safeline.tengine.env" -}}
+  {{- printf "%s-tengine-env" (include "safeline.fullname" .) -}}
+{{- end -}}
+
 {{- define "safeline.tengine.health.port" -}}
     {{- printf "65443" -}}
 {{- end -}}
@@ -189,6 +201,10 @@ https://{{ template "safeline.mgt" . }}:{{ template "safeline.mgt.web.port" . }}
   {{- printf "%s-fvm" (include "safeline.fullname" .) -}}
 {{- end -}}
 
+{{- define "safeline.fvm.env" -}}
+  {{- printf "%s-fvm-env" (include "safeline.fullname" .) -}}
+{{- end -}}
+
 {{- define "safeline.fvm.api.port" -}}
     {{- printf "9004" -}}
 {{- end -}}
@@ -203,6 +219,10 @@ https://{{ template "safeline.mgt" . }}:{{ template "safeline.mgt.web.port" . }}
   {{- printf "%s-luigi" (include "safeline.fullname" .) -}}
 {{- end -}}
 
+{{- define "safeline.luigi.env" -}}
+  {{- printf "%s-luigi-env" (include "safeline.fullname" .) -}}
+{{- end -}}
+
 {{- define "safeline.luigi.port" -}}
     {{- printf "80" -}}
 {{- end -}}
@@ -215,6 +235,10 @@ https://{{ template "safeline.mgt" . }}:{{ template "safeline.mgt.web.port" . }}
 
 {{- define "safeline.http.port" -}}
     {{- printf "9000" -}}
+{{- end -}}
+
+{{- define "safeline.challenge.port" -}}
+    {{- printf "8080" -}}
 {{- end -}}
 
 {{- define "safeline.stpp.port" -}}

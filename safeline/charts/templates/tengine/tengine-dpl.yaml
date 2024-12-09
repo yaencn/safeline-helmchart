@@ -52,21 +52,9 @@ spec:
             containerPort: {{ template "safeline.tengine.http.port" . }}
           - name: tasktcd
             containerPort: {{ template "safeline.tengine.tasktcd.port" . }}
-        env:
-          - name: TCD_MGT_API
-            value: {{ template "safeline.mgt.api" . }}
-          - name: TCD_SNSERVER
-            value: {{ template "safeline.detector.tcd" . }}
-          - name: SNSERVER_ADDR
-            value: {{ template "safeline.detector.tcd" . }}
-          - name: TCD_TASK_ADDRESS
-            value: 0.0.0.0:{{ template "safeline.tengine.tasktcd.port" . }}
-          {{- if .Values.global.exposeServicesAsPorts.enabled }}
-          - name: WAITING_ROOM_QUERY
-            value: "{{ template "safeline.chaos" . }}:{{ template "safeline.wrapi.port" . }}/api/waiting/query"
-          - name: WAITING_ROOM_SOCKET
-            value: "{{ template "safeline.chaos" . }}:{{ template "safeline.wrapi.port" . }}/ws/waiting"
-          {{- end }}
+        envFrom:
+        - configMapRef:
+            name: {{ template "safeline.tengine.env" . }}
         volumeMounts:
           - name: localtime
             mountPath: /etc/localtime

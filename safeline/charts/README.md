@@ -27,7 +27,7 @@ helm install safeline --namespace safeline --set global.ingress.enabled=true --s
 # upgrade
 helm -n safeline upgrade safeline safeline/safeline
 # fetch chart
-helm fetch --version 7.2.3 safeline/safeline
+helm fetch --version 7.3.1 safeline/safeline
 # uninstall
 helm -n safeline uninstall safeline
 ```

@@ -57,11 +57,9 @@ spec:
         ports:
           - name: luigi
             containerPort: {{ template "safeline.luigi.port" . }}
-        env:
-          - name: MGT_IP
-            value: {{ template "safeline.mgt" . }}
-          - name: LUIGI_PG
-            value: {{ template "safeline.database.url" . }}
+        envFrom:
+        - configMapRef:
+            name: {{ template "safeline.luigi.env" . }}
         volumeMounts:
           - name: localtime
             mountPath: /etc/localtime

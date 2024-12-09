@@ -12,6 +12,9 @@ spec:
     - name: stpp
       protocol: TCP
       port: {{ template "safeline.stpp.port" . }}
+    - name: challenge
+      protocol: TCP
+      port: {{ template "safeline.challenge.port" . }}
     {{- if .Values.global.exposeServicesAsPorts.enabled }}
     - name: wrapi
       protocol: TCP

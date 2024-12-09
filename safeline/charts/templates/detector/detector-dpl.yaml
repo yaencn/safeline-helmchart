@@ -63,9 +63,9 @@ spec:
             containerPort: {{ template "safeline.detector.sns.port" . }}
           - name: koopa
             containerPort: {{ template "safeline.detector.koopa.port" . }}
-        env:
-          - name: LOG_DIR
-            value: /logs/detector
+        envFrom:
+        - configMapRef:
+            name: {{ template "safeline.detector.env" . }}
         volumeMounts:
           - mountPath: /resources/detector
             name: detector

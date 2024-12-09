@@ -58,15 +58,9 @@ spec:
             containerPort: {{ template "safeline.mgt.api.port" . }}
           - name: tcd
             containerPort: {{ template "safeline.mgt.tcd.port" . }}
-        env:
-          - name: MGT_PG
-            value: {{ template "safeline.database.url" . }}
-          - name: TCD_TASK_ADDRESS
-            value: {{ template "safeline.tengine" . }}:{{ template "safeline.tengine.tasktcd.port" . }}
-          {{- if .Values.global.exposeServicesAsPorts.enabled }}
-          - name: WAITING_ROOM_API
-            value: {{ template "safeline.chaos" . }}:{{ template "safeline.wrapi.port" . }}
-          {{- end }}
+        envFrom:
+        - configMapRef:
+            name: {{ template "safeline.mgt.env" . }}
         volumeMounts:
           - mountPath: /app/data
             name: mgt

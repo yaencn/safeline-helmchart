@@ -1,0 +1,9 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: {{ template "safeline.luigi.env" . }}
+data:
+  DETECTOR_HOST: {{ template "safeline.detector" . }}
+  MGT_IP: {{ template "safeline.mgt" . }}
+  LUIGI_PG: {{ template "safeline.database.url" . }}
+  

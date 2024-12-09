@@ -1,0 +1,7 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: {{ template "safeline.detector.env" . }}
+data:
+  LOG_DIR: "/logs/detector"
+  MGT_HOST: {{ template "safeline.mgt" . }}

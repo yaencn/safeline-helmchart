@@ -39,6 +39,9 @@ spec:
       - name: fvm
         image: {{ default .Values.global.image.registry .Values.fvm.image.registry }}/{{ .Values.fvm.image.repository }}:{{ default .Chart.AppVersion .Values.fvm.image.tag }}
         imagePullPolicy: {{ .Values.imagePullPolicy }}
+        envFrom:
+        - configMapRef:
+            name: {{ template "safeline.fvm.env" . }}
         ports:
           - name: api
             containerPort: {{ template "safeline.fvm.api.port" . }}

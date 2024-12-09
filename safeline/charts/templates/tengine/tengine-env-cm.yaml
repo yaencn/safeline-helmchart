@@ -1,0 +1,18 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: {{ template "safeline.tengine.env" . }}
+data:
+  TCD_MGT_API: {{ template "safeline.mgt.api" . }}
+  {{- if .Values.global.exposeServicesAsPorts.enabled }}
+  TCD_TASK_ADDRESS: "0.0.0.0:{{ template "safeline.tengine.tasktcd.port" . }}"
+  WAITING_ROOM_SOCKET: "{{ template "safeline.chaos" . }}:{{ template "safeline.wrapi.port" . }}/ws/waiting"
+  WAITING_ROOM_QUERY: "{{ template "safeline.chaos" . }}:{{ template "safeline.wrapi.port" . }}/api/waiting/query"
+  TCD_SNSERVER: {{ template "safeline.detector.tcd" . }}
+  SNSERVER_ADDR: {{ template "safeline.detector.tcd" . }}
+  {{- else }}
+  TCD_TASK_ADDRESS: "/app/sock/tcd_error.sock"
+  WAITING_ROOM_SOCKET: "unix:/app/sock/waiting.sock:/ws/waiting"
+  WAITING_ROOM_QUERY: "unix:/app/sock/waiting.sock:/api/waiting/query"
+  {{- end }}
+  CHALLENGE_SERVER:  {{ template "safeline.chaos" . }}:{{ template "safeline.challenge.port" . }}

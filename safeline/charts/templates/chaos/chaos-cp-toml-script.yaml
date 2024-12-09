@@ -13,6 +13,9 @@ data:
     CONFIG_FILE=/app/chaos/config.toml
     OLD_WAITING_FILE=/app/chaos/waiting.yaml
     WAITING_FILE=/waiting.yaml
+    OLD_CHALLENGE_FILE=/app/chaos/challenge.yaml
+    CHALLENGE_FILE=/challenge.yaml
+    # config.toml
     if [ ! -s "$OLD_CONFIG_FILE" ];then
       rm -f "$OLD_CONFIG_FILE"
     fi
@@ -21,11 +24,19 @@ data:
     else
       echo "Ignoring the execution of the cp command!!!"
     fi
+    # waiting.yaml
     if [ -f "$OLD_WAITING_FILE" ];then
       rm -f "$OLD_WAITING_FILE"
       cp -f $WAITING_FILE $OLD_WAITING_FILE
     else
       cp -f $WAITING_FILE $OLD_WAITING_FILE
+    fi
+    # challenge.yaml
+    if [ -f "$OLD_CHALLENGE_FILE" ];then
+      rm -f "$OLD_CHALLENGE_FILE"
+      cp -f $CHALLENGE_FILE $OLD_CHALLENGE_FILE
+    else
+      cp -f $CHALLENGE_FILE $OLD_CHALLENGE_FILE
     fi
     exit 0
 {{- end }}
