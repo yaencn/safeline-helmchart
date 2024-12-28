@@ -22,6 +22,9 @@ spec:
     - name: wrtcp
       protocol: TCP
       port: {{ template "safeline.wrtcp.port" . }}
+    - name: authserve
+      protocol: TCP
+      port: {{ template "safeline.authserve.port" . }}
     {{- end }}
   selector:
 {{ include "safeline.matchLabels" . | indent 4 }}

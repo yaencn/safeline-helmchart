@@ -70,6 +70,9 @@ spec:
             containerPort: {{ template "safeline.stpp.port" . }}
           - name: http
             containerPort: {{ template "safeline.http.port" . }}
+        envFrom:
+        - configMapRef:
+            name: {{ template "safeline.chaos.env" . }}
         volumeMounts:
           - name: localtime
             mountPath: /etc/localtime

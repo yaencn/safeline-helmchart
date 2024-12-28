@@ -16,3 +16,4 @@ data:
   WAITING_ROOM_QUERY: "unix:/app/sock/waiting.sock:/api/waiting/query"
   {{- end }}
   CHALLENGE_SERVER:  {{ template "safeline.chaos" . }}:{{ template "safeline.challenge.port" . }}
+  CHAOS_ADDR:  {{ template "safeline.chaos" . }}

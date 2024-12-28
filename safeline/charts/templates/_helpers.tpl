@@ -233,6 +233,10 @@ https://{{ template "safeline.mgt" . }}:{{ template "safeline.mgt.web.port" . }}
   {{- printf "%s-chaos" (include "safeline.fullname" .) -}}
 {{- end -}}
 
+{{- define "safeline.chaos.env" -}}
+  {{- printf "%s-chaos-env" (include "safeline.fullname" .) -}}
+{{- end -}}
+
 {{- define "safeline.http.port" -}}
     {{- printf "9000" -}}
 {{- end -}}
@@ -251,4 +255,8 @@ https://{{ template "safeline.mgt" . }}:{{ template "safeline.mgt.web.port" . }}
 
 {{- define "safeline.wrtcp.port" -}}
     {{- printf "9002" -}}
+{{- end -}}
+
+{{- define "safeline.authserve.port" -}}
+    {{- printf "8088" -}}
 {{- end -}}
