@@ -11,6 +11,8 @@
 
 ## ----- Readme -----
 
+Starting from AppVersion 7.5.0, in order to better manage HelmChart versions, HelmChart Version will be calculated independently from AppVersion.
+
 **Reminder:**
 
 This branch is a preview version branch, which only contains preview versions.

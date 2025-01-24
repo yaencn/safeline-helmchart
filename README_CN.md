@@ -11,6 +11,8 @@
 
 ## ----- Readme -----
 
+从AppVersion 7.5.0开始，为了更好的管理HelmChart版本，HelmChart Version将与AppVersion独立开始计算版本。
+
 **提醒：**
 
 此分支为预览版本分支，此分支中的仅包含预览版本。

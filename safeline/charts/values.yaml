@@ -18,6 +18,9 @@ global:
     enabled: false
     hostname: waf.local
     ingressClassName: nginx
+    annotations:
+      # 注释中的proxy-body-size的存储值，文件上传大小的最大值，即nginx.ingress.kubernetes.io/proxy-body-size的值，默认为200M
+      proxyBodySize: 200M
     pathType: ImplementationSpecific
     path: /
     tls:
