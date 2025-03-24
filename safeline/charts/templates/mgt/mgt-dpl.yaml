@@ -68,8 +68,7 @@ spec:
             mountPath: /etc/localtime
             readOnly: true
           - name: nginx-log
-            mountPath: /app/log
-            subPath: nginx
+            mountPath: /app/log/nginx
           - name: safeline-sock-dir
             mountPath: /app/run
         livenessProbe:

@@ -63,9 +63,8 @@ spec:
             name: nginx
           - mountPath: /resources/detector
             name: detector
-          - mountPath: /var/log
+          - mountPath: /var/log/nginx
             name: logs
-            subPath: nginx
           - mountPath: /usr/local/nginx/cache
             name: cache
           - mountPath: /resources/chaos
