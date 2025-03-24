@@ -69,9 +69,8 @@ spec:
         volumeMounts:
           - mountPath: /resources/detector
             name: detector
-          - mountPath: /logs
+          - mountPath: /logs/detector
             name: logs
-            subPath: detector
           - name: localtime
             mountPath: /etc/localtime
             readOnly: true
