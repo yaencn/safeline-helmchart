@@ -45,7 +45,14 @@ persistence:
       size: 1Gi
       annotations: {}
 
-    logs:
+    detectorLogs:
+      existingClaim: ""
+      storageClass: ""
+      accessMode: ReadWriteMany
+      size: 1Gi
+      annotations: {}
+
+    tengineLogs:
       existingClaim: ""
       storageClass: ""
       accessMode: ReadWriteMany

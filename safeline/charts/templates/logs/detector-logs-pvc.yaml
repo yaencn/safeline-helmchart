@@ -1,0 +1,30 @@
+{{- $detectorLogs := .Values.persistence.persistentVolumeClaim.detectorLogs -}}
+{{- if and .Values.persistence.enabled (not $detectorLogs.existingClaim) }}
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ template "safeline.detector-logs" . }}
+  annotations:
+  {{- range $key, $value := $detectorLogs.annotations }}
+    {{ $key }}: {{ $value | quote }}
+  {{- end }}
+  {{- if eq .Values.persistence.resourcePolicy "keep" }}
+    helm.sh/resource-policy: keep
+  {{- end }}
+  labels:
+{{ include "safeline.labels" . | indent 4 }}
+    component: detector-logs
+spec:
+  accessModes: 
+    - {{ $detectorLogs.accessMode }}
+  resources:
+    requests:
+      storage: {{ $detectorLogs.size }}
+  {{- if $detectorLogs.storageClass }}
+    {{- if eq "-" $detectorLogs.storageClass }}
+  storageClassName: ""
+    {{- else }}
+  storageClassName: {{ $detectorLogs.storageClass }}
+    {{- end }}
+  {{- end }}
+{{- end }}

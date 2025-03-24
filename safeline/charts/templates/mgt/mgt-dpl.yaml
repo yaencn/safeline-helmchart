@@ -106,7 +106,7 @@ spec:
             claimName: {{ .Values.persistence.persistentVolumeClaim.mgt.existingClaim | default (include "safeline.mgt" .) }}
         - name: nginx-log
           persistentVolumeClaim:
-            claimName: {{ .Values.persistence.persistentVolumeClaim.logs.existingClaim | default (include "safeline.logs" .) }}
+            claimName: {{ .Values.persistence.persistentVolumeClaim.tengineLogs.existingClaim | default (include "safeline.tengine-logs" .) }}
         - name: safeline-sock-dir
           emptyDir: {}
         {{- else -}}

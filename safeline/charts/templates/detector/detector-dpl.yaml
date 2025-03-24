@@ -98,7 +98,7 @@ spec:
             claimName: {{ .Values.persistence.persistentVolumeClaim.detector.existingClaim | default (include "safeline.detector" .) }}
         - name: logs
           persistentVolumeClaim:
-            claimName: {{ .Values.persistence.persistentVolumeClaim.logs.existingClaim | default (include "safeline.logs" .) }}
+            claimName: {{ .Values.persistence.persistentVolumeClaim.detectorLogs.existingClaim | default (include "safeline.detector-logs" .) }}
         {{- else -}}
         - name: detector
           emptyDir: {}

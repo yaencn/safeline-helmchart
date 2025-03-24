@@ -65,7 +65,7 @@ spec:
             name: detector
           - mountPath: /var/log
             name: logs
-            #subPath: nginx
+            subPath: nginx
           - mountPath: /usr/local/nginx/cache
             name: cache
           - mountPath: /resources/chaos
@@ -105,7 +105,7 @@ spec:
             claimName: {{ .Values.persistence.persistentVolumeClaim.detector.existingClaim | default (include "safeline.detector" .) }}
         - name: logs
           persistentVolumeClaim:
-            claimName: {{ .Values.persistence.persistentVolumeClaim.logs.existingClaim | default (include "safeline.logs" .) }}
+            claimName: {{ .Values.persistence.persistentVolumeClaim.tengineLogs.existingClaim | default (include "safeline.tengine-logs" .) }}
         - name: cache
           persistentVolumeClaim:
             claimName: {{ .Values.persistence.persistentVolumeClaim.tengine.existingClaim | default (include "safeline.tengine" .) }}

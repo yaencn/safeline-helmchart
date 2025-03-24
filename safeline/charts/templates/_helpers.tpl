@@ -107,10 +107,12 @@ postgres://{{ template "safeline.database.username" . }}:{{ template "safeline.d
 
 
 {{/* logs */}}
-{{- define "safeline.logs" -}}
-  {{- printf "%s-logs" (include "safeline.fullname" .) -}}
+{{- define "safeline.detector-logs" -}}
+  {{- printf "%s-detector-logs" (include "safeline.fullname" .) -}}
 {{- end -}}
-
+{{- define "safeline.tengine-logs" -}}
+  {{- printf "%s-tengine-logs" (include "safeline.fullname" .) -}}
+{{- end -}}
 
 {{/* nginx */}}
 {{- define "safeline.nginx" -}}

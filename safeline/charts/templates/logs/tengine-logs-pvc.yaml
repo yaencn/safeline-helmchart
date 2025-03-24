@@ -1,0 +1,30 @@
+{{- $tengineLogs := .Values.persistence.persistentVolumeClaim.tengineLogs -}}
+{{- if and .Values.persistence.enabled (not $tengineLogs.existingClaim) }}
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ template "safeline.tengine-logs" . }}
+  annotations:
+  {{- range $key, $value := $tengineLogs.annotations }}
+    {{ $key }}: {{ $value | quote }}
+  {{- end }}
+  {{- if eq .Values.persistence.resourcePolicy "keep" }}
+    helm.sh/resource-policy: keep
+  {{- end }}
+  labels:
+{{ include "safeline.labels" . | indent 4 }}
+    component: tengine-logs
+spec:
+  accessModes: 
+    - {{ $tengineLogs.accessMode }}
+  resources:
+    requests:
+      storage: {{ $tengineLogs.size }}
+  {{- if $tengineLogs.storageClass }}
+    {{- if eq "-" $tengineLogs.storageClass }}
+  storageClassName: ""
+    {{- else }}
+  storageClassName: {{ $tengineLogs.storageClass }}
+    {{- end }}
+  {{- end }}
+{{- end }}
