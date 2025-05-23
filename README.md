@@ -43,7 +43,19 @@ https://g-otkk6267-helm.pkg.coding.net/Charts/safeline
 # add repo
 helm repo add safeline https://g-otkk6267-helm.pkg.coding.net/Charts/safeline
 # install sample
-helm install safeline --namespace safeline --set global.ingress.enabled=true --set global.ingress.hostname="waf.local"  safeline-lts/safeline-lts
+helm install safeline --namespace safeline \
+  --set global.ingress.enabled=true \
+  --set global.ingress.hostname="waf.local" \
+  safeline/safeline
+
+# install the global version
+helm install safeline --namespace safeline \
+  --set global.ingress.enabled=true \
+  --set global.ingress.hostname="waf.local" \
+  --set global.image.registry=chaitin \
+  --set global.image.region="-g" \
+  safeline/safeline
+
 # upgrade
 helm -n safeline upgrade safeline safeline/safeline
 # fetch chart
