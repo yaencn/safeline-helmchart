@@ -63,7 +63,7 @@ spec:
       {{- end }}
       containers:
       - name: chaos
-        image: {{ default .Values.global.image.registry .Values.chaos.image.registry }}/{{ .Values.chaos.image.repository }}:{{ default .Chart.AppVersion .Values.chaos.image.tag }}
+        image: {{ default .Values.global.image.registry .Values.chaos.image.registry }}/{{ .Values.chaos.image.repository }}{{ .Values.global.image.region }}:{{ default .Chart.AppVersion .Values.chaos.image.tag }}
         imagePullPolicy: {{ .Values.imagePullPolicy }}
         ports:
           - name: stpp
