@@ -30,6 +30,11 @@ https://gitee.com/andyhau/safeline-helmchart.git
 - LTS Repository
 https://gitee.com/andyhau/safeline-lts-helmchart.git
 
+- International version deployment support
+International version deployment support for the x86_64 architecture is supported starting from appVersion 8.8.2. If you need to deploy the international version, please modify the value.yaml file parameters to the following values:
+`global.image.registry=chaitin`
+`global.image.region="-g"`
+
 ## ----- HelmChart Install -----
 
 - HelmChart Web URL:
@@ -48,7 +53,7 @@ helm install safeline --namespace safeline \
   --set global.ingress.hostname="waf.local" \
   safeline/safeline
 
-# install the global version
+# install the International version
 helm install safeline --namespace safeline \
   --set global.ingress.enabled=true \
   --set global.ingress.hostname="waf.local" \

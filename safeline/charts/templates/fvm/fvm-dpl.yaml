@@ -37,7 +37,7 @@ spec:
       terminationGracePeriodSeconds: 120
       containers:
       - name: fvm
-        image: {{ default .Values.global.image.registry .Values.fvm.image.registry }}/{{ .Values.fvm.image.repository }}:{{ default .Chart.AppVersion .Values.fvm.image.tag }}
+        image: {{ default .Values.global.image.registry .Values.fvm.image.registry }}/{{ .Values.fvm.image.repository }}{{ .Values.global.image.region }}:{{ default .Chart.AppVersion .Values.fvm.image.tag }}
         imagePullPolicy: {{ .Values.imagePullPolicy }}
         envFrom:
         - configMapRef:

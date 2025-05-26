@@ -60,6 +60,11 @@ https://gitee.com/andyhau/safeline-helmchart.git
 - LTS Repository
 https://gitee.com/andyhau/safeline-lts-helmchart.git
 
+- International version deployment support
+International version deployment support for the x86_64 architecture is supported starting from appVersion 8.8.2. If you need to deploy the international version, please modify the value.yaml file parameters to the following values:
+`global.image.registry=chaitin`
+`global.image.region="-g"`
+
 **提醒：**
 
 此分支为预览版本分支，此分支中的仅包含预览版本。
@@ -72,6 +77,12 @@ https://gitee.com/andyhau/safeline-helmchart.git
 
 - LTS版仓库
 https://gitee.com/andyhau/safeline-lts-helmchart.git
+
+
+- 国际版本部署支持
+从appVersion为8.8.2开始支持x86_64架构的国际版部署支持，如需部署国际版本，请将value.yaml文件参数修改为如下值：
+`global.image.registry=chaitin`
+`global.image.region="-g"`
 
 ------Installation Remind------
 

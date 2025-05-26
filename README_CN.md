@@ -29,6 +29,11 @@ https://gitee.com/andyhau/safeline-helmchart.git
 - LTS版仓库
 https://gitee.com/andyhau/safeline-lts-helmchart.git
 
+- 国际版本部署支持
+从appVersion为8.8.2开始支持x86_64架构的国际版部署支持，如需部署国际版本，请将value.yaml文件参数修改为如下值：
+`global.image.registry=chaitin`
+`global.image.region="-g"`
+
 ## ----- HelmChart Install -----
 
 - HelmChart网页地址:
@@ -39,15 +44,28 @@ https://g-otkk6267-helm.pkg.coding.net/Charts/safeline
 
 - 举例：
 ```shell
-# add repo
+# 添加helm仓库
 helm repo add safeline https://g-otkk6267-helm.pkg.coding.net/Charts/safeline
-# install sample
-helm install safeline --namespace safeline --set global.ingress.enabled=true --set global.ingress.hostname="waf.local"  safeline-lts/safeline-lts
-# upgrade
+
+# 安装中国大陆版本举例
+helm install safeline --namespace safeline \
+  --set global.ingress.enabled=true \
+  --set global.ingress.hostname="waf.local" \
+  safeline/safeline
+
+# 安装国际版本举例
+helm install safeline --namespace safeline \
+  --set global.ingress.enabled=true \
+  --set global.ingress.hostname="waf.local" \
+  --set global.image.registry=chaitin \
+  --set global.image.region="-g" \
+  safeline/safeline
+
+# 更新升级版本
 helm -n safeline upgrade safeline safeline/safeline
-# fetch chart
+# 签出指定版本压缩包
 helm fetch --version 7.2.3 safeline/safeline
-# uninstall
+# 卸载服务
 helm -n safeline uninstall safeline
 ```
 
