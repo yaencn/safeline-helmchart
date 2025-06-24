@@ -44,7 +44,7 @@ spec:
           - sh
           - -c
           - |-
-            while true; do sleep 3 && nc -zvw1 safeline-detector 8001 && nc -zvw1 safeline-mgt 1443 && exit 0 || sleep 3; done; exit 1
+            while true; do sleep 3 && nc -zvw1 {{ template "safeline.detector" . }} 8001 && nc -zvw1 {{ template "safeline.mgt" . }} 1443 && exit 0 || sleep 3; done; exit 1
       containers:
       - name: luigi
         image: {{ default .Values.global.image.registry .Values.luigi.image.registry }}/{{ .Values.luigi.image.repository }}{{ .Values.global.image.region }}:{{ default .Chart.AppVersion .Values.luigi.image.tag }}

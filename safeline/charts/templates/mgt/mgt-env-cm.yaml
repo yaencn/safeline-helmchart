@@ -7,6 +7,7 @@ data:
   LUIGI_HOST: {{ template "safeline.luigi" . }}
   CHAOS_SERVE_ADDR: {{ template "safeline.chaos" . }}:{{ template "safeline.http.port" . }}
   CHAOS_CHALLENGE_ADDR: {{ template "safeline.chaos" . }}:{{ template "safeline.challenge.port" . }}
+  CHAOS_AUTH_ADDR: {{ template "safeline.chaos" . }}:{{ template "safeline.authserve.port" . }}
   FVM_HOST: {{ template "safeline.fvm" . }}
   DETECTOR_HOST: {{ template "safeline.detector" . }}
   {{- if .Values.global.exposeServicesAsPorts.enabled }}
