@@ -44,7 +44,7 @@ spec:
           - sh
           - -c
           - |-
-            echo "bind_addr: 0.0.0.0\nlisten_port: 8000"\nweb_log: http://{{ template "safeline.luigi" . }}/api/log/envelop > /resources/detector/detector.yml
+            echo "bind_addr: 0.0.0.0\nlisten_port: 8000\nweb_log: http://{{ template "safeline.luigi" . }}/api/log/envelop" > /resources/detector/detector.yml
         volumeMounts:
           - mountPath: /resources/detector
             name: detector
