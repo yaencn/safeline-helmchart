@@ -40,9 +40,13 @@ https://gitee.com/andyhau/safeline-lts-helmchart.git
 https://helm.yaencn.com
 
 - HelmChart仓库地址:
+
 此链接将在2025年9月1日起失效:
+
 https://g-otkk6267-helm.pkg.coding.net/Charts/safeline
+
 最新helmchart仓库地址：
+
 https://helm.yaencn.com/charts
 
 
