@@ -38,20 +38,23 @@ International version deployment support for the x86_64 architecture is supporte
 ## ----- HelmChart Install -----
 
 - HelmChart Web URL:
-https://g-otkk6267.coding.net/public-artifacts/Charts/safeline/packages
+https://helm.yaencn.com
 
 - HelmChart Repo URL:
+This link will expire on September 1, 2025:
 https://g-otkk6267-helm.pkg.coding.net/Charts/safeline
+The latest helmchart warehouse address:
+https://helm.yaencn.com/charts
 
 - Sample：
 ```shell
 # add repo
-helm repo add safeline https://g-otkk6267-helm.pkg.coding.net/Charts/safeline
+helm repo add safeline https://helm.yaencn.com/charts
 # install sample
 helm install safeline --namespace safeline \
   --set global.ingress.enabled=true \
   --set global.ingress.hostname="waf.local" \
-  safeline/safeline
+  yaencn/safeline
 
 # install the International version
 helm install safeline --namespace safeline \
@@ -59,12 +62,12 @@ helm install safeline --namespace safeline \
   --set global.ingress.hostname="waf.local" \
   --set global.image.registry=chaitin \
   --set global.image.region="-g" \
-  safeline/safeline
+  yaencn/safeline
 
 # upgrade
-helm -n safeline upgrade safeline safeline/safeline
+helm -n safeline upgrade safeline yaencn/safeline
 # fetch chart
-helm fetch --version 7.2.3 safeline/safeline
+helm fetch --version 10.0.9 yaencn/safeline
 # uninstall
 helm -n safeline uninstall safeline
 ```

@@ -37,21 +37,25 @@ https://gitee.com/andyhau/safeline-lts-helmchart.git
 ## ----- HelmChart Install -----
 
 - HelmChart网页地址:
-https://g-otkk6267.coding.net/public-artifacts/Charts/safeline/packages
+https://helm.yaencn.com
 
 - HelmChart仓库地址:
+此链接将在2025年9月1日起失效:
 https://g-otkk6267-helm.pkg.coding.net/Charts/safeline
+最新helmchart仓库地址：
+https://helm.yaencn.com/charts
+
 
 - 举例：
 ```shell
 # 添加helm仓库
-helm repo add safeline https://g-otkk6267-helm.pkg.coding.net/Charts/safeline
+helm repo add yaencn https://helm.yaencn.com/charts
 
 # 安装中国大陆版本举例
 helm install safeline --namespace safeline \
   --set global.ingress.enabled=true \
   --set global.ingress.hostname="waf.local" \
-  safeline/safeline
+  yaencn/safeline
 
 # 安装国际版本举例
 helm install safeline --namespace safeline \
@@ -59,12 +63,12 @@ helm install safeline --namespace safeline \
   --set global.ingress.hostname="waf.local" \
   --set global.image.registry=chaitin \
   --set global.image.region="-g" \
-  safeline/safeline
+  yaencn/safeline
 
 # 更新升级版本
-helm -n safeline upgrade safeline safeline/safeline
+helm -n safeline upgrade safeline yaencn/safeline
 # 签出指定版本压缩包
-helm fetch --version 7.2.3 safeline/safeline
+helm fetch --version 10.0.9 yaencn/safeline
 # 卸载服务
 helm -n safeline uninstall safeline
 ```
