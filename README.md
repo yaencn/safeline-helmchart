@@ -53,7 +53,7 @@ https://helm.yaencn.com/charts
 - Sample：
 ```shell
 # add repo
-helm repo add safeline https://helm.yaencn.com/charts
+helm repo add yaencn https://helm.yaencn.com/charts
 # install sample
 helm install safeline --namespace safeline \
   --set global.ingress.enabled=true \
