@@ -149,6 +149,9 @@ https://{{ template "safeline.mgt" . }}:{{ template "safeline.mgt.web.port" . }}
   {{ template "safeline.mgt" . }}:{{ template "safeline.mgt.tcd.port" . }}
 {{- end -}}
 
+{{- define "safeline.mgt.proxy" -}}
+    {{- printf "0" -}}
+{{- end -}}
 
 {{/* detector */}}
 {{- define "safeline.detector" -}}
