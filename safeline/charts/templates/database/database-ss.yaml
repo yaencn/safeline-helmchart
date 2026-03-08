@@ -75,6 +75,8 @@ spec:
           #   value: "/var/lib/postgresql/data/pgdata"
           - name: POSTGRES_USER
             value: {{ template "safeline.database.username" . }}
+          - name: POSTGRES_DB
+            value: {{ template "safeline.database.dbname" . }}
         volumeMounts:
           - name: database-data
             mountPath: /var/lib/postgresql/data
@@ -88,7 +90,7 @@ spec:
             command:
             - /bin/sh
             - -c
-            - pg_isready -U safeline-ce -d safeline-ce
+            - pg_isready -U {{ template "safeline.database.username" . }} -d {{ template "safeline.database.dbname" . }}
           initialDelaySeconds: 30
           periodSeconds: 10
           timeoutSeconds: 5
@@ -98,7 +100,7 @@ spec:
             command:
             - /bin/sh
             - -c
-            - pg_isready -U safeline-ce -d safeline-ce
+            - pg_isready -U {{ template "safeline.database.username" . }} -d {{ template "safeline.database.dbname" . }}
           initialDelaySeconds: 30
           periodSeconds: 10
           timeoutSeconds: 5

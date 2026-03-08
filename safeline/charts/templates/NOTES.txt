@@ -1,4 +1,4 @@
 Please wait for several minutes for Safeline deployment to complete.
-Then you should be able to visit the Safeline managenment at {{ template "safeline.mgt.api" . }}
+Then you should be able to visit the Safeline management at {{ template "safeline.mgt.api" . }}
 If global.ingress.enabled=true, please access directly http://{{ .Values.global.ingress.hostname }}
 For more details, please visit https://github.com/yaencn/safeline-helmchart or https://gitee.com/andyhau/safeline-helmchart.git

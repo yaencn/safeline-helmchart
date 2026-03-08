@@ -38,7 +38,7 @@ spec:
       initContainers:
       - name: init-probe
         #image: {{ default .Values.global.image.registry .Values.luigi.image.registry }}/{{ .Values.luigi.image.repository }}{{ .Values.global.image.region }}:{{ default .Chart.AppVersion .Values.luigi.image.tag }}
-        image: busybox
+        image: {{ .Values.global.busyboxImage | default "busybox:1.36" }}
         imagePullPolicy: {{ .Values.imagePullPolicy }}
         command:
           - sh
@@ -60,12 +60,21 @@ spec:
         envFrom:
         - configMapRef:
             name: {{ template "safeline.luigi.env" . }}
+        - secretRef:
+            name: "{{ template "safeline.database" . }}-url"
         volumeMounts:
           - name: localtime
             mountPath: /etc/localtime
             readOnly: true
           - name: luigi
             mountPath: /app/data
+        livenessProbe:
+          tcpSocket:
+            port: {{ template "safeline.luigi.port" . }}
+          initialDelaySeconds: 30
+          timeoutSeconds: 5
+          failureThreshold: 3
+          periodSeconds: 10
         readinessProbe:
           tcpSocket:
             port: {{ template "safeline.luigi.port" . }}

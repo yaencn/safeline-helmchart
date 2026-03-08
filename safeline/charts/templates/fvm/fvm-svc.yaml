@@ -5,9 +5,7 @@ metadata:
   labels:
 {{ include "safeline.labels" . | indent 4 }}
 spec:
-{{- if or (eq .Values.fvm.service.type "NodePort") (eq .Values.fvm.service.type "LoadBalancer") }}
-  type: NodePort
-{{- end }}
+  type: {{ .Values.fvm.service.type | default "ClusterIP" }}
   ports:
     - name: api
       protocol: TCP

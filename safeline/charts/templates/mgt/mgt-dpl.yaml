@@ -61,6 +61,8 @@ spec:
         envFrom:
         - configMapRef:
             name: {{ template "safeline.mgt.env" . }}
+        - secretRef:
+            name: "{{ template "safeline.database" . }}-url"
         volumeMounts:
           - mountPath: /app/data
             name: mgt
@@ -110,6 +112,10 @@ spec:
           emptyDir: {}
         {{- else -}}
         - name: mgt
+          emptyDir: {}
+        - name: nginx-log
+          emptyDir: {}
+        - name: safeline-sock-dir
           emptyDir: {}
         {{- end -}}
 

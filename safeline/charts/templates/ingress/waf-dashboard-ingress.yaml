@@ -2,7 +2,9 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: waf-dashboard-domain-ingress
+  name: {{ template "safeline.fullname" . }}-ingress
+  labels:
+{{ include "safeline.labels" . | indent 4 }}
   annotations:
     nginx.ingress.kubernetes.io/backend-protocol: HTTPS
     nginx.ingress.kubernetes.io/proxy-body-size: {{ .Values.global.ingress.annotations.proxyBodySize }}

@@ -5,13 +5,11 @@ metadata:
   labels:
 {{ include "safeline.labels" . | indent 4 }}
 spec:
-{{- if or (eq .Values.mgt.service.type "NodePort") (eq .Values.mgt.service.type "LoadBalancer") }}
-  type: NodePort
-{{- end }}
+  type: {{ .Values.mgt.service.type | default "ClusterIP" }}
   ports:
     - name: web
       port: {{ template "safeline.mgt.web.port" . }}
-{{- if or (eq .Values.mgt.service.type "NodePort") (eq .Values.mgt.service.type "LoadBalancer") }}
+{{- if eq .Values.mgt.service.type "NodePort" }}
       nodePort: {{ .Values.mgt.service.web.nodePort }}
 {{- end }}
     - name: api

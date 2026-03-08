@@ -5,13 +5,23 @@ metadata:
   labels:
 {{ include "safeline.labels" . | indent 4 }}
 spec:
+  type: {{ .Values.tengine.service.type | default "ClusterIP" }}
+  {{- if and (eq .Values.tengine.service.type "LoadBalancer") .Values.tengine.service.loadBalancerIP }}
+  loadBalancerIP: {{ .Values.tengine.service.loadBalancerIP }}
+  {{- end }}
   ports:
     - name: health
       protocol: TCP
       port: {{ template "safeline.tengine.health.port" . }}
+      {{- if and (eq .Values.tengine.service.type "NodePort") .Values.tengine.service.healthNodePort }}
+      nodePort: {{ .Values.tengine.service.healthNodePort }}
+      {{- end }}
     - name: http
       protocol: TCP
       port: {{ template "safeline.tengine.http.port" . }}
+      {{- if and (eq .Values.tengine.service.type "NodePort") .Values.tengine.service.httpNodePort }}
+      nodePort: {{ .Values.tengine.service.httpNodePort }}
+      {{- end }}
     - name: tasktcd
       protocol: TCP
       port: {{ template "safeline.tengine.tasktcd.port" . }}

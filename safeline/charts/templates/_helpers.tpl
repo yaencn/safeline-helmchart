@@ -38,7 +38,7 @@ app: "{{ template "safeline.name" . }}"
 
 {{- define "safeline.database.host" -}}
   {{- if eq .Values.database.type "internal" -}}
-    {{- printf "%s" "safeline-pg" }}
+    {{- printf "%s-pg" (include "safeline.fullname" .) -}}
   {{- else -}}
     {{- .Values.database.external.host -}}
   {{- end -}}

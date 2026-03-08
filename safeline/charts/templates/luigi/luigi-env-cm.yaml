@@ -5,5 +5,4 @@ metadata:
 data:
   DETECTOR_HOST: {{ template "safeline.detector" . }}
   MGT_IP: {{ template "safeline.mgt" . }}
-  LUIGI_PG: {{ template "safeline.database.url" . }}
   

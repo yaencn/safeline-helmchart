@@ -82,6 +82,13 @@ spec:
             mountPath: /modify_nginx_conf.sh
             subPath: modify_nginx_conf.sh
           {{- end }}
+        livenessProbe:
+          tcpSocket:
+            port: {{ template "safeline.tengine.health.port" . }}
+          initialDelaySeconds: 30
+          timeoutSeconds: 5
+          failureThreshold: 3
+          periodSeconds: 10
         readinessProbe:
           tcpSocket:
             port: {{ template "safeline.tengine.health.port" . }}
@@ -122,7 +129,7 @@ spec:
             name: {{ template "safeline.tengine" . }}
         - name: safeline-tengine-modify-conf
           configMap:
-            name: safeline-tengine-modify-conf
+            name: {{ template "safeline.tengine" . }}-modify-conf
             defaultMode: 0755
         {{- end -}}
         {{- else -}}

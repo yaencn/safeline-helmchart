@@ -9,6 +9,8 @@ global:
     registry: swr.cn-east-3.myhuaweicloud.com/chaitin-safeline
     tag: ""
     region: ""
+  # initContainer 使用的基础镜像，离线/私有环境请修改为内部镜像地址
+  busyboxImage: busybox:1.36
   # 全局开启已端口模式暴露服务，牵扯修改服务暴露模式服务为：detector与chaos，打开此选项将增加多个configmap加载以及修改配置文件，会修改nginx.conf文件。
   # 建议此向保持开启状态
   exposeServicesAsPorts:
@@ -32,8 +34,8 @@ global:
 strategy:
   type: RollingUpdate
   rollingUpdate:
-    maxUnavailable: 1
-    maxSurge: 0
+    maxUnavailable: 0
+    maxSurge: 1
 
 persistence:
   enabled: true
@@ -111,6 +113,7 @@ database:
       registry: ''
       repository: safeline-postgres
       tag: 15.2
+    # IMPORTANT: 请务必修改此默认密码！
     password: changeit
     shmSizeLimit: 512Mi
     resources:
@@ -170,13 +173,10 @@ mgt:
   automountServiceAccountToken: false
   replicas: 1
   revisionHistoryLimit: 10
-  startupProbe:
-    enabled: false
-    initialDelaySeconds: 10
   nodeSelector: {}
   affinity: {}
   tolerations: []
-  priorityClassName: 
+  priorityClassName:
 
 fvm:
   image:
@@ -197,13 +197,10 @@ fvm:
   automountServiceAccountToken: false
   replicas: 1
   revisionHistoryLimit: 10
-  startupProbe:
-    enabled: false
-    initialDelaySeconds: 10
   nodeSelector: {}
   affinity: {}
   tolerations: []
-  priorityClassName: 
+  priorityClassName:
 
 
 detector:
@@ -223,19 +220,18 @@ detector:
   automountServiceAccountToken: false
   replicas: 1
   revisionHistoryLimit: 10
-  startupProbe:
-    enabled: false
-    initialDelaySeconds: 10
   nodeSelector: {}
   affinity: {}
   tolerations: []
-  priorityClassName: 
+  priorityClassName:
 
 tengine:
   image:
     registry: ''
     repository: safeline-tengine
     tag: ""
+  service:
+    type: ClusterIP
   resources:
   #   limits:
   #     cpu: 1000m
@@ -248,13 +244,10 @@ tengine:
   automountServiceAccountToken: false
   replicas: 1
   revisionHistoryLimit: 10
-  startupProbe:
-    enabled: false
-    initialDelaySeconds: 10
   nodeSelector: {}
   affinity: {}
   tolerations: []
-  priorityClassName: 
+  priorityClassName:
 
 luigi:
   image:
@@ -275,13 +268,10 @@ luigi:
   automountServiceAccountToken: false
   replicas: 1
   revisionHistoryLimit: 10
-  startupProbe:
-    enabled: false
-    initialDelaySeconds: 10
   nodeSelector: {}
   affinity: {}
   tolerations: []
-  priorityClassName: 
+  priorityClassName:
 
 chaos:
   image:
@@ -302,10 +292,7 @@ chaos:
   automountServiceAccountToken: false
   replicas: 1
   revisionHistoryLimit: 10
-  startupProbe:
-    enabled: false
-    initialDelaySeconds: 10
   nodeSelector: {}
   affinity: {}
   tolerations: []
-  priorityClassName: 
+  priorityClassName:

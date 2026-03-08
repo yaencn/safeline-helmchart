@@ -5,9 +5,7 @@ metadata:
   labels:
 {{ include "safeline.labels" . | indent 4 }}
 spec:
-{{- if or (eq .Values.luigi.service.type "NodePort") (eq .Values.luigi.service.type "LoadBalancer") }}
-  type: NodePort
-{{- end }}
+  type: {{ .Values.luigi.service.type | default "ClusterIP" }}
   ports:
     - name: luigi
       protocol: TCP
