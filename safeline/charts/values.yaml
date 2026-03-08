@@ -11,8 +11,6 @@ global:
     region: ""
   # initContainer 使用的基础镜像，离线/私有环境请修改为内部镜像地址
   busyboxImage: busybox:1.36
-  # 时区设置，替代 hostPath /etc/localtime 挂载
-  timezone: "Asia/Shanghai"
   # 全局开启已端口模式暴露服务，牵扯修改服务暴露模式服务为：detector与chaos，打开此选项将增加多个configmap加载以及修改配置文件，会修改nginx.conf文件。
   # 建议此向保持开启状态
   exposeServicesAsPorts:
@@ -115,7 +113,7 @@ database:
       registry: ''
       repository: safeline-postgres
       tag: 15.2
-    # IMPORTANT: 请务必修改此默认密码！生产环境禁止使用默认值
+    # IMPORTANT: 请务必修改此默认密码！
     password: changeit
     shmSizeLimit: 512Mi
     resources:
@@ -204,6 +202,7 @@ fvm:
   tolerations: []
   priorityClassName:
 
+
 detector:
   image:
     registry: ''
@@ -232,12 +231,7 @@ tengine:
     repository: safeline-tengine
     tag: ""
   service:
-    type: LoadBalancer
-    # LoadBalancer 模式下可指定 IP（配合 MetalLB 使用）
-    loadBalancerIP: ""
-    # NodePort 模式下可指定端口
-    httpNodePort: ""
-    healthNodePort: ""
+    type: ClusterIP
   resources:
   #   limits:
   #     cpu: 1000m
@@ -286,12 +280,6 @@ chaos:
     tag: ""
   service:
     type: ClusterIP
-  # IMPORTANT: 生产环境请替换为自行生成的 EC P-256 密钥对！
-  # 生成命令: openssl ecparam -genkey -name prime256v1 -noout -out ec_private.pem
-  #           openssl ec -in ec_private.pem -pubout -out ec_public.pem
-  jwt:
-    algorithm: "ES256"
-    expireSeconds: 30
   resources:
   #   limits:
   #     cpu: 1000m

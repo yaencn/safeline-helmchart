@@ -55,10 +55,10 @@ spec:
         envFrom:
         - configMapRef:
             name: {{ template "safeline.tengine.env" . }}
-        env:
-          - name: TZ
-            value: {{ .Values.global.timezone | default "Asia/Shanghai" }}
         volumeMounts:
+          - name: localtime
+            mountPath: /etc/localtime
+            readOnly: true
           - mountPath: /etc/nginx
             name: nginx
           - mountPath: /resources/detector
@@ -102,6 +102,9 @@ spec:
 {{ toYaml .Values.tengine.resources | indent 10 }}
 {{- end }}
       volumes:
+        - name: localtime
+          hostPath:
+            path: /etc/localtime
         {{- if .Values.persistence.enabled }}
         - name: nginx
           persistentVolumeClaim:

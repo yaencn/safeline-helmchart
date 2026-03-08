@@ -63,12 +63,12 @@ spec:
             name: {{ template "safeline.mgt.env" . }}
         - secretRef:
             name: "{{ template "safeline.database" . }}-url"
-        env:
-          - name: TZ
-            value: {{ .Values.global.timezone | default "Asia/Shanghai" }}
         volumeMounts:
           - mountPath: /app/data
             name: mgt
+          - name: localtime
+            mountPath: /etc/localtime
+            readOnly: true
           - name: nginx-log
             mountPath: /app/log/nginx
           - name: safeline-sock-dir
@@ -98,6 +98,9 @@ spec:
 {{ toYaml .Values.mgt.resources | indent 10 }}
 {{- end }}
       volumes:
+        - name: localtime
+          hostPath:
+            path: /etc/localtime
         {{- if .Values.persistence.enabled }}
         - name: mgt
           persistentVolumeClaim:

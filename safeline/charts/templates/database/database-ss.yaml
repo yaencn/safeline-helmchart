@@ -54,6 +54,7 @@ spec:
         volumeMounts:
           - name: database-data
             mountPath: /var/lib/postgresql/data
+            subPath: {{ $database.subPath }}
       containers:
       - name: database
         {{- if .Values.global.image.registry }}
@@ -74,13 +75,16 @@ spec:
           #   value: "/var/lib/postgresql/data/pgdata"
           - name: POSTGRES_USER
             value: {{ template "safeline.database.username" . }}
-          - name: TZ
-            value: {{ .Values.global.timezone | default "Asia/Shanghai" }}
+          - name: POSTGRES_DB
+            value: {{ template "safeline.database.dbname" . }}
         volumeMounts:
           - name: database-data
             mountPath: /var/lib/postgresql/data
           - name: shm-volume
             mountPath: /dev/shm
+          - name: localtime
+            mountPath: /etc/localtime
+            readOnly: true
         livenessProbe:
           exec:
             command:
@@ -97,11 +101,14 @@ spec:
             - /bin/sh
             - -c
             - pg_isready -U {{ template "safeline.database.username" . }} -d {{ template "safeline.database.dbname" . }}
-          initialDelaySeconds: 5
+          initialDelaySeconds: 30
           periodSeconds: 10
           timeoutSeconds: 5
           failureThreshold: 3
       volumes:
+      - name: localtime
+        hostPath:
+          path: /etc/localtime
       - name: shm-volume
         emptyDir:
           medium: Memory

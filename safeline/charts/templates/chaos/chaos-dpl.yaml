@@ -57,7 +57,7 @@ spec:
           - name: chaos-challenge-conf
             mountPath: /challenge.yaml
             subPath: challenge.yaml
-          - name: safeline-chaos-cp-toml
+          - name: {{ template "safeline.chaos" . }}-cp-toml
             mountPath: /cp_config_toml.sh
             subPath: cp_config_toml.sh
       {{- end }}
@@ -75,10 +75,10 @@ spec:
             name: {{ template "safeline.chaos.env" . }}
         - secretRef:
             name: "{{ template "safeline.database" . }}-url"
-        env:
-          - name: TZ
-            value: {{ .Values.global.timezone | default "Asia/Shanghai" }}
         volumeMounts:
+          - name: localtime
+            mountPath: /etc/localtime
+            readOnly: true
           - mountPath: /app/chaos
             name: chaos
         livenessProbe:
@@ -116,6 +116,9 @@ spec:
             name: {{ template "safeline.chaos" . }}-cp-toml
             defaultMode: 0755
         {{- end }}
+        - name: localtime
+          hostPath:
+            path: /etc/localtime
         {{- if .Values.persistence.enabled }}
         - name: chaos
           persistentVolumeClaim:
