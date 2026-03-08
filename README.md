@@ -54,6 +54,13 @@ https://helm.yaencn.com/charts
 ```shell
 # add repo
 helm repo add yaencn https://helm.yaencn.com/charts
+
+# Custom PostgreSQL password
+helm install safeline ./safeline/charts \
+  --namespace safeline \
+  --create-namespace \
+  --set database.internal.password="YourCustomPassWord"
+
 # install sample
 helm install safeline --namespace safeline \
   --set global.ingress.enabled=true \
@@ -139,4 +146,39 @@ Specifically participate in the values.yaml file.
 ```
 
 
-## ----- Configuration Description -----
+## ----- Core Configuration Parameters -----
+
+| Parameter | Description | Default Value |
+|------|------|--------|
+| `global.image.registry` | Image repository address | `swr.cn-east-3.myhuaweicloud.com/chaitin-safeline` |
+| `global.busyboxImage` | InitContainer base image | `busybox:1.36` |
+| `global.exposeServicesAsPorts.enabled` | Expose services in port mode (recommended to enable) | `true` |
+| `database.internal.password` | Database password (**recommended to change**) | `changeit` |
+| `database.type` | Database type `internal`/`external` | `internal` |
+| `tengine.service.type` | Tengine service type | `LoadBalancer` |
+| `tengine.service.loadBalancerIP` | MetalLB specified IP | `""` | | `mgt.service.type` | Management console service type | `NodePort` |
+| `mgt.service.web.nodePort` | Management console NodePort | `31443` |
+| `persistence.persistentVolumeClaim.*.storageClass` | Storage class | `""` (use default) |
+
+## Architecture Components
+
+| Component | Description | Port |
+|------|------|------|
+| **tengine** | WAF reverse proxy engine, handles inbound traffic | 80, 65443, 9999 |
+| **detector** | Threat detection engine, semantic analysis | 8000, 8001, 7777 |
+| **mgt** | Management console Web UI | 1443, 80, 8000 |
+| **chaos** | Human verification / waiting room | 9000, 23333, 8080 |
+| **fvm** | Feature/Vulnerability Management | 9004, 80 |
+| **luigi** | Log Processing | 80 |
+| **database** | PostgreSQL Database | 5432 |
+
+## Security Considerations
+
+1. **Database Password**: The default password is `changeit`, **recommended** to be changed before deployment.
+2. **Database Connection String**: Migrated from ConfigMap to Secret storage to avoid plaintext leakage.
+3. **JWT Key**: The default EC private key is included in `chaos-cm.yaml`, it is recommended to replace it in production environments:
+``bash
+openssl ecparam -genkey -name prime256v1 -noout -out ec_private.pem
+openssl ec -in ec_private.pem -pubout -out ec_public.pem
+```
+4. **Replica Limit**: All Deployments can only run... **Only one replica is needed.** Multiple replicas will cause WAF service malfunctions.

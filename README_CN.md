@@ -55,6 +55,12 @@ https://helm.yaencn.com/charts
 # 添加helm仓库
 helm repo add yaencn https://helm.yaencn.com/charts
 
+# 安装时定义postgresql的密码
+helm install safeline ./safeline/charts \
+  --namespace safeline \
+  --create-namespace \
+  --set database.internal.password="YourCustomPassWord"
+
 # 安装中国大陆版本举例
 helm install safeline --namespace safeline \
   --set global.ingress.enabled=true \
@@ -136,4 +142,42 @@ helm coding-push safeline-${app-version}.tgz safeline
 ```
 
 
-## ----- Configuration Description -----
+## ----- 核心配置参数 -----
+| 参数 | 说明 | 默认值 |
+|------|------|--------|
+| `global.image.registry` | 镜像仓库地址 | `swr.cn-east-3.myhuaweicloud.com/chaitin-safeline` |
+| `global.busyboxImage` | initContainer 基础镜像 | `busybox:1.36` |
+| `global.exposeServicesAsPorts.enabled` | 以端口模式暴露服务（建议开启） | `true` |
+| `database.internal.password` | 数据库密码（**建议修改**） | `changeit` |
+| `database.type` | 数据库类型 `internal`/`external` | `internal` |
+| `tengine.service.type` | tengine 服务类型 | `LoadBalancer` |
+| `tengine.service.loadBalancerIP` | MetalLB 指定 IP | `""` |
+| `mgt.service.type` | 管理控制台服务类型 | `NodePort` |
+| `mgt.service.web.nodePort` | 管理控制台 NodePort 端口 | `31443` |
+| `persistence.persistentVolumeClaim.*.storageClass` | 存储类 | `""` (使用默认) |
+
+## 架构组件
+
+| 组件 | 说明 | 端口 |
+|------|------|------|
+| **tengine** | WAF 反向代理引擎，处理入站流量 | 80, 65443, 9999 |
+| **detector** | 威胁检测引擎，语义分析 | 8000, 8001, 7777 |
+| **mgt** | 管理控制台 Web UI | 1443, 80, 8000 |
+| **chaos** | 人机验证 / 等候室 | 9000, 23333, 8080 |
+| **fvm** | 特征/漏洞管理 | 9004, 80 |
+| **luigi** | 日志处理 | 80 |
+| **database** | PostgreSQL 数据库 | 5432 |
+
+## 安全注意事项
+
+1. **数据库密码**: 默认密码为 `changeit`，**建议**在部署前修改
+2. **数据库连接串**: 已从 ConfigMap 迁移到 Secret 存储，避免明文泄露
+3. **JWT 密钥**: `chaos-cm.yaml` 中包含默认 EC 私钥，生产环境建议替换：
+   ```bash
+   openssl ecparam -genkey -name prime256v1 -noout -out ec_private.pem
+   openssl ec -in ec_private.pem -pubout -out ec_public.pem
+   ```
+4. **副本数限制**: 所有 Deployment 只能运行 **1 个副本**，多副本会导致 WAF 服务异常
+
+
+

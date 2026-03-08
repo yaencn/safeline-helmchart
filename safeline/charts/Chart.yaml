@@ -1,4 +1,4 @@
-apiVersion: v3
+apiVersion: v2
 appVersion: 9.3.2
 description: A free WAF that is simple enough, easy to use, and strong enough. Based on the industry's leading semantic engine detection technology, it acts as a reverse proxy access to protect your website from hackers.
 home: https://waf-ce.chaitin.cn/
