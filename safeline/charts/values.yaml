@@ -112,7 +112,7 @@ database:
     image:
       registry: ''
       repository: safeline-postgres
-      tag: 15.2
+      tag: 15.18
     # IMPORTANT: 请务必修改此默认密码！
     password: changeit
     shmSizeLimit: 512Mi
