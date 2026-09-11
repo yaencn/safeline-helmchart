@@ -82,9 +82,11 @@ spec:
             mountPath: /var/lib/postgresql/data
           - name: shm-volume
             mountPath: /dev/shm
+          {{- if .Values.global.localtime.enabled }}
           - name: localtime
             mountPath: /etc/localtime
             readOnly: true
+          {{- end }}
         livenessProbe:
           exec:
             command:
@@ -106,9 +108,11 @@ spec:
           timeoutSeconds: 5
           failureThreshold: 3
       volumes:
+      {{- if .Values.global.localtime.enabled }}
       - name: localtime
         hostPath:
           path: /etc/localtime
+      {{- end }}
       - name: shm-volume
         emptyDir:
           medium: Memory

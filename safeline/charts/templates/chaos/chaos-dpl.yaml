@@ -77,9 +77,11 @@ spec:
         - secretRef:
             name: "{{ template "safeline.database" . }}-url"
         volumeMounts:
+          {{- if .Values.global.localtime.enabled }}
           - name: localtime
             mountPath: /etc/localtime
             readOnly: true
+          {{- end }}
           - mountPath: /app/chaos
             name: chaos
         livenessProbe:
@@ -117,9 +119,11 @@ spec:
             name: {{ template "safeline.chaos" . }}-cp-toml
             defaultMode: 0755
         {{- end }}
+        {{- if .Values.global.localtime.enabled }}
         - name: localtime
           hostPath:
             path: /etc/localtime
+        {{- end }}
         {{- if .Values.persistence.enabled }}
         - name: chaos
           persistentVolumeClaim:

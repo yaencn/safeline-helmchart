@@ -67,9 +67,11 @@ spec:
         volumeMounts:
           - mountPath: /app/data
             name: mgt
+          {{- if .Values.global.localtime.enabled }}
           - name: localtime
             mountPath: /etc/localtime
             readOnly: true
+          {{- end }}
           - name: nginx-log
             mountPath: /app/log/nginx
           - name: safeline-sock-dir
@@ -99,9 +101,11 @@ spec:
 {{ toYaml .Values.mgt.resources | indent 10 }}
 {{- end }}
       volumes:
+        {{- if .Values.global.localtime.enabled }}
         - name: localtime
           hostPath:
             path: /etc/localtime
+        {{- end }}
         {{- if .Values.persistence.enabled }}
         - name: mgt
           persistentVolumeClaim:
