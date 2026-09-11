@@ -31,6 +31,11 @@ global:
       # 如填写如下项，请在运行该HelmChart前创建好对应的Secret。
       secretName: ""
 
+# Default update strategy for every Deployment in this chart.
+# maxUnavailable: 0 needs old and new pod running at once. A single-replica
+# component holding an exclusive volume lock deadlocks on that: the new pod
+# waits for the lock the old one still holds. Override such a component with
+# type: Recreate or maxUnavailable: 1 through its own strategy key.
 strategy:
   type: RollingUpdate
   rollingUpdate:
@@ -153,6 +158,8 @@ database:
   podAnnotations: {}
 
 mgt:
+  # Update strategy for this component; falls back to the global strategy.
+  strategy: {}
   image:
     registry: ''
     repository: safeline-mgt
@@ -179,6 +186,8 @@ mgt:
   priorityClassName:
 
 fvm:
+  # Update strategy for this component; falls back to the global strategy.
+  strategy: {}
   image:
     registry: ''
     repository: safeline-fvm
@@ -204,6 +213,8 @@ fvm:
 
 
 detector:
+  # Update strategy for this component; falls back to the global strategy.
+  strategy: {}
   image:
     registry: ''
     repository: safeline-detector
@@ -226,6 +237,8 @@ detector:
   priorityClassName:
 
 tengine:
+  # Update strategy for this component; falls back to the global strategy.
+  strategy: {}
   image:
     registry: ''
     repository: safeline-tengine
@@ -250,6 +263,8 @@ tengine:
   priorityClassName:
 
 luigi:
+  # Update strategy for this component; falls back to the global strategy.
+  strategy: {}
   image:
     registry: ''
     repository: safeline-luigi
@@ -274,6 +289,8 @@ luigi:
   priorityClassName:
 
 chaos:
+  # Update strategy for this component; falls back to the global strategy.
+  strategy: {}
   image:
     registry: ''
     repository: safeline-chaos

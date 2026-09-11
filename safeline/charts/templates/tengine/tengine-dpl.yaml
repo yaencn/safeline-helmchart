@@ -8,10 +8,11 @@ metadata:
 spec:
   replicas: {{ .Values.tengine.replicas }}
   revisionHistoryLimit: {{ .Values.tengine.revisionHistoryLimit }}
+  {{- $strategy := .Values.tengine.strategy | default .Values.strategy }}
+  {{- if $strategy }}
   strategy:
-{{- if .Values.strategy }}
-{{ toYaml .Values.strategy | indent 4 }}
-{{- end }}
+{{ toYaml $strategy | indent 4 }}
+  {{- end }}
   selector:
     matchLabels:
 {{ include "safeline.matchLabels" . | indent 6 }}
