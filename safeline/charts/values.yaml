@@ -247,6 +247,19 @@ tengine:
     registry: ''
     repository: safeline-tengine
     tag: ""
+  # Recover the client address when a local proxy, such as a service mesh
+  # sidecar, rewrites the source address. Without it the log and every
+  # address based rule act on the proxy address. An init container writes
+  # conf.d/00-real-ip.conf before nginx starts.
+  realIp:
+    enabled: false
+    # Proxy address to trust, for example a sidecar loopback address.
+    # Leave empty to write no configuration.
+    from: ""
+    header: X-Forwarded-For
+    recursive: true
+    # Remove _safeline_variables_*.conf left by an earlier release.
+    removeStaleVariableConfs: false
   service:
     type: ClusterIP
   resources:
