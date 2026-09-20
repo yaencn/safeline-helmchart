@@ -8,10 +8,11 @@ metadata:
 spec:
   replicas: {{ .Values.tengine.replicas }}
   revisionHistoryLimit: {{ .Values.tengine.revisionHistoryLimit }}
+  {{- $strategy := .Values.tengine.strategy | default .Values.strategy }}
+  {{- if $strategy }}
   strategy:
-{{- if .Values.strategy }}
-{{ toYaml .Values.strategy | indent 4 }}
-{{- end }}
+{{ toYaml $strategy | indent 4 }}
+  {{- end }}
   selector:
     matchLabels:
 {{ include "safeline.matchLabels" . | indent 6 }}
@@ -35,6 +36,26 @@ spec:
       {{- end }}
       automountServiceAccountToken: {{ .Values.tengine.automountServiceAccountToken | default false }}
       terminationGracePeriodSeconds: 120
+      {{- if .Values.tengine.realIp.enabled }}
+      initContainers:
+      - name: write-real-ip-conf
+        image: {{ default .Values.global.image.registry .Values.tengine.image.registry }}/{{ .Values.tengine.image.repository }}{{ .Values.global.image.region }}:{{ default .Chart.AppVersion .Values.tengine.image.tag }}
+        imagePullPolicy: {{ .Values.imagePullPolicy }}
+        command:
+          - /bin/sh
+          - -c
+          - |
+            mkdir -p /etc/nginx/conf.d
+            {{- with .Values.tengine.realIp.from }}
+            printf 'set_real_ip_from {{ . }};\nreal_ip_header {{ $.Values.tengine.realIp.header }};\nreal_ip_recursive {{ ternary "on" "off" $.Values.tengine.realIp.recursive }};\n' > /etc/nginx/conf.d/00-real-ip.conf
+            {{- end }}
+            {{- if .Values.tengine.realIp.removeStaleVariableConfs }}
+            rm -f /etc/nginx/conf.d/_safeline_variables_*.conf
+            {{- end }}
+        volumeMounts:
+          - mountPath: /etc/nginx
+            name: nginx
+      {{- end }}
       containers:
       - name: tengine
         image: {{ default .Values.global.image.registry .Values.tengine.image.registry }}/{{ .Values.tengine.image.repository }}{{ .Values.global.image.region }}:{{ default .Chart.AppVersion .Values.tengine.image.tag }}
@@ -56,9 +77,11 @@ spec:
         - configMapRef:
             name: {{ template "safeline.tengine.env" . }}
         volumeMounts:
+          {{- if .Values.global.localtime.enabled }}
           - name: localtime
             mountPath: /etc/localtime
             readOnly: true
+          {{- end }}
           - mountPath: /etc/nginx
             name: nginx
           - mountPath: /resources/detector
@@ -102,9 +125,11 @@ spec:
 {{ toYaml .Values.tengine.resources | indent 10 }}
 {{- end }}
       volumes:
+        {{- if .Values.global.localtime.enabled }}
         - name: localtime
           hostPath:
             path: /etc/localtime
+        {{- end }}
         {{- if .Values.persistence.enabled }}
         - name: nginx
           persistentVolumeClaim:

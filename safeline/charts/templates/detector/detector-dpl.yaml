@@ -8,10 +8,11 @@ metadata:
 spec:
   replicas: {{ .Values.detector.replicas }}
   revisionHistoryLimit: {{ .Values.detector.revisionHistoryLimit }}
+  {{- $strategy := .Values.detector.strategy | default .Values.strategy }}
+  {{- if $strategy }}
   strategy:
-{{- if .Values.strategy }}
-{{ toYaml .Values.strategy | indent 4 }}
-{{- end }}
+{{ toYaml $strategy | indent 4 }}
+  {{- end }}
   selector:
     matchLabels:
 {{ include "safeline.matchLabels" . | indent 6 }}
@@ -70,9 +71,11 @@ spec:
             name: detector
           - mountPath: /logs/detector
             name: logs
+          {{- if .Values.global.localtime.enabled }}
           - name: localtime
             mountPath: /etc/localtime
             readOnly: true
+          {{- end }}
         livenessProbe:
           tcpSocket:
             port: {{ template "safeline.detector.sns.port" . }}
@@ -93,9 +96,11 @@ spec:
 {{ toYaml .Values.detector.resources | indent 10 }}
 {{- end }}
       volumes:
+        {{- if .Values.global.localtime.enabled }}
         - name: localtime
           hostPath:
             path: /etc/localtime
+        {{- end }}
 
         {{- if .Values.persistence.enabled }}
         - name: detector

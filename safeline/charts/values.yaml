@@ -9,6 +9,10 @@ global:
     registry: swr.cn-east-3.myhuaweicloud.com/chaitin-safeline
     tag: ""
     region: ""
+  # Mount the node's /etc/localtime so containers follow the node timezone.
+  # Disable where hostPath is unavailable; components then run on UTC.
+  localtime:
+    enabled: true
   # initContainer 使用的基础镜像，离线/私有环境请修改为内部镜像地址
   busyboxImage: busybox:1.36
   # 全局开启已端口模式暴露服务，牵扯修改服务暴露模式服务为：detector与chaos，打开此选项将增加多个configmap加载以及修改配置文件，会修改nginx.conf文件。
@@ -31,6 +35,11 @@ global:
       # 如填写如下项，请在运行该HelmChart前创建好对应的Secret。
       secretName: ""
 
+# Default update strategy for every Deployment in this chart.
+# maxUnavailable: 0 needs old and new pod running at once. A single-replica
+# component holding an exclusive volume lock deadlocks on that: the new pod
+# waits for the lock the old one still holds. Override such a component with
+# type: Recreate or maxUnavailable: 1 through its own strategy key.
 strategy:
   type: RollingUpdate
   rollingUpdate:
@@ -153,6 +162,8 @@ database:
   podAnnotations: {}
 
 mgt:
+  # Update strategy for this component; falls back to the global strategy.
+  strategy: {}
   image:
     registry: ''
     repository: safeline-mgt
@@ -179,6 +190,8 @@ mgt:
   priorityClassName:
 
 fvm:
+  # Update strategy for this component; falls back to the global strategy.
+  strategy: {}
   image:
     registry: ''
     repository: safeline-fvm
@@ -204,6 +217,8 @@ fvm:
 
 
 detector:
+  # Update strategy for this component; falls back to the global strategy.
+  strategy: {}
   image:
     registry: ''
     repository: safeline-detector
@@ -226,10 +241,25 @@ detector:
   priorityClassName:
 
 tengine:
+  # Update strategy for this component; falls back to the global strategy.
+  strategy: {}
   image:
     registry: ''
     repository: safeline-tengine
     tag: ""
+  # Recover the client address when a local proxy, such as a service mesh
+  # sidecar, rewrites the source address. Without it the log and every
+  # address based rule act on the proxy address. An init container writes
+  # conf.d/00-real-ip.conf before nginx starts.
+  realIp:
+    enabled: false
+    # Proxy address to trust, for example a sidecar loopback address.
+    # Leave empty to write no configuration.
+    from: ""
+    header: X-Forwarded-For
+    recursive: true
+    # Remove _safeline_variables_*.conf left by an earlier release.
+    removeStaleVariableConfs: false
   service:
     type: ClusterIP
   resources:
@@ -250,6 +280,8 @@ tengine:
   priorityClassName:
 
 luigi:
+  # Update strategy for this component; falls back to the global strategy.
+  strategy: {}
   image:
     registry: ''
     repository: safeline-luigi
@@ -274,6 +306,8 @@ luigi:
   priorityClassName:
 
 chaos:
+  # Update strategy for this component; falls back to the global strategy.
+  strategy: {}
   image:
     registry: ''
     repository: safeline-chaos

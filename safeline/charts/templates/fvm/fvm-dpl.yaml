@@ -8,10 +8,11 @@ metadata:
 spec:
   replicas: {{ .Values.fvm.replicas }}
   revisionHistoryLimit: {{ .Values.fvm.revisionHistoryLimit }}
+  {{- $strategy := .Values.fvm.strategy | default .Values.strategy }}
+  {{- if $strategy }}
   strategy:
-{{- if .Values.strategy }}
-{{ toYaml .Values.strategy | indent 4 }}
-{{- end }}
+{{ toYaml $strategy | indent 4 }}
+  {{- end }}
   selector:
     matchLabels:
 {{ include "safeline.matchLabels" . | indent 6 }}
@@ -47,10 +48,12 @@ spec:
             containerPort: {{ template "safeline.fvm.api.port" . }}
           - name: web
             containerPort: {{ template "safeline.fvm.web.port" . }}
+        {{- if .Values.global.localtime.enabled }}
         volumeMounts:
           - name: localtime
             mountPath: /etc/localtime
             readOnly: true
+        {{- end }}
         livenessProbe:
           tcpSocket:
             port: {{ template "safeline.fvm.web.port" . }}
@@ -70,10 +73,12 @@ spec:
         resources:
 {{ toYaml .Values.fvm.resources | indent 10 }}
 {{- end }}
+      {{- if .Values.global.localtime.enabled }}
       volumes:
         - name: localtime
           hostPath:
             path: /etc/localtime
+      {{- end }}
 
     {{- with .Values.fvm.nodeSelector }}
       nodeSelector:
