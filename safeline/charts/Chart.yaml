@@ -16,4 +16,4 @@ sources:
 - https://github.com/chaitin/safeline
 - https://github.com/yaencn/safeline-helmchart.git
 - https://gitee.com/andyhau/safeline-helmchart.git
-version: 10.1.11
+version: 10.1.12
