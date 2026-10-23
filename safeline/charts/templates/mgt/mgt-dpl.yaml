@@ -80,6 +80,21 @@ spec:
             mountPath: /app/log/nginx
           - name: safeline-sock-dir
             mountPath: /app/run
+        lifecycle:
+          postStart:
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - |
+                  # 等 entrypoint 生成基线白名单（文件非空即说明 line 44 已执行，之后不会再覆盖）
+                  i=0; while [ ! -s /app/data/nginx_inner_allow.conf ] && [ $i -lt 60 ]; do i=$((i+1)); sleep 1; done
+                  # 幂等追加 pod 网段
+                  grep -q 'allow 0.0.0.0/0' /app/data/nginx_inner_allow.conf || \
+                    printf 'allow 0.0.0.0/0;\n' >> /app/data/nginx_inner_allow.conf
+                  # 通知 nginx；nginx 未就绪则重试。hook 必须最终退出 0，否则容器会被判定失败
+                  i=0; until nginx -s reload 2>/dev/null || [ $i -ge 10 ]; do i=$((i+1)); sleep 3; done
+                  exit 0
         livenessProbe:
           httpGet:
             scheme: HTTPS
