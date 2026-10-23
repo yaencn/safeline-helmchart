@@ -63,6 +63,10 @@ spec:
         image: {{ .Values.database.internal.image.repository }}:{{ .Values.database.internal.image.tag }}
         {{- end }}
         imagePullPolicy: {{ .Values.imagePullPolicy }}
+        {{- with .Values.database.securityContext }}
+        securityContext:
+{{ toYaml . | indent 10 }}
+        {{- end }}
 {{- if .Values.database.internal.resources }}
         resources:
 {{ toYaml .Values.database.internal.resources | indent 10 }}

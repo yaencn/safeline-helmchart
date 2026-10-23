@@ -5,3 +5,4 @@ metadata:
 data:
   MGT_HOST: {{ template "safeline.mgt" . }}
   DETECTOR_HOST: {{ template "safeline.detector" . }}
+  DETECTOR_MGMT_TOKEN: {{ .Values.global.env.DETECTOR_MGMT_TOKEN | quote }}

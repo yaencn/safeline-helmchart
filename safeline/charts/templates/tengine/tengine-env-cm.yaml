@@ -17,3 +17,4 @@ data:
   {{- end }}
   CHALLENGE_SERVER:  {{ template "safeline.chaos" . }}:{{ template "safeline.challenge.port" . }}
   CHAOS_ADDR:  {{ template "safeline.chaos" . }}
+  TCD_MGT_TOKEN: {{ .Values.global.env.MGT_INTERNAL_TOKEN | quote }}

@@ -5,4 +5,6 @@ metadata:
 data:
   DETECTOR_HOST: {{ template "safeline.detector" . }}
   MGT_IP: {{ template "safeline.mgt" . }}
+  DETECTOR_MGMT_TOKEN: {{ .Values.global.env.DETECTOR_MGMT_TOKEN | quote }}
+  ENTITLEMENT_CONSUMER_VERIFY: {{ .Values.global.env.luigi.ENTITLEMENT_CONSUMER_VERIFY | quote }}
   

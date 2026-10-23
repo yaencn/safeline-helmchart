@@ -16,3 +16,8 @@ data:
   {{- end }}
   TCD_TASK_ADDRESS: {{ template "safeline.tengine" . }}:{{ template "safeline.tengine.tasktcd.port" . }}
   MGT_PROXY: "{{ template "safeline.mgt.proxy" . }}"
+  DETECTOR_AES_KEY: {{ .Values.global.env.DETECTOR_AES_KEY | quote }}
+  MGT_INTERNAL_TOKEN: {{ .Values.global.env.MGT_INTERNAL_TOKEN | quote }}
+  RIVER_SELFCHECK: {{ .Values.global.env.RIVER_SELFCHECK | quote }}
+  RIVER_CN_CAPABILITY_GATE: {{ .Values.global.env.RIVER_CN_CAPABILITY_GATE | quote }}
+  RIVER_HEARTBEAT_EVIDENCE: {{ .Values.global.env.RIVER_HEARTBEAT_EVIDENCE | quote }}

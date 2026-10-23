@@ -66,6 +66,10 @@ spec:
       - name: chaos
         image: {{ default .Values.global.image.registry .Values.chaos.image.registry }}/{{ .Values.chaos.image.repository }}{{ .Values.global.image.region }}:{{ default .Chart.AppVersion .Values.chaos.image.tag }}
         imagePullPolicy: {{ .Values.imagePullPolicy }}
+        {{- with .Values.chaos.securityContext }}
+        securityContext:
+{{ toYaml . | indent 10 }}
+        {{- end }}
         ports:
           - name: stpp
             containerPort: {{ template "safeline.stpp.port" . }}

@@ -50,6 +50,10 @@ spec:
       - name: luigi
         image: {{ default .Values.global.image.registry .Values.luigi.image.registry }}/{{ .Values.luigi.image.repository }}{{ .Values.global.image.region }}:{{ default .Chart.AppVersion .Values.luigi.image.tag }}
         imagePullPolicy: {{ .Values.imagePullPolicy }}
+        {{- with .Values.luigi.securityContext }}
+        securityContext:
+{{ toYaml . | indent 10 }}
+        {{- end }}
         # command:
         # - sh
         # - -c

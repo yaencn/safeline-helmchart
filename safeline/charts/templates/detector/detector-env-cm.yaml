@@ -5,3 +5,8 @@ metadata:
 data:
   LOG_DIR: "/logs/detector"
   MGT_HOST: {{ template "safeline.mgt" . }}
+  DETECTOR_MGMT_TOKEN: {{ .Values.global.env.DETECTOR_MGMT_TOKEN | quote }}
+  DETECTOR_MGMT_AUTH: {{ .Values.global.env.DETECTOR_MGMT_AUTH | quote }}
+  DETECTOR_UPDATE_VERIFY: {{ .Values.global.env.DETECTOR_UPDATE_VERIFY | quote }}
+  DETECTOR_UPDATE_PUBLIC_KEY: {{ .Values.global.env.DETECTOR_UPDATE_PUBLIC_KEY | quote }}
+  DETECTOR_AES_KEY: {{ .Values.global.env.DETECTOR_AES_KEY | quote }}

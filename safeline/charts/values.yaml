@@ -34,6 +34,42 @@ global:
       # 是否加载HelmChart外部的HTTPS域名证书Secret,如果有请填写Secret名称，默认不填写及域名仅开启http访问.
       # 如填写如下项，请在运行该HelmChart前创建好对应的Secret。
       secretName: ""
+  env:
+    # DETECTOR_MGMT_AUTH为必填项,默认开启鉴权，值为on或off
+    # 值为on时，DETECTOR_MGMT_TOKEN变量必填
+    # 含义：非本机访问 detector 的 8001 必须带这个 token，否则 401
+    DETECTOR_MGMT_AUTH: "on"
+    # DETECTOR_MGMT_TOKEN变量在 DETECTOR_MGMT_AUTH 变量至为on时必填,为了安全默认值在部署时请自行修改
+    # detector↔mgt 管理 API 鉴权
+    # 值为64位hex值(32字符)，可用shell命令"openssl rand -hex 32"随机生成
+    DETECTOR_MGMT_TOKEN: "0443ca0668214f77156bc72fc35ec5822786cc8eaf3ac5fdfcf709922d8f6fb6"
+    # MGT_INTERNAL_TOKEN为必填项,为了安全默认值在部署时请自行修改
+    # tengine 通知 mgt 重载配置时用的口令
+    # tengine服务中的TCD_MGT_TOKEN变量也引用了该变量的值
+    # 值为64位hex值(32字符)，可用shell命令"openssl rand -hex 32"随机生成
+    MGT_INTERNAL_TOKEN: "6dcce936a516e54f67caedcf47ad9fbb44f2aa04f6fad42e2b1cfbd22db1d568"
+    # DETECTOR_AES_KEY为必填项，为了安全默认值在部署时请自行修改
+    # mgt 与 detect服务共用的 16 字节密钥，用来加密性能模式
+    # 值为16位字母与数字，可用shell命令"tr -dc 'A-Za-z0-9' < /dev/urandom | head -c 16"随机生成
+    DETECTOR_AES_KEY: "gCXQqwwPIjpnvID3"
+    # DETECTOR_UPDATE_VERIFY为必填项,默认开启更新校验,值为on或off
+    # 与 DETECTOR_UPDATE_PUBLIC_KEY 配合使用，检测库热更新必须验签，没配公钥就会 403，但目前通道实际属于关闭状态
+    DETECTOR_UPDATE_VERIFY: "on"
+    # DETECTOR_UPDATE_PUBLIC_KEY为非必填项,目前不需要填写任何值,默认值为空
+    DETECTOR_UPDATE_PUBLIC_KEY: ""
+    # 自检默认处于 audit（审计）模式
+    RIVER_SELFCHECK: "audit"
+    # 能力门控,默认关闭
+    RIVER_CN_CAPABILITY_GATE: "off"
+    # 心跳证据,默认关闭
+    RIVER_HEARTBEAT_EVIDENCE: "off"
+    luigi:
+      # luigi服务权益消费校验,默认关闭
+      ENTITLEMENT_CONSUMER_VERIFY: "off"
+    chaos:
+      # chaos服务权益消费校验,默认关闭
+      ENTITLEMENT_CONSUMER_VERIFY: "off"
+
 
 # Default update strategy for every Deployment in this chart.
 # maxUnavailable: 0 needs old and new pod running at once. A single-replica
@@ -160,6 +196,13 @@ database:
   maxIdleConns: 100
   maxOpenConns: 900
   podAnnotations: {}
+  securityContext:
+    seccompProfile:
+      type: RuntimeDefault
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - NET_RAW
 
 mgt:
   # Update strategy for this component; falls back to the global strategy.
@@ -188,6 +231,13 @@ mgt:
   affinity: {}
   tolerations: []
   priorityClassName:
+  securityContext:
+    seccompProfile:
+      type: RuntimeDefault
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - NET_RAW
 
 fvm:
   # Update strategy for this component; falls back to the global strategy.
@@ -214,6 +264,13 @@ fvm:
   affinity: {}
   tolerations: []
   priorityClassName:
+  securityContext:
+    seccompProfile:
+      type: RuntimeDefault
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - NET_RAW
 
 
 detector:
@@ -239,6 +296,13 @@ detector:
   affinity: {}
   tolerations: []
   priorityClassName:
+  securityContext:
+    seccompProfile:
+      type: RuntimeDefault
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - NET_RAW
 
 tengine:
   # Update strategy for this component; falls back to the global strategy.
@@ -278,6 +342,13 @@ tengine:
   affinity: {}
   tolerations: []
   priorityClassName:
+  securityContext:
+    seccompProfile:
+      type: RuntimeDefault
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - NET_RAW
 
 luigi:
   # Update strategy for this component; falls back to the global strategy.
@@ -304,6 +375,13 @@ luigi:
   affinity: {}
   tolerations: []
   priorityClassName:
+  securityContext:
+    seccompProfile:
+      type: RuntimeDefault
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - NET_RAW
 
 chaos:
   # Update strategy for this component; falls back to the global strategy.
@@ -330,4 +408,11 @@ chaos:
   affinity: {}
   tolerations: []
   priorityClassName:
+  securityContext:
+    seccompProfile:
+      type: RuntimeDefault
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - NET_RAW
 

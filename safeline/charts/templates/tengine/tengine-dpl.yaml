@@ -60,6 +60,10 @@ spec:
       - name: tengine
         image: {{ default .Values.global.image.registry .Values.tengine.image.registry }}/{{ .Values.tengine.image.repository }}{{ .Values.global.image.region }}:{{ default .Chart.AppVersion .Values.tengine.image.tag }}
         imagePullPolicy: {{ .Values.imagePullPolicy }}
+        {{- with .Values.tengine.securityContext }}
+        securityContext:
+{{ toYaml . | indent 10 }}
+        {{- end }}
         {{- if .Values.global.exposeServicesAsPorts.enabled }}
         lifecycle:
           postStart:

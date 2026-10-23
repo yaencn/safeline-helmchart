@@ -52,6 +52,10 @@ spec:
       - name: mgt
         image: {{ default .Values.global.image.registry .Values.mgt.image.registry }}/{{ .Values.mgt.image.repository }}{{ .Values.global.image.region }}:{{ default .Chart.AppVersion .Values.mgt.image.tag }}
         imagePullPolicy: {{ .Values.imagePullPolicy }}
+        {{- with .Values.mgt.securityContext }}
+        securityContext:
+{{ toYaml . | indent 10 }}
+        {{- end }}
         ports:
           - name: web
             containerPort: {{ template "safeline.mgt.web.port" . }}

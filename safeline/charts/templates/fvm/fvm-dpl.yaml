@@ -40,6 +40,10 @@ spec:
       - name: fvm
         image: {{ default .Values.global.image.registry .Values.fvm.image.registry }}/{{ .Values.fvm.image.repository }}{{ .Values.global.image.region }}:{{ default .Chart.AppVersion .Values.fvm.image.tag }}
         imagePullPolicy: {{ .Values.imagePullPolicy }}
+        {{- with .Values.fvm.securityContext }}
+        securityContext:
+{{ toYaml . | indent 10 }}
+        {{- end }}
         envFrom:
         - configMapRef:
             name: {{ template "safeline.fvm.env" . }}

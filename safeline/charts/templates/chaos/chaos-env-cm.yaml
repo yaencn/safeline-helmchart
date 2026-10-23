@@ -2,4 +2,5 @@ kind: ConfigMap
 apiVersion: v1
 metadata:
   name: {{ template "safeline.chaos.env" . }}
-data: {}
+data:
+  ENTITLEMENT_CONSUMER_VERIFY: {{ .Values.global.env.chaos.ENTITLEMENT_CONSUMER_VERIFY | quote }}
