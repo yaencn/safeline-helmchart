@@ -153,10 +153,22 @@ Specifically participate in the values.yaml file.
 | `global.image.registry` | Image repository address | `swr.cn-east-3.myhuaweicloud.com/chaitin-safeline` |
 | `global.busyboxImage` | InitContainer base image | `busybox:1.36` |
 | `global.exposeServicesAsPorts.enabled` | Expose services in port mode (recommended to enable) | `true` |
+| `global.env.DETECTOR_MGMT_AUTH` | Whether to enable detector↔mgt management API authentication ｜ `on` |
+| `global.env.DETECTOR_MGMT_TOKEN` | detector ↔ MGT Management API Authentication Token | `0443ca0668214f77156bc72fc35ec5822786cc8eaf3ac5fdfcf709922d8f6fb6` |
+| `global.env.MGT_INTERNAL_TOKEN` | Tengine notifies mgt of the token used for overloading configuration | `6dcce936a516e54f67caedcf47ad9fbb44f2aa04f6fad42e2b1cfbd22db1d568` |
+| `global.env.DETECTOR_AES_KEY` | The 16 byte key shared by MGT and detect services is used to encrypt performance mode | `gCXQqwwPIjpnvID3` |
+| `global.env.DETECTOR_UPDATE_VERIFY` | Enable Detector service hot update verification | `on` |
+| `global.env.DETECTOR_UPDATE_PUBLIC_KEY` | Detector service hot update verification public key ｜ `""` |
+| `global.env.RIVER_SELFCHECK` | River self inspection audit mode ｜ `audit` |
+| `global.env.RIVER_CN_CAPABILITY_GATE` | Ability Gate Control Switch | `off` |
+| `global.env.RIVER_HEARTBEAT_EVIDENCE` | River heartbeat evidence switch | `off` |
+| `global.env.luigi.ENTITLEMENT_CONSUMER_VERIFY` | Uigi Service Rights Consumption Verification Switch ｜ `off` |
+| `global.env.chaos.ENTITLEMENT_CONSUMER_VERIFY` | Chaos Service Rights Consumption Verification Switch ｜ `off` |
 | `database.internal.password` | Database password (**recommended to change**) | `changeit` |
 | `database.type` | Database type `internal`/`external` | `internal` |
 | `tengine.service.type` | Tengine service type | `LoadBalancer` |
-| `tengine.service.loadBalancerIP` | MetalLB specified IP | `""` | | `mgt.service.type` | Management console service type | `NodePort` |
+| `tengine.service.loadBalancerIP` | MetalLB specified IP | `""` |
+| `mgt.service.type` | Management console service type | `NodePort` |
 | `mgt.service.web.nodePort` | Management console NodePort | `31443` |
 | `persistence.persistentVolumeClaim.*.storageClass` | Storage class | `""` (use default) |
 
@@ -174,11 +186,12 @@ Specifically participate in the values.yaml file.
 
 ## Security Considerations
 
-1. **Database Password**: The default password is `changeit`, **recommended** to be changed before deployment.
-2. **Database Connection String**: Migrated from ConfigMap to Secret storage to avoid plaintext leakage.
-3. **JWT Key**: The default EC private key is included in `chaos-cm.yaml`, it is recommended to replace it in production environments:
-``bash
+1. **Token value in environmental quantity**: It is recommended to modify the values of the DETECTOR_MGMT_TOKEN, MGT_INTERNAL_TOKEN, and DETECTOR_AES_KEY variables during deployment. Please refer to the instructions in the `values.yaml` file for details.
+3. **Database Password**: The default password is `changeit`, **recommended** to be changed before deployment.
+3. **Database Connection String**: Migrated from ConfigMap to Secret storage to avoid plaintext leakage.
+4. **JWT Key**: The default EC private key is included in `chaos-cm.yaml`, it is recommended to replace it in production environments:
+```bash
 openssl ecparam -genkey -name prime256v1 -noout -out ec_private.pem
 openssl ec -in ec_private.pem -pubout -out ec_public.pem
 ```
-4. **Replica Limit**: All Deployments can only run... **Only one replica is needed.** Multiple replicas will cause WAF service malfunctions.
+5. **Replica Limit**: All Deployments can only run... **Only one replica is needed.** Multiple replicas will cause WAF service malfunctions.

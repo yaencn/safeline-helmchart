@@ -148,6 +148,17 @@ helm coding-push safeline-${app-version}.tgz safeline
 | `global.image.registry` | 镜像仓库地址 | `swr.cn-east-3.myhuaweicloud.com/chaitin-safeline` |
 | `global.busyboxImage` | initContainer 基础镜像 | `busybox:1.36` |
 | `global.exposeServicesAsPorts.enabled` | 以端口模式暴露服务（建议开启） | `true` |
+| `global.env.DETECTOR_MGMT_AUTH` | 是否启用detector↔mgt管理API身份验证 ｜ `on` |
+| `global.env.DETECTOR_MGMT_TOKEN` | detector ↔ MGT 管理API认证令牌 | `0443ca0668214f77156bc72fc35ec5822786cc8eaf3ac5fdfcf709922d8f6fb6` |
+| `global.env.MGT_INTERNAL_TOKEN` | Tengine通知mgt用于重载配置的令牌 | `6dcce936a516e54f67caedcf47ad9fbb44f2aa04f6fad42e2b1cfbd22db1d568` |
+| `global.env.DETECTOR_AES_KEY` | MGT和检测服务共享的16字节密钥,用于加密性能模式 | `gCXQqwwPIjpnvID3` |
+| `global.env.DETECTOR_UPDATE_VERIFY` | 启用detector服务热更新验证 | `on` |
+| `global.env.DETECTOR_UPDATE_PUBLIC_KEY` | Detector器服务热更新验证公钥 ｜ `""` |
+| `global.env.RIVER_SELFCHECK` | 自查审计模式 ｜ `audit` |
+| `global.env.RIVER_CN_CAPABILITY_GATE` | 能力门控制开关 | `off` |
+| `global.env.RIVER_HEARTBEAT_EVIDENCE` | 心跳证据开关 | `off` |
+| `global.env.luigi.ENTITLEMENT_CONSUMER_VERIFY` | Uigi服务权限消费验证开关 ｜ `off` |
+| `global.env.chaos.ENTITLEMENT_CONSUMER_VERIFY` | Chaos服务权限消费验证开关 ｜ `off` |
 | `database.internal.password` | 数据库密码（**建议修改**） | `changeit` |
 | `database.type` | 数据库类型 `internal`/`external` | `internal` |
 | `tengine.service.type` | tengine 服务类型 | `LoadBalancer` |
@@ -170,14 +181,15 @@ helm coding-push safeline-${app-version}.tgz safeline
 
 ## 安全注意事项
 
-1. **数据库密码**: 默认密码为 `changeit`，**建议**在部署前修改
-2. **数据库连接串**: 已从 ConfigMap 迁移到 Secret 存储，避免明文泄露
-3. **JWT 密钥**: `chaos-cm.yaml` 中包含默认 EC 私钥，生产环境建议替换：
+1.**环境量中的Token值**：建议在部署过程中修改`DETECTOR_MGMT_TOKEN`、`MGT_INTERNAL_TOKEN`和`DETECTOR_AES_KEY`变量的值。请参考`values.yaml`中的说明
+2. **数据库密码**: 默认密码为 `changeit`，**建议**在部署前修改
+3. **数据库连接串**: 已从 ConfigMap 迁移到 Secret 存储，避免明文泄露
+4. **JWT 密钥**: `chaos-cm.yaml` 中包含默认 EC 私钥，生产环境建议替换：
    ```bash
    openssl ecparam -genkey -name prime256v1 -noout -out ec_private.pem
    openssl ec -in ec_private.pem -pubout -out ec_public.pem
    ```
-4. **副本数限制**: 所有 Deployment 只能运行 **1 个副本**，多副本会导致 WAF 服务异常
+5. **副本数限制**: 所有 Deployment 只能运行 **1 个副本**，多副本会导致 WAF 服务异常
 
 
 
