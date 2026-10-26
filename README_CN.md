@@ -148,17 +148,17 @@ helm coding-push safeline-${app-version}.tgz safeline
 | `global.image.registry` | 镜像仓库地址 | `swr.cn-east-3.myhuaweicloud.com/chaitin-safeline` |
 | `global.busyboxImage` | initContainer 基础镜像 | `busybox:1.36` |
 | `global.exposeServicesAsPorts.enabled` | 以端口模式暴露服务（建议开启） | `true` |
-| `global.env.DETECTOR_MGMT_AUTH` | 是否启用detector↔mgt管理API身份验证 ｜ `on` |
+| `global.env.DETECTOR_MGMT_AUTH` | 是否启用detector↔mgt管理API身份验证 | `on` |
 | `global.env.DETECTOR_MGMT_TOKEN` | detector ↔ MGT 管理API认证令牌 | `0443ca0668214f77156bc72fc35ec5822786cc8eaf3ac5fdfcf709922d8f6fb6` |
 | `global.env.MGT_INTERNAL_TOKEN` | Tengine通知mgt用于重载配置的令牌 | `6dcce936a516e54f67caedcf47ad9fbb44f2aa04f6fad42e2b1cfbd22db1d568` |
 | `global.env.DETECTOR_AES_KEY` | MGT和检测服务共享的16字节密钥,用于加密性能模式 | `gCXQqwwPIjpnvID3` |
 | `global.env.DETECTOR_UPDATE_VERIFY` | 启用detector服务热更新验证 | `on` |
-| `global.env.DETECTOR_UPDATE_PUBLIC_KEY` | Detector器服务热更新验证公钥 ｜ `""` |
-| `global.env.RIVER_SELFCHECK` | 自查审计模式 ｜ `audit` |
+| `global.env.DETECTOR_UPDATE_PUBLIC_KEY` | Detector器服务热更新验证公钥 | `""` |
+| `global.env.RIVER_SELFCHECK` | 自查审计模式 | `audit` |
 | `global.env.RIVER_CN_CAPABILITY_GATE` | 能力门控制开关 | `off` |
 | `global.env.RIVER_HEARTBEAT_EVIDENCE` | 心跳证据开关 | `off` |
-| `global.env.luigi.ENTITLEMENT_CONSUMER_VERIFY` | Uigi服务权限消费验证开关 ｜ `off` |
-| `global.env.chaos.ENTITLEMENT_CONSUMER_VERIFY` | Chaos服务权限消费验证开关 ｜ `off` |
+| `global.env.luigi.ENTITLEMENT_CONSUMER_VERIFY` | Uigi服务权限消费验证开关 | `off` |
+| `global.env.chaos.ENTITLEMENT_CONSUMER_VERIFY` | Chaos服务权限消费验证开关 | `off` |
 | `database.internal.password` | 数据库密码（**建议修改**） | `changeit` |
 | `database.type` | 数据库类型 `internal`/`external` | `internal` |
 | `tengine.service.type` | tengine 服务类型 | `LoadBalancer` |
