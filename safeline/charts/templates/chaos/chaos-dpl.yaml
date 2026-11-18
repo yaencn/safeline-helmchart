@@ -45,7 +45,7 @@ spec:
           - sh
           - -c
           - |-
-            sleep 3 && /bin/sh /cp_config_toml.sh
+            sleep 3 && /bin/sh /cp_config_toml.sh && while true; do sleep 3 && nc -zvw1 {{ template "safeline.database.host" . }} 5432 && exit 0 || sleep 3; done; exit 1
         volumeMounts:
           - mountPath: /app/chaos
             name: chaos

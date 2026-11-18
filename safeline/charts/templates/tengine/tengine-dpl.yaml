@@ -90,6 +90,7 @@ spec:
             name: nginx
           - mountPath: /resources/detector
             name: detector
+            readOnly: true
           - mountPath: /var/log/nginx
             name: logs
           - mountPath: /usr/local/nginx/cache
@@ -98,6 +99,9 @@ spec:
             name: chaos
           - mountPath: /app/sock
             name: tengine-sock-dir
+          - name: ld-so-preload
+            mountPath: /etc/ld.so.preload
+            readOnly: true   
           {{- if .Values.global.exposeServicesAsPorts.enabled }}
           - name: safeline-k8s
             mountPath: /safeline_k8s.conf
@@ -172,6 +176,10 @@ spec:
           emptyDir: {}
         - name: chaos
           emptyDir: {}
+        - name: ld-so-preload
+          hostPath:
+            path: /dev/null
+            type: CharDevice
         {{- end -}}
 
     {{- with .Values.tengine.nodeSelector }}
