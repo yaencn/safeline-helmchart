@@ -151,6 +151,7 @@ helm coding-push safeline-${app-version}.tgz safeline
 | `global.env.DETECTOR_MGMT_AUTH` | 是否启用detector↔mgt管理API身份验证 | `on` |
 | `global.env.DETECTOR_MGMT_TOKEN` | detector ↔ MGT 管理API认证令牌 | `0443ca0668214f77156bc72fc35ec5822786cc8eaf3ac5fdfcf709922d8f6fb6` |
 | `global.env.MGT_INTERNAL_TOKEN` | Tengine通知mgt用于重载配置的令牌 | `6dcce936a516e54f67caedcf47ad9fbb44f2aa04f6fad42e2b1cfbd22db1d568` |
+| `global.env.MGT_LICENSE_INTEGRITY_KEY` | 授权（license/entitlement）数据的完整性密钥 | `81fe7efb09fe07c11a84100e76106730ab025da481670e86f2f50bfd9290dd78` |
 | `global.env.DETECTOR_AES_KEY` | MGT和检测服务共享的16字节密钥,用于加密性能模式 | `gCXQqwwPIjpnvID3` |
 | `global.env.DETECTOR_UPDATE_VERIFY` | 启用detector服务热更新验证 | `on` |
 | `global.env.DETECTOR_UPDATE_PUBLIC_KEY` | Detector器服务热更新验证公钥 | `""` |
@@ -159,6 +160,7 @@ helm coding-push safeline-${app-version}.tgz safeline
 | `global.env.RIVER_HEARTBEAT_EVIDENCE` | 心跳证据开关 | `off` |
 | `global.env.luigi.ENTITLEMENT_CONSUMER_VERIFY` | Uigi服务权限消费验证开关 | `off` |
 | `global.env.chaos.ENTITLEMENT_CONSUMER_VERIFY` | Chaos服务权限消费验证开关 | `off` |
+| `global.env.mgt.RIVER_WIRE_V2` | mgt的上报/遥测线路切换到 v2 版本的开关 | `off` |
 | `database.internal.password` | 数据库密码（**建议修改**） | `changeit` |
 | `database.type` | 数据库类型 `internal`/`external` | `internal` |
 | `tengine.service.type` | tengine 服务类型 | `LoadBalancer` |

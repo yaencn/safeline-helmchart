@@ -156,6 +156,7 @@ Specifically participate in the values.yaml file.
 | `global.env.DETECTOR_MGMT_AUTH` | Whether to enable detector↔mgt management API authentication | `on` |
 | `global.env.DETECTOR_MGMT_TOKEN` | detector ↔ MGT Management API Authentication Token | `0443ca0668214f77156bc72fc35ec5822786cc8eaf3ac5fdfcf709922d8f6fb6` |
 | `global.env.MGT_INTERNAL_TOKEN` | Tengine notifies mgt of the token used for overloading configuration | `6dcce936a516e54f67caedcf47ad9fbb44f2aa04f6fad42e2b1cfbd22db1d568` |
+| `global.env.MGT_LICENSE_INTEGRITY_KEY` | Integrity key for authorization (license/entitlement) data | `81fe7efb09fe07c11a84100e76106730ab025da481670e86f2f50bfd9290dd78` |
 | `global.env.DETECTOR_AES_KEY` | The 16 byte key shared by MGT and detect services is used to encrypt performance mode | `gCXQqwwPIjpnvID3` |
 | `global.env.DETECTOR_UPDATE_VERIFY` | Enable Detector service hot update verification | `on` |
 | `global.env.DETECTOR_UPDATE_PUBLIC_KEY` | Detector service hot update verification public key | `""` |
@@ -164,6 +165,7 @@ Specifically participate in the values.yaml file.
 | `global.env.RIVER_HEARTBEAT_EVIDENCE` | River heartbeat evidence switch | `off` |
 | `global.env.luigi.ENTITLEMENT_CONSUMER_VERIFY` | Uigi Service Rights Consumption Verification Switch | `off` |
 | `global.env.chaos.ENTITLEMENT_CONSUMER_VERIFY` | Chaos Service Rights Consumption Verification Switch | `off` |
+| `global.env.mgt.RIVER_WIRE_V2` | A switch to toggle the MGT reporting/telemetry path to the v2 version | `off` |
 | `database.internal.password` | Database password (**recommended to change**) | `changeit` |
 | `database.type` | Database type `internal`/`external` | `internal` |
 | `tengine.service.type` | Tengine service type | `LoadBalancer` |
