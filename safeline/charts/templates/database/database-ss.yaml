@@ -106,7 +106,7 @@ spec:
             command:
             - /bin/sh
             - -c
-            - pg_isready -U {{ template "safeline.database.username" . }} -d {{ template "safeline.database.dbname" . }}
+            - pg_isready -h 127.0.0.1 -U {{ template "safeline.database.username" . }} -d {{ template "safeline.database.dbname" . }}
           initialDelaySeconds: 30
           periodSeconds: 10
           timeoutSeconds: 5
