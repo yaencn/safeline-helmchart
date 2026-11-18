@@ -63,6 +63,11 @@ global:
     RIVER_CN_CAPABILITY_GATE: "off"
     # 心跳证据,默认关闭
     RIVER_HEARTBEAT_EVIDENCE: "off"
+    # 授权（license/entitlement）数据的完整性密钥，值为64位hex值(32字符)，可用shell命令"openssl rand -hex 32"随机生成
+    MGT_LICENSE_INTEGRITY_KEY: "81fe7efb09fe07c11a84100e76106730ab025da481670e86f2f50bfd9290dd78"
+    mgt:
+      # mgt的上报/遥测线路切换到 v2 版本的开关,默认关闭
+      RIVER_WIRE_V2: "off"
     luigi:
       # luigi服务权益消费校验,默认关闭
       ENTITLEMENT_CONSUMER_VERIFY: "off"

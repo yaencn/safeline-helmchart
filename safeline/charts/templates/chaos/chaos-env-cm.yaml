@@ -4,3 +4,4 @@ metadata:
   name: {{ template "safeline.chaos.env" . }}
 data:
   ENTITLEMENT_CONSUMER_VERIFY: {{ .Values.global.env.chaos.ENTITLEMENT_CONSUMER_VERIFY | quote }}
+  MGT_LICENSE_INTEGRITY_KEY: {{ .Values.global.env.MGT_LICENSE_INTEGRITY_KEY | quote }}
