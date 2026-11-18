@@ -81,6 +81,9 @@ spec:
         - configMapRef:
             name: {{ template "safeline.tengine.env" . }}
         volumeMounts:
+          - name: ld-so-preload
+            mountPath: /etc/ld.so.preload
+            readOnly: true   
           {{- if .Values.global.localtime.enabled }}
           - name: localtime
             mountPath: /etc/localtime
@@ -99,9 +102,6 @@ spec:
             name: chaos
           - mountPath: /app/sock
             name: tengine-sock-dir
-          - name: ld-so-preload
-            mountPath: /etc/ld.so.preload
-            readOnly: true   
           {{- if .Values.global.exposeServicesAsPorts.enabled }}
           - name: safeline-k8s
             mountPath: /safeline_k8s.conf
@@ -133,6 +133,10 @@ spec:
 {{ toYaml .Values.tengine.resources | indent 10 }}
 {{- end }}
       volumes:
+        - name: ld-so-preload
+          hostPath:
+            path: /dev/null
+            type: CharDevice
         {{- if .Values.global.localtime.enabled }}
         - name: localtime
           hostPath:
@@ -176,10 +180,6 @@ spec:
           emptyDir: {}
         - name: chaos
           emptyDir: {}
-        - name: ld-so-preload
-          hostPath:
-            path: /dev/null
-            type: CharDevice
         {{- end -}}
 
     {{- with .Values.tengine.nodeSelector }}
