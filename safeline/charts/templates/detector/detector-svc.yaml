@@ -10,6 +10,8 @@ spec:
       port: {{ template "safeline.detector.tcd.port" . }}
     - name: sns
       port: {{ template "safeline.detector.sns.port" . }}
+    - name: koopa
+      port: {{ template "safeline.detector.koopa.port" . }}
   selector:
 {{ include "safeline.matchLabels" . | indent 4 }}
     component: detector
